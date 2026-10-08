@@ -109,6 +109,9 @@ button{font-family:inherit}
 @keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 
 .quizf .hook,.donef .hook{font-size:calc(var(--fw)*.11)}
+.quizf .hook.cloze{font-size:calc(var(--fw)*.074)}
+.blank{display:inline-block;min-width:2.6em;border-bottom:3px solid var(--acc);line-height:1.05;text-align:center}
+.blank.filled{min-width:0;border-bottom-color:transparent;color:var(--acc)}
 .qsmall{font-size:calc(var(--fw)*.042);line-height:1.6;opacity:.85;margin:calc(var(--fw)*.02) 0 0;word-break:keep-all}
 .opts{display:flex;flex-direction:column;gap:calc(var(--fw)*.025);margin-top:calc(var(--fw)*.06)}
 .opt{font:600 calc(var(--fw)*.048) var(--serif);color:var(--ink);background:transparent;border:2px solid var(--ink);
@@ -823,9 +826,55 @@ function hookCard(c, hint){
   return el;
 }
 function vword(id, l){ const x = V[id][LN[l][1]]; return Array.isArray(x) ? { t: x[0], r: x[1] } : { t: x, r: '' }; }
-function quizCard(vid){
+/* 퀴즈는 방금 본 카드에 실제로 나온 것만 묻는다.
+   1) 빈칸: 훅 문장의 마지막 ‘따옴표’ 부분을 가리고 고르게 한다.
+   2) 단어: 카드에 그 언어로 실제 적혀 있던 단어만 묻는다. */
+const QUOTE_RE = /‘([^‘’]{1,12})’/g;
+function lastQuote(h){
+  let m, last = null;
+  QUOTE_RE.lastIndex = 0;
+  while ((m = QUOTE_RE.exec(h))) last = { text: m[1], index: m.index, len: m[0].length };
+  return last;
+}
+const ALL_QUOTES = [...new Set(C.map(c => { const q = lastQuote(c[2]); return q ? q.text : null; }).filter(Boolean))];
+function shownLangs(c){
+  if (!V[c[5]]) return [];
+  return Object.keys(LN).filter(l => {
+    const t = vword(c[5], l).t.toLowerCase();
+    return c[3].some(it => it[1] === LN[l][0] && String(it[0]).toLowerCase() === t);
+  });
+}
+function quizShell(emo, bigHtml, bigClass, small, optHtml, ans, fill){
+  const el = document.createElement('section');
+  el.className = 'card';
+  el.dataset.ans = ans;
+  if (fill) el.dataset.fill = fill;
+  el.innerHTML =
+    `<div class="frame quizf" style="${themeStyle()}">` +
+      `<div class="femo" aria-hidden="true">${emo}</div>` +
+      `<div class="fbody"><p class="hook${bigClass}">${bigHtml}</p><p class="qsmall">${small}</p><div class="opts">${optHtml}</div></div>` +
+      `<div class="fmark">뿌리</div>` +
+    `</div><div class="below" aria-live="polite"></div>`;
+  return el;
+}
+function clozeQuiz(c, ids){
+  const q = lastQuote(c[2]);
+  const ans = q.text;
+  const used = new Set([ans]);
+  const today = shuffle(ids.filter(id => id !== c[0]).map(id => { const x = CBY[id] && lastQuote(CBY[id][2]); return x ? x.text : null; }).filter(Boolean));
+  const wrong = [];
+  for (const t of today.concat(shuffle(ALL_QUOTES))) {
+    if (used.has(t) || c[2].includes(t)) continue;
+    used.add(t); wrong.push(t);
+    if (wrong.length === 2) break;
+  }
+  const items = shuffle([{ k: 'a', t: ans }].concat(wrong.map((t, i) => ({ k: 'w' + i, t }))));
+  const big = esc(c[2].slice(0, q.index)) + '‘<span class="blank" aria-label="빈칸"></span>’' + esc(c[2].slice(q.index + q.len));
+  const optHtml = items.map(it => `<button class="opt" data-id="${it.k}">${esc(it.t)}</button>`).join('');
+  return quizShell(c[1], big, ' cloze', '방금 본 카드예요. 빈칸에 들어갈 말은?', optHtml, 'a', ans);
+}
+function vocabQuiz(vid, l){
   const v = V[vid];
-  const l = pick(Object.keys(LN));
   const typeA = Math.random() < 0.5;
   const others = [];
   const ko = new Set([v[1]]), fw = new Set([vword(vid, l).t]);
@@ -837,12 +886,12 @@ function quizCard(vid){
   }
   const opts = shuffle([vid, ...others]);
   let emo, big, small;
-  if (typeA) { emo = v[0]; big = esc(v[1]); small = `${LN[l][0]}로는?`; }
+  if (typeA) { emo = v[0]; big = esc(v[1]); small = `방금 본 카드에 나왔어요. ${LN[l][0]}로는?`; }
   else {
     const x = vword(vid, l);
     emo = '🔤';
     big = `<span lang="${LN[l][2]}">${esc(x.t)}</span>`;
-    small = `${LN[l][0]}${x.r ? ' ' + esc(x.r) : ''}, 무슨 뜻일까?`;
+    small = `방금 본 ${LN[l][0]} 단어${x.r ? ' ' + esc(x.r) : ''}, 무슨 뜻일까?`;
   }
   const optHtml = opts.map(o => {
     let lab;
@@ -850,16 +899,20 @@ function quizCard(vid){
     else lab = `${V[o][0]} ${esc(V[o][1])}`;
     return `<button class="opt" data-id="${o}">${lab}</button>`;
   }).join('');
-  const el = document.createElement('section');
-  el.className = 'card';
-  el.dataset.ans = vid;
-  el.innerHTML =
-    `<div class="frame quizf" style="${themeStyle()}">` +
-      `<div class="femo" aria-hidden="true">${emo}</div>` +
-      `<div class="fbody"><p class="hook">${big}</p><p class="qsmall">${small}</p><div class="opts">${optHtml}</div></div>` +
-      `<div class="fmark">뿌리</div>` +
-    `</div><div class="below" aria-live="polite"></div>`;
-  return el;
+  return quizShell(emo, big, '', small, optHtml, vid, '');
+}
+function quizFor(ids){
+  const cloze = [], vocab = [];
+  ids.forEach(id => {
+    const c = CBY[id]; if (!c) return;
+    if (lastQuote(c[2])) cloze.push(c);
+    const ls = shownLangs(c);
+    if (ls.length) vocab.push([c, ls]);
+  });
+  if (!cloze.length && !vocab.length) return null;
+  if (cloze.length && (!vocab.length || Math.random() < 0.6)) return clozeQuiz(pick(cloze), ids);
+  const [c, ls] = pick(vocab);
+  return vocabQuiz(c[5], pick(ls));
 }
 function doneCard(){
   const el = document.createElement('section');
@@ -883,14 +936,15 @@ function doneSummary(){
 
 /* ---------- 피드 ---------- */
 const feed = document.getElementById('feed');
-let reviewMode = false, reviewQueue = [], reviewCount = 0, recentV = [];
+let reviewMode = false, reviewQueue = [], reviewCount = 0, recentIds = [];
+function addQuiz(){ const q = quizFor(recentIds.slice(-QUIZ_EVERY)); if (q) feed.appendChild(q); }
 
 function buildToday(){
   S.today.forEach((id, i) => {
     const c = CBY[id];
     feed.appendChild(hookCard(c, i < 2 ? '탭하면 발음과 이유가 나와요' : ''));
-    recentV.push(c[5]);
-    if ((i + 1) % QUIZ_EVERY === 0) { feed.appendChild(quizCard(pick(recentV.slice(-QUIZ_EVERY)))); }
+    recentIds.push(c[0]);
+    if ((i + 1) % QUIZ_EVERY === 0) addQuiz();
   });
   feed.appendChild(doneCard());
   observeNew();
@@ -901,9 +955,9 @@ function appendReview(n){
     if (!reviewQueue.length) reviewQueue = shuffle(pool);
     const c = CBY[reviewQueue.shift()];
     feed.appendChild(hookCard(c, '복습'));
-    recentV.push(c[5]); if (recentV.length > 6) recentV.shift();
+    recentIds.push(c[0]); if (recentIds.length > 6) recentIds.shift();
     reviewCount++;
-    if (reviewCount % QUIZ_EVERY === 0) feed.appendChild(quizCard(pick(recentV.slice(-QUIZ_EVERY))));
+    if (reviewCount % QUIZ_EVERY === 0) addQuiz();
   }
   observeNew();
 }
@@ -980,10 +1034,12 @@ function answer(o){
     if (b.dataset.id === ans) { b.classList.add('right'); rightBtn = b; }
   });
   if (!ok) o.classList.add('wrong');
+  const blank = card.querySelector('.blank');
+  if (blank && card.dataset.fill) { blank.textContent = card.dataset.fill; blank.classList.add('filled'); }
   S.qt++; if (ok) S.qr++;
   if (!reviewMode) { S.dq++; if (ok) S.dqr++; }
   save();
-  card.querySelector('.below').textContent = ok ? '정답' : `정답은 ${rightBtn ? rightBtn.textContent.trim() : V[ans][1]}`;
+  card.querySelector('.below').textContent = ok ? '정답' : `정답은 ${rightBtn ? rightBtn.textContent.trim() : ''}`;
 }
 
 /* ---------- 기록 ---------- */
