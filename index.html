@@ -1,0 +1,1183 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>뿌리</title>
+<meta name="description" content="한 장에 한 줄, 단어의 족보를 넘겨 보는 어원 카드">
+<meta name="theme-color" content="#E9EDE6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#101512" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="뿌리">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@400;600;800&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --app:#E9EDE6; --chrome:#18231E; --muted:#66726A; --line:#CCD4C8; --panel:#F3F5F0;
+  --serif:"Hahmlet","Noto Serif KR","AppleMyungjo",serif;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;
+  --fw:340px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --app:#101512; --chrome:#E4EAE3; --muted:#8E9A92; --line:#28322C; --panel:#18201B; }
+}
+:root[data-theme="dark"]{ --app:#101512; --chrome:#E4EAE3; --muted:#8E9A92; --line:#28322C; --panel:#18201B; }
+html{height:100%;background:var(--app);scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:border-box}
+body{height:100%;margin:0;background:var(--app);color:var(--chrome);font-family:var(--sans);
+  display:flex;flex-direction:column;overflow:hidden;-webkit-font-smoothing:antialiased}
+button{font-family:inherit}
+:focus-visible{outline:2px solid #2B539C;outline-offset:3px}
+
+.bar{flex:0 0 auto;display:flex;align-items:center;padding:10px 16px}
+.logo{font-family:var(--serif);font-weight:800;font-size:21px;letter-spacing:-0.02em;margin-right:auto}
+.count{font:500 13px var(--sans);color:var(--chrome);background:transparent;border:1.5px solid var(--line);
+  border-radius:999px;padding:6px 12px;cursor:pointer}
+.count.bump{animation:bump .4s ease}
+@keyframes bump{40%{transform:scale(1.12)}}
+
+#feed{flex:1 1 auto;min-height:0;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none}
+#feed::-webkit-scrollbar{display:none}
+.card{height:100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px}
+
+.frame{width:var(--fw);aspect-ratio:4/5;background:var(--bg);color:var(--ink);
+  border-radius:calc(var(--fw)*.045);padding:calc(var(--fw)*.085);display:flex;flex-direction:column;
+  overflow:hidden;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.introf,.quizf,.donef{cursor:default}
+.femo{font-size:calc(var(--fw)*.12);line-height:1}
+.fbody{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.hook{font-family:var(--serif);font-weight:800;font-size:calc(var(--fw)*.08);line-height:1.3;
+  letter-spacing:-0.025em;margin:0;text-wrap:balance;word-break:keep-all}
+.fmark{font-family:var(--serif);font-weight:800;font-size:calc(var(--fw)*.04);opacity:.55;margin-top:calc(var(--fw)*.03)}
+
+.strip{display:flex;flex-wrap:wrap;gap:calc(var(--fw)*.02) calc(var(--fw)*.055);
+  margin-top:calc(var(--fw)*.065);padding-top:calc(var(--fw)*.04);border-top:2px solid var(--acc)}
+.si{display:flex;flex-direction:column;align-items:flex-start;background:none;border:none;padding:0;
+  color:inherit;font:inherit;text-align:left;cursor:inherit}
+.si b{font-family:var(--serif);font-weight:600;font-size:calc(var(--fw)*.047);line-height:1.3}
+.si i{font-style:normal;font-size:calc(var(--fw)*.03);opacity:.7}
+.si em,.si .spk{display:none}
+.more{font-family:var(--serif);font-size:calc(var(--fw)*.04);line-height:1.65;margin:0;word-break:keep-all;display:none}
+
+/* 탭해서 연 상태 */
+.frame.open .femo,.frame.open .fmark{display:none}
+.frame.open .fbody{justify-content:flex-start;overflow-y:auto}
+.frame.open .hook{font-size:calc(var(--fw)*.066)}
+.frame.open .strip{flex-direction:column;flex-wrap:nowrap;gap:0;margin-top:calc(var(--fw)*.05);padding-top:calc(var(--fw)*.015)}
+.frame.open .si{display:grid;grid-template-columns:calc(var(--fw)*.075) auto 1fr auto;align-items:center;
+  column-gap:calc(var(--fw)*.03);min-height:calc(var(--fw)*.11);width:100%;
+  border-bottom:1px solid color-mix(in srgb, var(--ink) 16%, transparent)}
+.frame.open button.si{cursor:pointer}
+.frame.open .si b{font-size:calc(var(--fw)*.046)}
+.frame.open .si em{display:block;font-style:normal;font-family:var(--sans);font-size:calc(var(--fw)*.035);opacity:.85;overflow-wrap:anywhere}
+.frame.open .si i{font-size:calc(var(--fw)*.028);opacity:.65;text-align:right}
+.frame.open .si .spk{display:grid;place-items:center;width:calc(var(--fw)*.075);height:calc(var(--fw)*.075);
+  border-radius:50%;background:var(--acc);color:var(--bg)}
+.frame.open .si .spk.none{background:transparent}
+.spk svg{width:55%;height:55%}
+.si.playing .spk{animation:pulse .5s ease-in-out infinite alternate}
+@keyframes pulse{to{transform:scale(1.15)}}
+.frame.open .more{display:block;margin-top:calc(var(--fw)*.045)}
+
+.below{min-height:20px;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px;text-align:center}
+.below.row{width:var(--fw);justify-content:space-between;min-height:32px}
+.share{display:inline-flex;align-items:center;gap:6px;font:500 13px var(--sans);color:var(--chrome);background:transparent;
+  border:1.5px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer;flex:0 0 auto}
+.share svg{width:15px;height:15px}
+.share:disabled{opacity:.5;cursor:default}
+#installBtn{margin-right:8px}
+#installBtn[hidden]{display:none}
+.tip{flex:0 0 auto;display:none;align-items:center;gap:10px;margin:0 16px 6px;padding:10px 12px;border-radius:12px;
+  background:var(--panel);border:1.5px solid var(--line);font-size:13px;line-height:1.55;word-break:keep-all}
+.tip.show{display:flex}
+.tip button{margin-left:auto;flex:0 0 auto}
+.simg{display:block;width:100%;max-width:360px;margin:0 auto 14px;border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.18)}
+.pbtn{display:block;text-align:center;text-decoration:none;box-sizing:border-box}
+.pbtn + .pbtn{margin-top:8px}
+.pbtn.ghost{background:transparent;color:var(--chrome);border:1.5px solid var(--line)}
+.below svg{animation:nudge 1.8s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+
+.quizf .hook,.donef .hook{font-size:calc(var(--fw)*.11)}
+.qsmall{font-size:calc(var(--fw)*.042);line-height:1.6;opacity:.85;margin:calc(var(--fw)*.02) 0 0;word-break:keep-all}
+.opts{display:flex;flex-direction:column;gap:calc(var(--fw)*.025);margin-top:calc(var(--fw)*.06)}
+.opt{font:600 calc(var(--fw)*.048) var(--serif);color:var(--ink);background:transparent;border:2px solid var(--ink);
+  border-radius:calc(var(--fw)*.03);padding:calc(var(--fw)*.028) calc(var(--fw)*.04);text-align:left;cursor:pointer}
+.opt small{font:400 calc(var(--fw)*.032) var(--sans);opacity:.7;margin-left:6px}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+.opt.right small{opacity:.85}
+.opt.wrong{opacity:.4;text-decoration:line-through}
+.opt.solid{background:var(--acc);border-color:var(--acc);color:var(--bg);text-align:center}
+
+.sheet{position:fixed;inset:0;display:none;align-items:flex-end;justify-content:center;
+  background:rgba(8,12,10,.5);z-index:10;padding-top:env(safe-area-inset-top,0px)}
+.sheet.open{display:flex}
+.panel{background:var(--app);width:100%;max-width:560px;max-height:86%;overflow-y:auto;border-radius:22px 22px 0 0;
+  padding:20px 20px calc(24px + env(safe-area-inset-bottom,0px))}
+.ptop{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ptop h2{font-family:var(--serif);font-weight:800;font-size:26px;margin:0;letter-spacing:-0.02em}
+.ptext{font-family:var(--serif);font-size:17px;line-height:1.75;margin:0 0 16px;word-break:keep-all}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(34px,1fr));gap:5px;margin-bottom:18px}
+.tile{aspect-ratio:1;border-radius:8px;display:grid;place-items:center;font-size:18px;background:var(--panel);border:1.5px solid var(--line)}
+.tile.locked{background:transparent;border-style:dashed}
+.tile.locked span{filter:grayscale(1);opacity:.2}
+.pbtn{width:100%;font:600 16px var(--sans);color:var(--app);background:var(--chrome);border:none;border-radius:14px;padding:14px;cursor:pointer}
+
+@media (prefers-reduced-motion: reduce){
+  .below svg,.count.bump,.si.playing .spk{animation:none}
+}
+</style>
+</head>
+<body>
+<header class="bar">
+  <span class="logo">뿌리</span>
+  <button class="count" id="installBtn" hidden>앱 설치</button>
+  <button class="count" id="countBtn">오늘</button>
+</header>
+<div class="tip" id="iosTip" role="note">
+  <span>Safari 아래쪽 공유 버튼에서 ‘홈 화면에 추가’를 누르면 앱처럼 열려요.</span>
+  <button class="count" id="iosTipClose">닫기</button>
+</div>
+
+<main id="feed">
+  <section class="card">
+    <div class="frame introf" style="--bg:#DCE4D4;--ink:#18231E;--acc:#22407E">
+      <div class="femo" aria-hidden="true">🌱</div>
+      <div class="fbody">
+        <p class="hook">단어에도 족보가 있다</p>
+        <div class="strip"><span class="si"><b>night</b><i>영어</i></span><span class="si"><b>Nacht</b><i>독일어</i></span><span class="si"><b>nuit</b><i>프랑스어</i></span><span class="si"><b>noche</b><i>스페인어</i></span></div>
+      </div>
+      <div class="fmark">뿌리</div>
+    </div>
+    <div class="below">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
+      <span id="introHint">오늘의 10장, 위로 넘겨서 시작</span>
+    </div>
+  </section>
+</main>
+
+<div class="sheet" id="recSheet" role="dialog" aria-modal="true" aria-labelledby="recTitle">
+  <div class="panel">
+    <div class="ptop"><h2 id="recTitle">기록</h2><button class="count" data-close>닫기</button></div>
+    <p class="ptext" id="recText"></p>
+    <div class="grid" id="recGrid"></div>
+    <button class="pbtn" data-close>계속 보기</button>
+  </div>
+</div>
+
+<div class="sheet" id="shareSheet" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
+  <div class="panel">
+    <div class="ptop"><h2 id="shareTitle">이미지로 저장</h2><button class="count" data-close>닫기</button></div>
+    <img class="simg" id="shareImg" alt="공유용 카드 이미지">
+    <p class="ptext" style="font-size:15px">이미지를 길게 눌러 사진에 저장한 뒤 인스타그램에 올려 보세요.</p>
+    <button class="pbtn" id="shareAgain" hidden>공유하기</button>
+    <a class="pbtn ghost" id="shareDl" download="ppuri.png" href="#">이미지 파일 받기</a>
+  </div>
+</div>
+
+<script>
+/* 카드: [id, 이모지, 한 줄, [[단어, 언어, 발음 표기, 음성용 텍스트]...], 탭하면 나오는 설명, 퀴즈용 어휘 id]
+   발음 표기: 유럽어는 IPA(영어는 미국식, 스페인어는 스페인식), 일본어는 가나와 로마자, 중국어는 병음.
+   고전어(라틴어, 그리스어, 산스크리트어)는 표준 발음이 없어 표기와 음성을 넣지 않음. */
+const C = [
+["school","🏫","school의 원래 뜻은 ‘여가’였다",[["school","영어","/skuːl/"],["Schule","독일어","/ˈʃuːlə/"],["école","프랑스어","/e.kɔl/"],["scholē","그리스어",""]],"일하지 않아도 되는 시간에 모여 토론하던 것이 학교가 됐어요.","school"],
+["bread","🍞","빵은 포르투갈어다",[["빵","한국어",""],["パン","일본어","pan"],["pão","포르투갈어","/ˈpɐ̃w̃/"],["pan","스페인어","/pan/"]],"1500년대 일본에 온 포르투갈 상인의 pão가 일본을 거쳐 한국에 왔어요.","bread"],
+["mama","👶","엄마와 妈妈가 닮은 건 친척이라서가 아니다",[["엄마","한국어",""],["妈妈","중국어","māma"],["mama","영어","/ˈmɑːmə/"]],"‘마’는 아기가 가장 먼저 낼 수 있는 소리라, 무관한 언어들이 따로 같은 답에 도착했어요.","mother"],
+["vodka","💧","보드카의 뜻은 ‘작은 물’",[["water","영어","/ˈwɑːtɚ/"],["Wasser","독일어","/ˈvasɐ/"],["voda","러시아어","/vɐˈda/","вода"],["vodka","러시아어","/ˈvotkə/","водка"]],"러시아어 voda(물)에 ‘작은’을 붙인 말이에요. water와 같은 뿌리예요.","water"],
+["tea","🍵","tea와 차는 같은 한자에서 왔다",[["tea","영어","/tiː/"],["thé","프랑스어","/te/"],["차","한국어",""],["chai","러시아어","/tɕæj/","чай"]],"둘 다 茶예요. 바닷길로 간 발음 te는 유럽으로, 육로로 간 cha는 한국과 러시아로 퍼졌어요.","tea"],
+["coffee","☕","커피는 거의 모든 언어에서 같은 단어다",[["coffee","영어","/ˈkɑːfi/"],["Kaffee","독일어","/ˈkafe/"],["café","프랑스어","/ka.fe/"],["コーヒー","일본어","kōhī"],["咖啡","중국어","kāfēi"]],"아랍어 qahwa가 터키어와 이탈리아어를 거쳐 전 세계로 퍼졌어요.","coffee"],
+["gabae","🫘","한국도 커피를 ‘가배’라 부르던 때가 있었다",[["珈琲","한자",""],["가배","한국어",""],["コーヒー","일본어","kōhī"]],"커피의 발음을 한자로 옮긴 珈琲를 한국식으로 읽은 거예요.","coffee"],
+["mother","👩","mother와 madre는 원래 같은 단어였다",[["mother","영어","/ˈmʌðɚ/"],["Mutter","독일어","/ˈmʊtɐ/"],["mère","프랑스어","/mɛʁ/"],["madre","스페인어","/ˈmadɾe/"]],"모두 인도유럽 조어 *méh₂tēr에서 갈라진 형제예요.","mother"],
+["father","👨","father는 f, padre는 p. 왜일까?",[["father","영어","/ˈfɑːðɚ/"],["Vater","독일어","/ˈfaːtɐ/"],["père","프랑스어","/pɛʁ/"],["padre","스페인어","/ˈpadɾe/"]],"게르만어에서 p가 f로 일제히 바뀌었어요. 그림 형제의 야코프 그림이 정리한 ‘그림의 법칙’이에요.","father"],
+["foot","🦶","foot과 pedal은 같은 단어에서 갈라졌다",[["foot","영어","/fʊt/"],["Fuß","독일어","/fuːs/"],["pied","프랑스어","/pje/"],["pedal","영어","/ˈpedəl/"]],"그림의 법칙 때문에 게르만어만 f가 됐어요. 라틴어 쪽은 p를 지켜 pedal, pedestrian이 나왔고요.","foot"],
+["heart","❤️","heart와 courage는 같은 뿌리다",[["heart","영어","/hɑːrt/"],["Herz","독일어","/hɛʁts/"],["cœur","프랑스어","/kœʁ/"],["courage","영어","/ˈkɝːɪdʒ/"]],"라틴어 cor(심장)에서 cœur와 courage가 나왔어요. 게르만어에선 k가 h로 바뀌어 heart가 됐고요.","heart"],
+["focus","🔥","focus의 원래 뜻은 ‘화로’",[["focus","라틴어",""],["feu","프랑스어","/fø/"],["fuego","스페인어","/ˈfweɡo/"]],"화로는 집의 중심이었으니까요. 프랑스어와 스페인어의 ‘불’도 여기서 왔어요.","fire"],
+["nocturne","🌃","쇼팽의 녹턴은 그냥 ‘밤 노래’다",[["night","영어","/naɪt/"],["Nacht","독일어","/naxt/"],["nuit","프랑스어","/nɥi/"],["noche","스페인어","/ˈnotʃe/"]],"라틴어 nox(밤)에서 nocturnal과 Nocturne이 나왔어요.","night"],
+["namae","🏷️","일본어 namae가 name과 닮은 건 우연이다",[["name","영어","/neɪm/"],["nom","프랑스어","/nɔ̃/"],["名前","일본어","なまえ namae","なまえ"]],"일본 고유어 な(이름)에서 온 말이라 유럽어와 연결고리가 없어요. name과 nom은 진짜 친척이고요.","name"],
+["novel","📕","novel의 뜻은 ‘새로운 이야기’",[["new","영어","/nuː/"],["neu","독일어","/nɔʏ/"],["nouveau","프랑스어","/nu.vo/"],["novel","영어","/ˈnɑːvəl/"]],"라틴어 novus(새로운)에서 novel과 nova(새 별)가 나왔어요.","new"],
+["disaster","💫","disaster의 뜻은 ‘나쁜 별’",[["star","영어","/stɑːr/"],["astro","이탈리아어","/ˈastro/"],["estrella","스페인어","/esˈtɾeʝa/"]],"dis(나쁜)와 astro(별). 별자리가 나빠서 생긴 불운이라는 뜻이었어요.","star"],
+["month","🌕","month는 moon에서 왔다",[["moon","영어","/muːn/"],["month","영어","/mʌnθ/"],["Monday","영어","/ˈmʌndeɪ/"],["Mond","독일어","/moːnt/"]],"달의 주기로 한 달을 쟀으니까요. 한자 月이 달이자 한 달인 것과 같은 발상이에요.","moon"],
+["soleil","☀️","프랑스어 soleil의 뜻은 ‘작은 해’",[["sun","영어","/sʌn/"],["Sonne","독일어","/ˈzɔnə/"],["sol","스페인어","/sol/"],["soleil","프랑스어","/sɔ.lɛj/"]],"라틴어 sol(해)에 ‘작은’을 붙인 말에서 왔어요.","sun"],
+["taiyang","🌞","태양의 뜻은 ‘가장 큰 양기’",[["태양","한국어",""],["太陽","일본어","たいよう taiyō","たいよう"],["太阳","중국어","tàiyáng"]],"음양의 그 양이에요. 반대로 달은 태음(太陰)이라서 음력을 태음력이라고 해요.","sun"],
+["dandelion","🌼","민들레 dandelion은 ‘사자의 이빨’",[["tooth","영어","/tuːθ/"],["Zahn","독일어","/tsaːn/"],["dent","프랑스어","/dɑ̃/"],["diente","스페인어","/ˈdjente/"]],"프랑스어 dent de lion. 잎이 톱니처럼 생겨서 붙은 이름이에요.","tooth"],
+["sam","3️⃣","삼, san, sān은 같은 말이다",[["삼","한국어",""],["三","일본어","さん san","さん"],["三","중국어","sān"]],"모두 중세 중국어 sam에서 갈라졌어요. 고유어 ‘셋’은 다른 계보예요.","three"],
+["salad","🥗","샐러드의 뜻은 ‘소금 친 것’",[["sal","라틴어",""],["salad","영어","/ˈsæləd/"],["sauce","영어","/sɑːs/"],["sausage","영어","/ˈsɑːsɪdʒ/"]],"라틴어 sal(소금)에서 소스와 소시지까지 나왔어요.","salt"],
+["salary","🧂","‘소금 월급’ 이야기는 근거가 약하다",[["salary","영어","/ˈsæləri/"],["sal","라틴어",""]],"salary가 소금과 연결되는 건 맞지만, 로마 병사가 소금으로 월급을 받았다는 기록은 부족해요.","salt"],
+["galaxy","🌌","galaxy의 뜻은 ‘우유의 길’",[["gala","그리스어",""],["galaxy","영어","/ˈɡæləksi/"]],"그리스어로 우유는 gala. 은하수가 젖을 흘린 길처럼 보여서 붙은 이름이에요.","milk"],
+["casino","🎰","casino의 뜻은 ‘작은 집’",[["casa","스페인어","/ˈkasa/"],["casa","이탈리아어","/ˈkaːsa/"],["casino","이탈리아어","/kaˈsiːno/"]],"이탈리아어 casa(집)에 ‘작은’을 붙인 말이에요.","house"],
+["mansion","🏠","maison(집)과 mansion은 형제다",[["maison","프랑스어","/mɛ.zɔ̃/"],["mansion","영어","/ˈmænʃən/"],["mansio","라틴어",""]],"둘 다 라틴어 mansio(머무는 곳)에서 왔어요.","house"],
+["dog","🐕","dog의 기원은 아직 아무도 모른다",[["dog","영어","/dɑːɡ/"],["perro","스페인어","/ˈpero/"],["Hund","독일어","/hʊnt/"],["chien","프랑스어","/ʃjɛ̃/"]],"Hund와 chien은 같은 뿌리지만, dog와 perro는 어디서 왔는지 밝혀지지 않았어요.","dog"],
+["maharaja","👑","마하라자의 뜻은 ‘위대한 왕’",[["rex","라틴어",""],["roi","프랑스어","/ʁwa/"],["rey","스페인어","/rei̯/"],["raja","산스크리트어",""]],"라틴어 rex와 산스크리트어 raja는 같은 뿌리예요. maha는 ‘위대한’이고요.","king"],
+["king","🤴","king의 뿌리는 아마도 kin(혈족)",[["king","영어","/kɪŋ/"],["König","독일어","/ˈkøːnɪç/"],["kin","영어","/kɪn/"]],"혈족의 우두머리라는 뜻으로 보는 해석이 유력해요. 확정된 건 아니에요.","king"],
+["museum","🏛️","museum의 뜻은 ‘뮤즈의 장소’",[["music","영어","/ˈmjuːzɪk/"],["Musik","독일어","/muˈziːk/"],["museum","영어","/mjuːˈziːəm/"]],"음악도 ‘뮤즈 여신들의 기술’이라는 그리스어에서 왔어요.","music"],
+["pomegranate","🍏","석류의 영어 이름은 ‘씨 많은 과일’",[["pomme","프랑스어","/pɔm/"],["pomum","라틴어",""],["pomegranate","영어","/ˈpɑːmɪɡrænɪt/"]],"라틴어 pomum은 원래 그냥 ‘과일’이었어요. 그래서 프랑스어로 사과가 pomme예요.","apple"],
+["manzana","🍎","사과 manzana는 로마인의 이름에서 왔다",[["apple","영어","/ˈæpəl/"],["Apfel","독일어","/ˈapfl̩/"],["pomme","프랑스어","/pɔm/"],["manzana","스페인어","/manˈθana/"]],"스페인어로 사과예요. 마티우스라는 로마인의 이름을 딴 사과 품종에서 왔어요.","apple"],
+["foreign","🚪","foreign의 원래 뜻은 ‘문 밖’",[["door","영어","/dɔːr/"],["Tür","독일어","/tyːɐ̯/"],["foreign","영어","/ˈfɔːrən/"]],"라틴어 foras(문 밖)에서 foreign이 나왔어요. door와 같은 뿌리예요.","door"],
+["gasu","🎤","가수(歌手)는 ‘노래하는 손’",[["가수","한국어",""],["歌手","일본어","かしゅ kashu","かしゅ"],["歌手","중국어","gēshǒu"]],"한중일이 모두 같은 단어를 써요.","hand"],
+["manual","✋","manual과 manicure는 둘 다 ‘손’이다",[["main","프랑스어","/mɛ̃/"],["mano","스페인어","/ˈmano/"],["manual","영어","/ˈmænjuəl/"],["manicure","영어","/ˈmænɪkjʊr/"]],"라틴어 manus(손)에서 manuscript(손으로 쓴 글)도 나왔어요.","hand"],
+["tide","🌊","tide의 원래 뜻은 ‘시간’이었다",[["time","영어","/taɪm/"],["tide","영어","/taɪd/"],["Zeit","독일어","/tsaɪ̯t/"]],"독일어로 시간은 Zeit, tide와 같은 뿌리예요.","time"],
+["mermaid","🧜","mermaid의 mer는 ‘바다’다",[["Meer","독일어","/meːɐ̯/"],["mer","프랑스어","/mɛʁ/"],["mar","스페인어","/maɾ/"],["mermaid","영어","/ˈmɝːmeɪd/"]],"영어는 바다를 sea라고 하지만, 옛 뿌리가 mermaid에 남아 있어요.","sea"],
+["nevada","🏔️","네바다의 뜻은 ‘눈 덮인’",[["snow","영어","/snoʊ/"],["nieve","스페인어","/ˈnjebe/"],["nevada","스페인어","/neˈbada/"]],"스페인어로 눈은 nieve, 눈 덮인 것은 nevada예요.","snow"],
+["library","📜","library의 뿌리는 ‘나무껍질’",[["liber","라틴어",""],["libro","스페인어","/ˈlibɾo/"],["livre","프랑스어","/livʁ/"],["library","영어","/ˈlaɪbreri/"]],"라틴어 liber는 원래 나무 속껍질이었어요. 거기에 글을 썼거든요.","book"],
+["book","📖","book은 너도밤나무에서 왔다는 설이 있다",[["book","영어","/bʊk/"],["Buch","독일어","/buːx/"],["beech","영어","/biːtʃ/"]],"너도밤나무 판에 글자를 새긴 데서 왔다는 해석이에요.","book"],
+["eau","💦","eau(오)는 aqua가 닳고 닳은 것이다",[["aqua","라틴어",""],["agua","스페인어","/ˈaɡwa/"],["eau","프랑스어","/o/"]],"프랑스어에서 소리가 계속 줄어들어 eau가 됐어요. 발음은 그냥 ‘오’예요.","water"],
+["milk","🥛","우유(牛乳)는 그냥 ‘소의 젖’",[["우유","한국어",""],["牛乳","일본어","ぎゅうにゅう gyūnyū","ぎゅうにゅう"],["牛奶","중국어","niúnǎi"]],"한중일 모두 소 牛자를 써요.","milk"],
+["snow","❄️","snow와 neige는 같은 뿌리다",[["snow","영어","/snoʊ/"],["Schnee","독일어","/ʃneː/"],["neige","프랑스어","/nɛʒ/"],["nieve","스페인어","/ˈnjebe/"]],"라틴어로 가면서 앞의 s가 떨어져 nix가 됐고, 거기서 neige와 nieve가 나왔어요.","snow"],
+["bd-pupil","👁️","pupil(눈동자)의 뜻은 ‘작은 인형’",[["pupil","영어","/ˈpjuːpəl/"],["pupilla","라틴어",""],["눈부처","한국어",""]],"남의 눈동자에 비친 내 작은 모습 때문이에요. 한국어는 그 모습을 눈부처라 불러요.","eye"],
+["bd-daisy","🌅","daisy의 뜻은 ‘낮의 눈’",[["daisy","영어","/ˈdeɪzi/"],["day","영어","/deɪ/"],["eye","영어","/aɪ/"]],"고대 영어 dæges eage예요. 꽃잎이 새벽에 열리고 해 질 녘에 닫혀서 붙은 이름이에요.","eye"],
+["bd-ear-corn","🌽","귀 ear와 이삭 ear는 남남이다",[["ear","영어","/ɪr/"],["Ohr","독일어","/oːɐ̯/"],["Ähre","독일어","/ˈɛːʁə/"],["auris","라틴어",""]],"귀는 Ohr, auris와, 이삭은 Ähre와 친척이에요. 영어에서만 소리가 우연히 겹쳤어요.","ear"],
+["bd-self-nose","👃","‘스스로 自’는 원래 코 그림이다",[["自","한자",""],["鼻","한자",""],["鼻子","중국어","bízi"]],"갑골문 自는 코 모양이에요. 自가 ‘자기’로 쓰이게 되자 코는 鼻를 따로 만들었어요.","nose"],
+["bd-gobbul","🔥","고뿔(감기)의 ‘뿔’은 원래 ‘불’",[["고뿔","한국어",""],["곳블","한국어",""],["코","한국어",""]],"옛말 곳블은 코(고)+ㅅ+불(블)이에요. 코에 불이 난다는 뜻이라 뿔(角)과는 무관해요.","nose"],
+["bd-rhino","🦏","rhinoceros를 번역하면 ‘코뿔’",[["rhinoceros","영어","/raɪˈnɑːsərəs/"],["rhis","그리스어",""],["keras","그리스어",""],["코뿔소","한국어",""]],"그리스어 rhis(코)+keras(뿔)예요. 한국어 코뿔소도 코+뿔+소로 똑같이 지었어요.","nose"],
+["bd-mouth","👄","mouth에는 있어야 할 n이 없다",[["mouth","영어","/maʊθ/"],["Mund","독일어","/mʊnt/"],["goose","영어","/ɡuːs/"],["Gans","독일어","/ɡans/"]],"고대 영어에선 th, s, f 앞의 n이 사라졌어요. five와 fünf, us와 uns도 같은 경우예요.","mouth"],
+["bd-stomach","🍽️","stomach(위)의 뿌리는 ‘입’",[["stomach","영어","/ˈstʌmək/"],["stoma","그리스어",""],["estómago","스페인어","/esˈtomaɡo/"]],"그리스어 stoma(입)에서 나온 stomachos는 원래 목구멍이었어요. 나중에 위를 가리키게 됐어요.","belly"],
+["bd-lingua","👅","tongue과 lingua는 원래 같은 단어",[["tongue","영어","/tʌŋ/"],["Zunge","독일어","/ˈtsʊŋə/"],["lingua","라틴어",""],["language","영어","/ˈlæŋɡwɪdʒ/"]],"옛 라틴어 dingua가 ‘핥다’(lingere)에 끌려 lingua가 됐다는 설이 유력해요. language도 여기서 왔어요.","tongue"],
+["bd-ipsul","💋","입술과 눈시울은 같은 ‘시울’",[["입술","한국어",""],["입시울","한국어",""],["눈시울","한국어",""]],"시울은 굽은 부분의 가장자리예요. 옛말 입시울(입의 가장자리)이 줄어 입술이 됐어요.","lip"],
+["bd-eolgul","🧍","얼굴은 원래 ‘몸 전체’를 뜻했다",[["얼굴","한국어",""],["facies","라틴어",""],["face","영어","/feɪs/"]],"15세기 얼굴은 형체, 모습이었고 17세기에 낯으로 좁아졌어요. 라틴어 facies도 원래 ‘생김새’였어요.","face"],
+["bd-lose-face","😳","lose face는 중국어를 번역한 말",[["lose face","영어","/luːz feɪs/"],["丢脸","중국어","diūliǎn"],["face","영어","/feɪs/"]],"중국어 丢脸(얼굴을 잃다)을 영어로 옮긴 표현이에요. 1835년부터 기록돼요.","face"],
+["bd-tete","🏺","tête(머리)의 원래 뜻은 ‘질그릇’",[["tête","프랑스어","/tɛt/"],["testa","이탈리아어","/ˈtɛsta/"],["testa","라틴어",""]],"라틴어 testa는 질그릇, 껍데기였어요. 머리를 단지라 부른 농담인지, 두개골을 껍데기라 한 건지는 확실하지 않아요.","head"],
+["bd-mari","🐄","‘소 한 마리’의 마리는 ‘머리’",[["마리","한국어",""],["一頭","일본어","いっとう ittō","いっとう"],["头","중국어","tóu"],["head","영어","/hed/"]],"중세국어 마리가 ‘머리’였어요. 一頭, 50 head of cattle처럼 짐승을 머리로 세는 언어가 많아요.","head"],
+["bd-meorikarak","💇","머리카락은 왜 ‘머리가락’이 아닐까?",[["머리카락","한국어",""],["살코기","한국어",""],["안팎","한국어",""]],"살코기, 안팎은 옛말 살ㅎ, 안ㅎ의 ㅎ이 남은 거예요. 머리카락도 머리ㅎ+가락으로 풀지만 확실하지 않아요.","hair"],
+["bd-shampoo","🧴","샴푸의 원래 뜻은 ‘마사지’",[["shampoo","영어","/ʃæmˈpuː/"],["champo","힌디어",""],["샴푸","한국어",""]],"힌디어 champo(눌러라)에서 왔어요. 몸 주무르기를 뜻하다 1860년쯤 ‘머리 감기’가 됐어요.","hair"],
+["bd-epaule","🥄","어깨 épaule은 주걱 spatula다",[["épaule","프랑스어","/e.pol/"],["spatula","영어","/ˈspætʃələ/"],["espalda","스페인어","/esˈpalda/"]],"라틴어 spatula(주걱)가 넓적한 어깨뼈를 가리키게 됐어요. 스페인어에선 espalda(등)가 됐고요.","shoulder"],
+["bd-bra","👙","브래지어의 ‘브라’는 ‘팔’이다",[["bras","프랑스어","/bʁa/"],["brazo","스페인어","/ˈbɾaθo/"],["brassière","프랑스어","/bʁa.sjɛʁ/"],["bracelet","영어","/ˈbreɪslət/"]],"프랑스어 bras(팔)에서 팔 보호대가 나왔고, 아이 윗옷, 속옷으로 뜻이 옮겨 갔어요.","arm"],
+["bd-cubit","📏","노아 방주의 ‘규빗’은 팔꿈치",[["cubit","영어","/ˈkjuːbɪt/"],["cubitum","라틴어",""],["codo","스페인어","/ˈkodo/"],["coude","프랑스어","/kud/"]],"라틴어 cubitum(팔꿈치)이에요. 팔꿈치부터 손끝까지가 1규빗, 대략 반 미터예요.","elbow"],
+["bd-digit","🔢","digital의 뿌리는 ‘손가락’",[["digital","영어","/ˈdɪdʒɪtəl/"],["digitus","라틴어",""],["dedo","스페인어","/ˈdedo/"],["doigt","프랑스어","/dwa/"]],"손가락으로 수를 세서 digit이 0~9의 ‘숫자’가 됐어요. 숫자로 처리하니 digital이에요.","finger"],
+["bd-garak","🥢","손가락과 젓가락은 같은 ‘가락’",[["손가락","한국어",""],["젓가락","한국어",""],["엿가락","한국어",""]],"가락은 가늘고 길게 토막 난 물건이에요. 젓가락은 저(箸)에 가락이 붙은 말이고요.","finger"],
+["bd-knee","🧎","knee의 k는 원래 소리가 났다",[["knee","영어","/niː/"],["Knie","독일어","/kniː/"],["knight","영어","/naɪt/"],["Knecht","독일어","/knɛçt/"]],"영어도 독일어처럼 k를 읽었어요. 100년쯤 약해지다 1750년 무렵 사라져 철자에만 남았어요.","knee"],
+["bd-leg-skin","🦵","leg와 skin은 바이킹이 남긴 말",[["leg","영어","/leɡ/"],["leggr","고대노르드어",""],["skin","영어","/skɪn/"],["skinn","고대노르드어",""]],"둘 다 고대 노르드어에서 들어왔어요. 그전 영어는 다리를 shank, 피부를 hide라 했어요.","leg"],
+["bd-bein","🦴","독일어 Bein(다리)은 원래 ‘뼈’",[["bone","영어","/boʊn/"],["Bein","독일어","/baɪ̯n/"],["Elfenbein","독일어","/ˈɛlfn̩baɪ̯n/"]],"‘뼈’라는 뜻이 다리 전체로 넓어졌어요. 상아 Elfenbein은 ‘코끼리 뼈’라는 뜻이에요.","bone"],
+["bd-gips","🏥","깁스는 독일어로 ‘석고’",[["깁스","한국어",""],["Gips","독일어","/ɡɪps/"],["ギプス","일본어","gipusu"],["cast","영어","/kæst/"]],"독일어 Gips(석고)가 일본어 ギプス를 거쳐 온 것으로 보여요. 영어로는 cast라고 해야 통해요.","bone"],
+["bd-bless","🩸","bless(축복)의 뿌리는 ‘피’",[["blood","영어","/blʌd/"],["Blut","독일어","/bluːt/"],["bless","영어","/bles/"]],"게르만어 *blodison(피로 표시하다)에서 왔어요. 제단에 피를 뿌려 신성하게 하던 의식이에요.","blood"],
+["bd-brainwash","🧠","brainwashing은 중국어 직역이다",[["brainwashing","영어","/ˈbreɪnwɑːʃɪŋ/"],["洗脑","중국어","xǐnǎo"],["세뇌","한국어",""]],"1950년 무렵 중국어 洗脑(뇌를 씻다)를 그대로 옮긴 말로 알려져 있어요. 세뇌도 같은 한자예요.","brain"],
+["bd-shinkei","⚡","신경(神經)은 1774년 일본산",[["신경","한국어",""],["神経","일본어","しんけい shinkei","しんけい"],["神经","중국어","shénjīng"],["zenuw","네덜란드어","/ˈzeːnyu̯/"]],"스기타 겐파쿠가 『해체신서』에서 네덜란드어 zenuw를 ‘신기(神氣)의 경맥’이란 뜻으로 옮겼어요.","brain"],
+["bd-film","🎞️","film의 원래 뜻은 ‘얇은 살갗’",[["film","영어","/fɪlm/"],["filmen","고대영어",""],["필름","한국어",""]],"고대 영어 filmen은 얇은 막, 살갗이었어요. 1845년쯤 사진판에 입힌 얇은 막을 부르게 됐어요.","skin"],
+["bd-muscle","🐭","muscle의 뜻은 ‘작은 쥐’",[["muscle","영어","/ˈmʌsəl/"],["musculus","라틴어",""],["mouse","영어","/maʊs/"],["mussel","영어","/ˈmʌsəl/"]],"꿈틀대는 근육이 피부 밑 생쥐 같다고 봤어요. 홍합 mussel도 같은 라틴어 musculus예요.","muscle"],
+["bd-ventriloquism","🗣️","복화술은 라틴어로도 ‘배로 말하기’",[["ventriloquism","영어","/venˈtrɪləkwɪzəm/"],["venter","라틴어",""],["ventre","프랑스어","/vɑ̃tʁ/"],["복화술","한국어",""]],"라틴어 venter(배)와 loqui(말하다)를 합친 말이에요. 한자어 복화술(腹話術)도 뜻이 같아요.","belly"],
+["bd-spirit","🌬️","spirit의 원래 뜻은 ‘숨’",[["spirit","영어","/ˈspɪrɪt/"],["spiritus","라틴어",""],["respirar","스페인어","/respiˈɾaɾ/"]],"라틴어 spirare(숨 쉬다)에서 왔어요. 숨을 내쉬는 expire가 ‘숨지다, 만료되다’가 된 것도 같아요.","breath"],
+["bd-doctor","🩺","doctor의 원래 뜻은 ‘선생님’",[["doctor","영어","/ˈdɑːktɚ/"],["docere","라틴어",""],["doctrine","영어","/ˈdɑːktrɪn/"]],"라틴어 docere(가르치다)에서 왔어요. 학자를 부르던 말이 1400년 무렵부터 의사를 뜻하게 됐어요.","doctor"],
+["bd-yi","🍶","의원 醫 자에는 ‘술’이 들어 있다",[["醫","한자",""],["酉","한자",""],["医者","일본어","いしゃ isha","いしゃ"],["医生","중국어","yīshēng"]],"아래 酉는 술 단지예요. 설문해자는 ‘술로 병을 고치기 때문’이라고 풀었어요.","doctor"],
+["bd-mes","🔪","수술용 ‘메스’는 네덜란드어 ‘칼’",[["메스","한국어",""],["mes","네덜란드어","/mɛs/"],["メス","일본어","mesu"],["Messer","독일어","/ˈmɛsɐ/"]],"네덜란드어 mes가 일본어 メス를 거쳐 왔어요. 네덜란드에선 부엌칼도 그냥 mes예요.","doctor"],
+["bd-vaccine","🐮","vaccine의 뜻은 ‘소의’",[["vaccine","영어","/vækˈsiːn/"],["vacca","라틴어",""],["vaca","스페인어","/ˈbaka/"],["vache","프랑스어","/vaʃ/"]],"제너가 소의 병 우두로 천연두를 막은 데서 왔어요. 파스퇴르가 다른 병의 백신까지 넓혔어요.","medicine"],
+["bd-ringer","💉","‘링거’는 사람 이름이다",[["링거","한국어",""],["Ringer","영어","/ˈrɪŋɚ/"],["リンゲル","일본어","ringeru"]],"영국 의사 시드니 링거가 1880년대 개구리 심장 실험용으로 만든 용액이에요. 영어권에선 IV drip이라고 해야 통해요.","medicine"],
+["bd-cemetery","⚰️","cemetery(묘지)의 뜻은 ‘침실’",[["cemetery","영어","/ˈseməteri/"],["koimētērion","그리스어",""],["cimetière","프랑스어","/sim.tjɛʁ/"]],"그리스어로 ‘잠자는 곳’이에요. 초기 기독교인들이 죽음을 잠으로 보고 묘지에 붙인 이름이에요.","sleep"],
+["bd-nightmare","👹","nightmare의 mare는 암말이 아니다",[["nightmare","영어","/ˈnaɪtmer/"],["mare","영어","/mer/"],["mara","고대노르드어",""]],"잠든 사람을 짓누르는 마귀가 mare였어요. 암말 mare와는 소리만 같은 남남이에요.","dream"],
+["bd-morphine","💤","모르핀은 꿈의 신 이름이다",[["morphine","영어","/ˈmɔːrfiːn/"],["Morpheus","라틴어",""],["모르핀","한국어",""]],"잠을 부르는 약이라 독일 약사 제르튀르너가 꿈의 신 모르페우스의 이름을 붙였어요.","dream"],
+["bd-gamgi","🤒","감기(感氣)는 한국산 한자어",[["감기","한국어",""],["感冒","중국어","gǎnmào"],["風邪","일본어","かぜ kaze","かぜ"]],"18세기 말부터 보이는 한국 한자어예요. 중국은 感冒, 일본은 風邪라고 해요.","sick"],
+["bd-korper","💀","독일어 Körper(몸)는 빌려 온 말",[["Körper","독일어","/ˈkœʁpɐ/"],["corpus","라틴어",""],["Leiche","독일어","/ˈlaɪ̯çə/"],["corpse","영어","/kɔːrps/"]],"13세기 라틴어 corpus(몸)를 빌렸어요. 원래 ‘몸’이던 lîch는 Leiche(시체)에만 남았어요.","body"],
+["bd-gesund","🤧","sound와 Gesundheit는 같은 뿌리",[["sound","영어","/saʊnd/"],["gesund","독일어","/ɡəˈzʊnt/"],["Gesundheit","독일어","/ɡəˈzʊnthaɪ̯t/"]],"‘건강한’ sound는 소리 sound와 남남이고 gesund와 친척이에요. 재채기 때 Gesundheit!는 ‘건강!’이에요.","health"],
+["bd-wisaeng","🧼","위생(衛生)은 장자에서 빌린 말",[["위생","한국어",""],["衛生","일본어","えいせい eisei","えいせい"],["卫生","중국어","wèishēng"],["Hygiene","독일어","/hyˈɡi̯eːnə/"]],"메이지 초 나가요 센사이가 Hygiene를 옮기며 장자의 ‘衛生(생명을 지킴)’을 가져왔어요.","health"],
+["pp-hermano","👬","frère와 hermano는 뿌리가 다르다",[["frère","프랑스어","/fʁɛʁ/"],["fratello","이탈리아어","/fraˈtɛllo/"],["hermano","스페인어","/eɾˈmano/"],["irmão","포르투갈어","/iɾˈmɐ̃w̃/"]],"라틴어 frater germanus(친형제)에서 germanus만 남은 거예요. 게르만족 이름과는 무관하다는 견해가 일반적이에요.","brother"],
+["pp-cousin","👭","cousin 속에 ‘자매’가 숨어 있다",[["sister","영어","/ˈsɪstɚ/"],["sœur","프랑스어","/sœʁ/"],["soror","라틴어",""],["cousin","영어","/ˈkʌzən/"]],"라틴어 consobrinus는 원래 ‘엄마 자매의 자식’이었고, 그 속에 soror(자매)가 들어 있어요.","sister"],
+["pp-sohn","👦","Sohn과 Sonne가 닮은 건 우연이다",[["son","영어","/sʌn/"],["sun","영어","/sʌn/"],["Sohn","독일어","/zoːn/"],["Sonne","독일어","/ˈzɔnə/"]],"son은 ‘낳다’, sun은 ‘해’라는 서로 다른 뿌리예요. 영어와 독일어 둘 다 우연히 닮았어요.","son"],
+["pp-daughter","👧","라틴어는 daughter를 잃어버렸다",[["daughter","영어","/ˈdɔːtɚ/"],["Tochter","독일어","/ˈtɔxtɐ/"],["thugatēr","그리스어",""],["hija","스페인어","/ˈixa/"]],"라틴어에선 이 단어가 사라져 ‘아들’ filius의 여성형 filia를 썼어요. 그게 스페인어 hija예요.","daughter"],
+["pp-niang","👩‍👧","娘은 중국에선 엄마, 일본에선 딸",[["娘","중국어","niáng"],["娘","일본어","むすめ musume","むすめ"],["낭자(娘子)","한국어",""]],"중국어 娘은 ‘아가씨’도 되고 ‘엄마’도 돼요. 일본어에선 ‘딸’, 한국어엔 낭자(娘子)로 남았어요.","daughter"],
+["pp-kind","🧸","독일어 Kind는 child와 남남이다",[["child","영어","/tʃaɪld/"],["Kind","독일어","/kɪnt/"],["Kindergarten","독일어","/ˈkɪndɐˌɡaʁtn̩/"],["gene","영어","/dʒiːn/"]],"Kind는 ‘낳다’라는 뿌리로 gene과 친척이에요. child는 고트어 ‘자궁’과 같은 뿌리고요.","child"],
+["pp-kodomo","👫","子ども와 友達는 원래 복수형이었다",[["子ども","일본어","こども kodomo","こども"],["友達","일본어","ともだち tomodachi","ともだち"],["私ども","일본어","わたくしども watakushidomo","わたくしども"]],"ども와 たち는 ‘~들’이에요. 지금은 한 명에게도 써서 子どもたち처럼 또 붙이죠.","child"],
+["pp-infant","🍼","infant의 뜻은 ‘말 못 하는 자’",[["infant","영어","/ˈɪnfənt/"],["enfant","프랑스어","/ɑ̃.fɑ̃/"],["infans","라틴어",""],["infantry","영어","/ˈɪnfəntri/"]],"라틴어 in(아닌)+fans(말하는)예요. ‘젊은이’를 뜻하던 infante에서 보병 infantry도 나왔어요.","baby"],
+["pp-akachan","👶","일본어로 아기는 ‘빨간 아이’",[["赤ちゃん","일본어","あかちゃん akachan","あかちゃん"],["赤ん坊","일본어","あかんぼう akanbō","あかんぼう"],["적자(赤子)","한국어",""]],"갓난아기 피부가 붉은빛을 띠어서예요. 한자어 적자(赤子)도 ‘갓난아이’라는 뜻이에요.","baby"],
+["pp-fiend","😈","friend와 fiend(악마)는 반대말 짝",[["friend","영어","/frɛnd/"],["Freund","독일어","/fʁɔʏ̯nt/"],["fiend","영어","/fiːnd/"],["Feind","독일어","/faɪ̯nt/"]],"고대 영어에서 ‘사랑하는 자’와 ‘미워하는 자’였어요. 독일어 Feind는 지금도 ‘적’이에요.","friend"],
+["pp-free","🕊️","free와 friend는 같은 뿌리다",[["free","영어","/friː/"],["frei","독일어","/fʁaɪ̯/"],["friend","영어","/frɛnd/"],["priya","산스크리트어",""]],"둘 다 ‘사랑하다’라는 뿌리예요. 노예가 아닌 ‘사랑받는 식구’가 자유인이었다고 보는 설이 유력해요.","friend"],
+["pp-enemy","⚔️","enemy의 원래 뜻은 ‘친구 아님’",[["amigo","스페인어","/aˈmiɡo/"],["enemigo","스페인어","/eneˈmiɡo/"],["ennemi","프랑스어","/ɛn.mi/"],["enemy","영어","/ˈɛnəmi/"]],"라틴어 in(아닌)+amicus(친구)예요. 프랑스어 ami, 스페인어 amigo와 한 가족이에요.","enemy"],
+["pp-guest","🛎️","guest와 hostile은 같은 뿌리다",[["guest","영어","/ɡɛst/"],["Gast","독일어","/ɡast/"],["host","영어","/hoʊst/"],["hostile","영어","/ˈhɑːstəl/"]],"뿌리의 뜻은 ‘낯선 사람’이에요. 낯선 이는 손님도 적도 될 수 있어서, 라틴어 hostis는 ‘적’이 됐어요.","guest"],
+["pp-werewolf","🐺","werewolf의 were는 ‘남자’",[["werewolf","영어","/ˈwɛrwʊlf/"],["wer","고대영어",""],["vir","라틴어",""],["virtue","영어","/ˈvɝːtʃuː/"]],"고대 영어 wer(남자)는 라틴어 vir와 같은 뿌리예요. virtue도 원래 ‘남자다움’이었어요.","man"],
+["pp-guy","💥","guy는 원래 한 남자의 이름이었다",[["guy","영어","/ɡaɪ/"],["Guy Fawkes","영어","/ɡaɪ ˈfɔːks/"]],"1605년 의회 폭파를 꾀한 가이 포크스예요. 그를 본뜬 인형 ‘guy’가 ‘남자’를 뜻하게 됐어요.","man"],
+["pp-woman","🙋‍♀️","woman은 ‘여자 + 사람’이었다",[["woman","영어","/ˈwʊmən/"],["wīfmann","고대영어",""],["wife","영어","/waɪf/"],["man","영어","/mæn/"]],"wif(여자)+man(사람)이에요. 고대 영어 man은 남녀 모두를 가리켰고, wife는 그냥 ‘여자’였어요.","woman"],
+["pp-persona","🎭","person의 원래 뜻은 ‘가면’",[["person","영어","/ˈpɝːsən/"],["personne","프랑스어","/pɛʁ.sɔn/"],["persona","라틴어",""]],"라틴어 persona는 배우가 쓰던 가면이었어요. 가면이 ‘배역’이 되고, 다시 ‘사람’이 됐어요.","person"],
+["pp-ningen","🌏","人間의 원래 뜻은 ‘사람 사는 세상’",[["인간","한국어",""],["人間","일본어","にんげん ningen","にんげん"],["人间","중국어","rénjiān"]],"중국어 人间은 지금도 ‘인간 세상’이에요. 한국과 일본에선 세상에 사는 ‘사람’ 자체가 됐어요.","person"],
+["pp-husband","🏡","husband의 원래 뜻은 ‘집주인’",[["husband","영어","/ˈhʌzbənd/"],["hús","고대노르드어",""],["bóndi","고대노르드어",""],["house","영어","/haʊs/"]],"고대 노르드어 hús(집)+bóndi(사는 사람)예요. 13세기 말에야 ‘남편’이라는 뜻이 됐어요.","husband"],
+["pp-zhangfu","💪","丈夫는 중국에선 남편, 일본에선 ‘튼튼’",[["丈夫","중국어","zhàngfu"],["丈夫","일본어","じょうぶ jōbu","じょうぶ"],["大丈夫","일본어","だいじょうぶ daijōbu","だいじょうぶ"],["대장부","한국어",""]],"원래 ‘다 자란 남자’예요. 일본어 大丈夫(괜찮아)도 ‘훌륭한 사나이’가 ‘든든하다’를 거친 말이에요.","husband"],
+["pp-anae","🏠","남편은 한자어, 아내는 순우리말",[["남편","한국어",""],["男便","한자",""],["아내","한국어",""],["안해","한국어",""]],"男便의 짝은 女便(여편)이었고 ‘여편네’에 남았어요. 아내는 옛말 ‘안해’에서 온 고유어예요.","wife"],
+["pp-manura","🏯","마누라는 원래 높임말이었다",[["마누라","한국어",""],["마노라","한국어",""],["대비마노라","한국어",""]],"옛말 마노라는 ‘대비마노라’처럼 왕실 어른을 높이던 말이었어요. 뜻이 점점 낮아져 아내를 가리키게 됐어요.","wife"],
+["pp-family","👪","family의 원래 뜻은 ‘하인들’",[["family","영어","/ˈfæməli/"],["famille","프랑스어","/fa.mij/"],["familia","라틴어",""],["famulus","라틴어",""]],"라틴어 famulus는 ‘하인’, familia는 한 집의 하인 전체였어요. 나중에 친척까지 포함하게 됐어요.","family"],
+["pp-neighbor","🏘️","neighbor와 Bauer는 한 뿌리다",[["neighbor","영어","/ˈneɪbɚ/"],["Nachbar","독일어","/ˈnaxbaːɐ̯/"],["Bauer","독일어","/ˈbaʊ̯ɐ/"],["nigh","영어","/naɪ/"]],"neigh는 ‘가까운’, bor는 ‘사는 사람’이에요. 독일어 Bauer(농부)와 같은 뿌리예요.","neighbor"],
+["pp-sensei","👨‍🏫","중국에서 先生은 ‘미스터’다",[["先生","중국어","xiānsheng"],["先生","일본어","せんせい sensei","せんせい"],["선생님","한국어",""]],"‘먼저 태어난 사람’이란 뜻이에요. 중국어에선 남자 존칭이자 ‘남편’, 한일에선 주로 선생님이에요.","teacher"],
+["pp-student","🎓","student의 원래 뜻은 ‘열심인 사람’",[["student","영어","/ˈstuːdənt/"],["étudiant","프랑스어","/e.ty.djɑ̃/"],["estudiante","스페인어","/estuˈdjante/"],["studere","라틴어",""]],"라틴어 studere는 ‘열중하다, 애쓰다’였어요. 무언가에 열을 올리는 사람이 학생이 됐어요.","student"],
+["pp-sarang","💭","‘사랑하다’는 원래 ‘생각하다’였다",[["사랑","한국어",""],["생각","한국어",""],["思","한자",""],["愛","한자",""]],"중세국어 ‘사랑하다’는 주로 ‘생각하다(思)’였어요. 근대에 와서 ‘사랑(愛)’ 뜻만 남았어요.","love"],
+["pp-airen","💔","愛人, 중국에선 배우자 일본에선 불륜",[["爱人","중국어","àiren"],["愛人","일본어","あいじん aijin","あいじん"],["애인","한국어",""]],"중국 본토에선 남편이나 아내를, 일본에선 불륜 상대를 뜻해요. 한국어 애인은 그냥 연인이고요.","love"],
+["pp-bonheur","🍀","bonheur는 ‘좋은 시간’이 아니다",[["bonheur","프랑스어","/bɔ.nœʁ/"],["malheur","프랑스어","/ma.lœʁ/"],["heure","프랑스어","/œʁ/"],["augurium","라틴어",""]],"heur는 라틴어 augurium(징조)에서 온 ‘운’이에요. 시간 heure와는 소리만 같은 남남이에요.","happiness"],
+["pp-sad","🍽️","sad의 원래 뜻은 ‘배부른’",[["sad","영어","/sæd/"],["satt","독일어","/zat/"],["sate","영어","/seɪt/"]],"‘실컷 먹어 물린’에서 ‘무겁고 지친’을 거쳐 ‘슬픈’이 됐어요. 독일어 satt는 지금도 ‘배부른’이에요.","sad"],
+["pp-fear","⚠️","fear의 원래 뜻은 ‘위험’",[["fear","영어","/fɪr/"],["fǣr","고대영어",""],["Gefahr","독일어","/ɡəˈfaːɐ̯/"]],"고대 영어 fǣr는 ‘갑작스러운 위험, 재앙’이었어요. 독일어 Gefahr(위험)와 같은 뿌리예요.","fear"],
+["pp-cry","📢","cry의 원래 뜻은 ‘외치다’",[["cry","영어","/kraɪ/"],["crier","프랑스어","/kʁi.je/"],["gritar","스페인어","/ɡɾiˈtaɾ/"],["weep","영어","/wiːp/"]],"라틴어 quiritare(비명 지르다)에서 왔어요. ‘울다’ 뜻은 나중에 생겨 원래 쓰던 weep를 밀어냈어요.","cry"],
+["pp-hello","☎️","hello는 전화기 덕분에 퍼졌다",[["hello","영어","/həˈloʊ/"],["Hallo","독일어","/ˈhalo/"],["ahoy","영어","/əˈhɔɪ/"]],"1877년 에디슨이 전화 인사로 권하면서 널리 퍼졌어요. 벨은 ahoy를 밀었지만 hello가 이겼죠.","hello"],
+["pp-happy","🎲","happy의 원래 뜻은 ‘운 좋은’",[["happy","영어","/ˈhæpi/"],["happen","영어","/ˈhæpən/"],["perhaps","영어","/pɚˈhæps/"],["Glück","독일어","/ɡlʏk/"]],"hap(우연, 운)에서 happen과 perhaps도 나왔어요. 독일어 Glück도 ‘행운’이자 ‘행복’이에요.","happiness"],
+["pp-goodbye","👋","goodbye는 ‘신이 함께하길’",[["goodbye","영어","/ɡʊdˈbaɪ/"],["adieu","프랑스어","/a.djø/"],["adiós","스페인어","/aˈdjos/"]],"God be with ye가 줄고 good day에 끌려 good이 됐어요. adieu, adiós도 ‘신께’라는 뜻이에요.","goodbye"],
+["pp-ciao","🎩","ciao의 원래 뜻은 ‘당신의 노예’",[["ciao","이탈리아어","/ˈtʃaːo/"],["schiavo","이탈리아어","/ˈskjaːvo/"],["slave","영어","/sleɪv/"],["Servus","독일어","/ˈzɛʁvʊs/"]],"베네치아 사투리로 ‘당신의 종입니다’라는 인사였어요. 오스트리아 인사 Servus도 라틴어로 ‘종’이에요.","goodbye"],
+["pp-sayonara","🌅","さようなら의 뜻은 ‘그렇다면’",[["さようなら","일본어","sayōnara"],["左様","일본어","さよう sayō","さよう"],["なら","일본어","nara"]],"左様ならば(그렇다면)가 줄어든 말이에요. ‘그럼 이만’ 하던 말끝이 작별 인사가 됐어요.","goodbye"],
+["pp-thank","🤔","thank와 think는 한 뿌리다",[["thank","영어","/θæŋk/"],["think","영어","/θɪŋk/"],["danken","독일어","/ˈdaŋkn̩/"],["denken","독일어","/ˈdɛŋkn̩/"]],"‘생각, 고마움’을 함께 뜻한 게르만어에서 갈라졌어요. 독일어도 danken과 denken이에요.","thanks"],
+["pp-merci","💰","merci의 원래 뜻은 ‘품삯’",[["merci","프랑스어","/mɛʁ.si/"],["mercy","영어","/ˈmɝːsi/"],["merces","라틴어",""],["market","영어","/ˈmɑːrkɪt/"]],"라틴어 merces(삯, 보상)가 ‘은혜, 자비’를 거쳐 ‘고마워’가 됐어요. market과도 친척이에요.","thanks"],
+["pp-arigato","💎","ありがとう의 뜻은 ‘있기 어렵다’",[["ありがとう","일본어","arigatō"],["有り難い","일본어","ありがたい arigatai","ありがたい"],["obrigado","포르투갈어","/obɾiˈɡadu/"]],"有り難い, 세상에 드물고 귀하다는 뜻이에요. 포르투갈어 obrigado에서 왔다는 건 속설이에요.","thanks"],
+["pp-sorry","🤕","sorry와 sorrow는 남남이다",[["sorry","영어","/ˈsɑːri/"],["sore","영어","/sɔːr/"],["sorrow","영어","/ˈsɑːroʊ/"]],"sorry는 sore(아픈)에서 나왔고 sorrow는 다른 뿌리예요. 철자만 sorrow를 닮아 o가 됐어요.","sorry"],
+["pp-mian","😣","미안은 ‘마음이 아직 편치 않다’",[["미안","한국어",""],["未安","한자",""],["불안(不安)","한국어",""]],"未(아닐 미)+安(편안할 안). 남에게 폐를 끼쳐 내 마음이 편치 않다는 한자어예요.","sorry"],
+["pp-bead","📿","구슬 bead의 원래 뜻은 ‘기도’",[["bead","영어","/biːd/"],["Gebet","독일어","/ɡəˈbeːt/"],["bitte","독일어","/ˈbɪtə/"]],"묵주 알을 굴리며 기도를 셌거든요. 독일어 Gebet(기도), bitte(부탁해요)와 같은 뿌리예요.","please"],
+["pp-lord","🍞","lord의 원래 뜻은 ‘빵 지킴이’",[["lord","영어","/lɔːrd/"],["hlāfweard","고대영어",""],["loaf","영어","/loʊf/"],["lady","영어","/ˈleɪdi/"]],"hlāf(빵)+weard(지키는 이)예요. lady는 ‘빵 반죽하는 이’였다는 설이 있지만 확실하지 않아요.","bread"],
+["pp-companion","🥖","companion은 ‘빵을 같이 먹는 사이’",[["companion","영어","/kəmˈpænjən/"],["compañero","스페인어","/kompaˈɲeɾo/"],["copain","프랑스어","/kɔ.pɛ̃/"],["pan","스페인어","/pan/"]],"라틴어 com(함께)+panis(빵)예요. company(회사)도 같은 말에서 나왔어요.","friend"],
+["nt-hama","🦛","하마(河馬)는 그리스어로도 ‘강의 말’",[["河馬","일본어","かば kaba","かば"],["hippopotamus","영어","/ˌhɪpəˈpɑːtəməs/"],["hippos","그리스어",""],["Nilpferd","독일어","/ˈniːlˌpfeːɐ̯t/"]],"그리스어 hippos(말)+potamos(강)와 한자 河+馬가 같은 뜻이에요. 독일어는 ‘나일강 말’이고요.","hippo"],
+["nt-crocodile","🐊","crocodile=‘자갈 벌레’는 의심스럽다",[["crocodile","영어","/ˈkrɑːkədaɪl/"],["krokodeilos","그리스어",""],["cocodrilo","스페인어","/kokoˈdɾilo/"]],"‘자갈+벌레’ 풀이가 유명하지만 학계는 회의적이에요. 헤로도토스는 원래 도마뱀 이름이었다고 했어요.","crocodile"],
+["nt-kirin","🦒","기린은 원래 상상 속 동물이었다",[["기린","한국어",""],["麒麟","한자",""],["キリン","일본어","kirin"],["长颈鹿","중국어","chángjǐnglù"]],"麒麟은 전설의 동물이에요. 1414년 명나라 궁정도 처음 본 기린을 麒麟이라 했지만, 지금 중국어론 ‘목 긴 사슴’이에요.","giraffe"],
+["nt-kokkiri","🐘","코끼리의 뜻은 ‘코가 긴 것’",[["코끼리","한국어",""],["고키리","한국어",""],["길다","한국어",""]],"15세기엔 ‘고키리’였어요. 코와 ‘길다’를 합친 ‘코 긴 것’으로 풀이하는 게 일반적이에요.","elephant"],
+["nt-sangsang","💭","상상(想像)에는 코끼리가 산다",[["想像","일본어","そうぞう sōzō","そうぞう"],["想象","중국어","xiǎngxiàng"],["象","한자",""]],"산 코끼리(象)를 못 본 사람들이 뼈로 모습을 떠올려서 象이 ‘모습’이 됐다는 설이 『한비자』에 나와요.","elephant"],
+["nt-bear","🐻","bear의 뜻은 ‘갈색 녀석’이라는 설",[["bear","영어","/bɛr/"],["Bär","독일어","/bɛːɐ̯/"],["beer","네덜란드어","/beːr/"],["brown","영어","/braʊn/"]],"사냥꾼들이 곰의 진짜 이름을 피해 ‘갈색인 것’이라 돌려 불렀다는 설이 유력해요.","bear"],
+["nt-arctic","🧭","Arctic(북극)은 ‘곰’에서 왔다",[["Arctic","영어","/ˈɑːrktɪk/"],["arktos","그리스어",""],["ursus","라틴어",""],["oso","스페인어","/ˈoso/"]],"그리스어 arktos(곰)에서 왔어요. 북쪽 하늘의 큰곰자리를 가리킨 말이고, Antarctic은 ‘그 반대편’이에요.","bear"],
+["nt-titmouse","🐦","titmouse는 쥐가 아니라 새다",[["titmouse","영어","/ˈtɪtmaʊs/"],["mouse","영어","/maʊs/"],["māse","고대영어",""],["Meise","독일어","/ˈmaɪ̯zə/"]],"박새를 뜻하던 고대영어 māse가 16세기에 남남인 mouse를 닮게 철자가 바뀌었어요.","mouse"],
+["nt-philip","🐎","필립(Philip)의 뜻은 ‘말을 좋아함’",[["Philip","영어","/ˈfɪlɪp/"],["Philippos","그리스어",""],["hippos","그리스어",""],["Felipe","스페인어","/feˈlipe/"]],"그리스어 philos(좋아하는)+hippos(말)예요. 필리핀도 훗날 펠리페 2세가 될 스페인 왕자의 이름을 땄어요.","horse"],
+["nt-marshal","🎖️","marshal의 원래 뜻은 ‘말 하인’",[["marshal","영어","/ˈmɑːrʃəl/"],["maréchal","프랑스어","/ma.ʁe.ʃal/"],["Marschall","독일어","/ˈmaʁʃal/"],["mare","영어","/mɛr/"]],"게르만어 marh(말)+skalk(하인)예요. 마구간지기가 군 최고 계급이 됐어요. mare(암말)와 같은 뿌리예요.","horse"],
+["nt-hwangso","🐂","황소의 원래 뜻은 ‘큰 소’",[["황소","한국어",""],["한쇼","한국어",""],["황새","한국어",""],["한새","한국어",""]],"‘큰 소’라는 옛말 ‘한쇼’가 黃牛(누런 소)에 이끌려 황소가 됐다고 봐요. 황새도 원래 ‘한새’, 큰 새였어요.","cow"],
+["nt-cattle","🐄","cattle과 capital은 같은 단어였다",[["cattle","영어","/ˈkætəl/"],["capital","영어","/ˈkæpɪtəl/"],["chattel","영어","/ˈtʃætəl/"],["caput","라틴어",""]],"둘 다 caput(머리)에서 나온 라틴어 capitale(재산)이에요. 재산 중 가축만 가리키다 결국 소가 됐어요.","cow"],
+["nt-pork","🍖","pig를 먹으면 왜 pork가 될까",[["pig","영어","/pɪɡ/"],["pork","영어","/pɔːrk/"],["porc","프랑스어","/pɔʁ/"],["beef","영어","/biːf/"],["bœuf","프랑스어","/bœf/"]],"노르만 정복 뒤 들어온 프랑스어 porc(돼지), bœuf(소)가 영어에선 고기 이름으로 굳었어요.","pig"],
+["nt-dwaeji","🐷","돼지는 원래 ‘새끼 돼지’였다는 설",[["돝","한국어",""],["도야지","한국어",""],["송아지","한국어",""],["망아지","한국어",""]],"옛말 ‘돝’에 새끼를 뜻하는 ‘-아지’가 붙은 도야지가 돼지가 됐다고 봐요. 송아지, 망아지와 같은 짜임이에요.","pig"],
+["nt-mi","🐑","아름다울 美는 ‘큰 양’이라는 설",[["美","한자",""],["羊","한자",""],["大","한자",""]],"『설문해자』는 羊+大로 보고 ‘맛있다’로 풀었어요. 꾸민 사람의 모습이라는 반론도 있어요.","sheep"],
+["nt-bird","🐣","bird의 원래 뜻은 ‘새끼 새’",[["bird","영어","/bɝːd/"],["bridd","고대영어",""],["Vogel","독일어","/ˈfoːɡl̩/"],["fowl","영어","/faʊl/"]],"고대영어로 새는 fugol(지금의 fowl)이었고 bridd는 새끼 새였어요. 독일어 Vogel에 옛말이 남아 있어요.","bird"],
+["nt-tajo","🐪","타조(駝鳥)의 뜻은 ‘낙타 새’",[["타조","한국어",""],["駝鳥","일본어","だちょう dachō","だちょう"],["鸵鸟","중국어","tuóniǎo"],["strouthokamēlos","그리스어",""]],"駝는 낙타예요. 그리스인도 ‘낙타 참새’라 불렀고, 학명 Struthio camelus에 그대로 남아 있어요.","bird"],
+["nt-pisces","🐟","물고기자리 Pisces와 fish는 형제",[["fish","영어","/fɪʃ/"],["Fisch","독일어","/fɪʃ/"],["pez","스페인어","/peθ/"],["poisson","프랑스어","/pwa.sɔ̃/"]],"라틴어 piscis(물고기)와 같은 뿌리로 봐요. 게르만어에서만 p가 f로 바뀌었어요.","fish"],
+["nt-sakana","🍶","생선 sakana의 원래 뜻은 ‘술안주’",[["魚","일본어","さかな sakana","さかな"],["酒","일본어","さけ sake","さけ"],["肴","일본어","さかな sakana","さかな"]],"酒(사카)+菜(나), 술에 곁들이는 반찬이었어요. 안주로 생선을 많이 먹어서 물고기를 뜻하게 됐어요.","fish"],
+["nt-tsuyu","☔","일본·중국의 장마는 ‘매실 비’",[["梅雨","일본어","つゆ tsuyu","つゆ"],["梅雨","중국어","méiyǔ"],["梅","한자",""],["장마","한국어",""]],"매실이 익을 무렵 오는 비라는 설과, 곰팡이 비(黴雨)의 글자가 바뀌었다는 설이 있어요.","rain"],
+["nt-nirvana","🕯️","열반(nirvana)과 wind는 같은 뿌리",[["wind","영어","/wɪnd/"],["Wind","독일어","/vɪnt/"],["nirvāṇa","산스크리트어",""],["涅槃","한자",""]],"nirvāṇa는 ‘불어서 꺼짐’, 번뇌의 불이 꺼진 상태예요. va(불다)가 wind와 같은 인도유럽어 뿌리예요.","wind"],
+["nt-hurricane","🌀","hurricane은 카리브해 원주민의 말",[["hurricane","영어","/ˈhɝːəkeɪn/"],["huracán","스페인어","/uɾaˈkan/"],["ouragan","프랑스어","/u.ʁa.ɡɑ̃/"],["Orkan","독일어","/ɔʁˈkaːn/"]],"서인도 제도의 아라와크어를 1500년대 스페인 사람들이 huracán으로 받아 유럽에 퍼뜨렸어요.","wind"],
+["nt-cloud","☁️","cloud의 원래 뜻은 ‘바위 덩어리’",[["cloud","영어","/klaʊd/"],["clūd","고대영어",""],["clod","영어","/klɑːd/"],["Wolke","독일어","/ˈvɔlkə/"]],"고대영어 clūd는 바위나 언덕이었어요. 뭉게구름을 바위에 빗대다가 1300년쯤 ‘구름’이 됐어요.","cloud"],
+["nt-sky","🌤️","sky는 원래 ‘구름’이었다",[["sky","영어","/skaɪ/"],["ský","고대노르드어",""],["heaven","영어","/ˈhɛvən/"],["Himmel","독일어","/ˈhɪml̩/"]],"바이킹의 말 ský(구름)가 heaven 대신 ‘하늘’이 됐어요. 덴마크어 sky는 지금도 ‘구름’이에요.","sky"],
+["nt-human","🌱","human의 뿌리는 ‘땅의 존재’라는 설",[["human","영어","/ˈhjuːmən/"],["humus","라틴어",""],["humble","영어","/ˈhʌmbəl/"],["homme","프랑스어","/ɔm/"]],"신과 구별해 ‘땅에 사는 자’라 불렀다는 설이 유력해요. 흙 humus, ‘땅에 낮게’라는 humble과 같은 뿌리로 봐요.","earth"],
+["nt-amount","⛰️","amount의 원래 뜻은 ‘산 쪽으로’",[["amount","영어","/əˈmaʊnt/"],["mont","프랑스어","/mɔ̃/"],["monte","스페인어","/ˈmonte/"],["mountain","영어","/ˈmaʊntən/"]],"고대 프랑스어 amont(산 쪽으로, 위로)에서 ‘올라가다’, 다시 ‘합계가 ~에 이르다’가 됐어요.","mountain"],
+["nt-metdwaeji","🐗","멧돼지의 ‘멧’은 ‘산’이다",[["멧돼지","한국어",""],["뫼","한국어",""],["멧비둘기","한국어",""],["山","한자",""]],"산을 뜻하던 옛말 ‘뫼’가 붙었어요. 멧비둘기, 멧새도 ‘산에 사는’ 새라는 뜻이에요.","mountain"],
+["nt-arrive","⛵","arrive의 원래 뜻은 ‘물가에 닿다’",[["river","영어","/ˈrɪvɚ/"],["rivière","프랑스어","/ʁi.vjɛʁ/"],["arrive","영어","/əˈraɪv/"],["ripa","라틴어",""]],"라틴어 ripa(강둑, 물가)에서 river와 arrive가 나왔어요. 배가 물가에 닿는 게 ‘도착’이었죠.","river"],
+["nt-gangha","🏞️","江은 원래 양쯔강, 河는 황허였다",[["江","중국어","jiāng"],["河","중국어","hé"],["长江","중국어","Chángjiāng"],["黄河","중국어","Huánghé"]],"둘 다 원래 특정한 강의 이름이었어요. 그래서 지금도 남쪽 강은 江, 북쪽 강은 河로 부르는 경향이 있어요.","river"],
+["nt-mizuumi","🦆","일본어 ‘호수’의 뜻은 ‘물 바다’",[["湖","일본어","みずうみ mizuumi","みずうみ"],["水","일본어","みず mizu","みず"],["海","일본어","うみ umi","うみ"]],"水(미즈)+海(우미)예요. 짠 바다와 구별해 ‘맹물 바다’라고 부른 셈이에요.","lake"],
+["nt-petroleum","🛢️","석유도 petroleum도 ‘돌 기름’",[["石油","중국어","shíyóu"],["petroleum","영어","/pəˈtroʊliəm/"],["petra","라틴어",""],["oleum","라틴어",""]],"라틴어 petra(바위)+oleum(기름)이에요. 한자 石油도 같은 발상으로, 송나라 『몽계필담』에 이미 나와요.","stone"],
+["nt-island","🏝️","island의 s는 가짜다",[["island","영어","/ˈaɪlənd/"],["īegland","고대영어",""],["isle","영어","/aɪl/"],["insula","라틴어",""]],"고대영어 īegland엔 s가 없었어요. 16세기에 남남인 isle(라틴어 insula)을 닮게 s를 넣었어요.","island"],
+["nt-savage","🌲","savage의 원래 뜻은 ‘숲속의’",[["savage","영어","/ˈsævɪdʒ/"],["sauvage","프랑스어","/so.vaʒ/"],["salvaje","스페인어","/salˈbaxe/"],["silva","라틴어",""]],"라틴어 silva(숲)에서 온 silvaticus(숲의)가 ‘야생의’, 다시 ‘야만의’가 됐어요. 트란실바니아는 ‘숲 너머’예요.","forest"],
+["nt-kinoko","🍄","버섯 kinoko의 뜻은 ‘나무의 아이’",[["きのこ","일본어","kinoko"],["木","일본어","き ki","き"],["子","일본어","こ ko","こ"]],"木(키)+の(노)+子(코), 나무에서 돋아나는 아이라는 뜻이에요.","tree"],
+["nt-flour","🌾","flour와 flower는 같은 단어였다",[["flower","영어","/ˈflaʊɚ/"],["flour","영어","/ˈflaʊɚ/"],["fleur","프랑스어","/flœʁ/"],["fleur de farine","프랑스어","/flœʁ də fa.ʁin/"]],"가장 고운 가루를 ‘곡식의 꽃’이라 불렀어요. 철자가 완전히 갈린 건 1830년쯤이에요.","flower"],
+["nt-foil","🍃","쿠킹포일의 foil은 원래 ‘잎’",[["foil","영어","/fɔɪl/"],["feuille","프랑스어","/fœj/"],["folium","라틴어",""],["portfolio","영어","/pɔːrtˈfoʊlioʊ/"]],"라틴어 folium(잎)에서 왔어요. 얇은 금속을 잎에 빗댄 거죠. 종이를 나르는 portfolio도 같은 뿌리예요.","leaf"],
+["nt-green","🌿","grass, green, grow는 한 뿌리",[["grass","영어","/ɡræs/"],["green","영어","/ɡriːn/"],["grow","영어","/ɡroʊ/"],["Gras","독일어","/ɡʁaːs/"]],"인도유럽 조어 *ghre-(자라다)에서 왔어요. 자라나는 풀의 색이 곧 초록이었던 거예요.","grass"],
+["nt-kusa","😂","일본 인터넷에서 ‘풀’은 ‘ㅋㅋ’다",[["草","일본어","くさ kusa","くさ"],["笑い","일본어","わらい warai","わらい"],["ㅋㅋ","한국어",""]],"웃음 笑い(와라이)의 w를 www로 늘어놓으니 풀밭 같아서 草(쿠사)가 됐어요.","grass"],
+["nt-insect","🐜","insect의 뜻은 ‘잘린 것’",[["insect","영어","/ˈɪnsɛkt/"],["insecte","프랑스어","/ɛ̃.sɛkt/"],["insectum","라틴어",""],["entomon","그리스어",""]],"몸이 마디로 나뉘어 insectum(잘린 것)이라 했어요. 곤충학 entomology의 그리스어 entomon을 옮긴 말이에요.","insect"],
+["nt-horangi","🐯","호랑이 속엔 늑대가 숨어 있다",[["호랑이","한국어",""],["虎","한자",""],["狼","한자",""],["범","한국어",""]],"虎狼(범과 이리)에 ‘-이’가 붙은 말이에요. 원래 우리말은 ‘범’이고, ‘호랑이’ 꼴은 19세기 말부터 보여요.","tiger"],
+["nt-chameleon","🦎","카멜레온의 뜻은 ‘땅 위의 사자’",[["chameleon","영어","/kəˈmiːliən/"],["khamaileōn","그리스어",""],["leōn","그리스어",""],["lion","영어","/ˈlaɪən/"]],"그리스어 khamai(땅 위의)+leōn(사자)예요. 왜 사자인지는 확실치 않고, 머리 볏이 갈기 같아서라는 풀이가 있어요.","lion"],
+["nt-singapore","🦁","싱가포르의 뜻은 ‘사자의 도시’",[["Singapore","영어","/ˈsɪŋəpɔːr/"],["siṃha","산스크리트어",""],["pura","산스크리트어",""],["lion","영어","/ˈlaɪən/"]],"산스크리트어 siṃha(사자)+pura(도시)예요. 인도 시크교도의 성 싱(Singh)도 같은 ‘사자’예요.","lion"],
+["fd-arroz","🍚","arroz의 ar은 아랍어 ‘the’다",[["arroz","스페인어","/aˈroθ/"],["ar-ruzz","아랍어","/ar.ruzz/","الرز"],["azúcar","스페인어","/aˈθukaɾ/"],["rice","영어","/raɪs/"]],"아랍어 정관사 al이 붙은 ar-ruzz가 통째로 들어왔어요. 설탕 azúcar도 as-sukkar예요.","rice"],
+["fd-beikoku","🌾","일본어로 미국은 ‘쌀의 나라’?",[["米国","일본어","べいこく beikoku","べいこく"],["米","일본어","こめ kome","こめ"],["美国","중국어","Měiguó"]],"아메리카를 亜米利加로 적고 米만 따서 줄였어요. 한국과 중국은 美를 골라 美國이 됐어요.","rice"],
+["fd-meat","🍖","meat의 원래 뜻은 그냥 ‘음식’",[["meat","영어","/miːt/"],["mete","고대영어",""],["sweetmeat","영어","/ˈswiːtmiːt/"]],"‘고기’란 뜻은 1300년 무렵에야 생겼어요. 단 과자 sweetmeat에 옛 뜻이 남아 있어요.","meat"],
+["fd-eyren","🥚","중세 영국 남부에선 egg가 안 통했다",[["egg","영어","/ɛɡ/"],["egg","고대노르드어",""],["eyren","중세영어",""],["Ei","독일어","/aɪ̯/"]],"egg는 바이킹의 노르드어였어요. 남부에선 토박이말 eyren(달걀들)을 써서 못 알아들었다는 기록이 있어요.","egg"],
+["fd-egg-on","🗡️","egg on의 egg는 달걀이 아니다",[["egg on","영어","/ɛɡ ɑːn/"],["eggja","고대노르드어",""],["edge","영어","/ɛdʒ/"]],"노르드어 egg(칼날)에서 나온 eggja(찌르다, 부추기다)예요. 달걀과는 철자만 우연히 같아요.","egg"],
+["fd-sugar","🍯","sugar의 원래 뜻은 ‘자갈’",[["sugar","영어","/ˈʃʊɡɚ/"],["sucre","프랑스어","/sykʁ/"],["sukkar","아랍어","/ˈsuk.kar/","سكر"],["śarkarā","산스크리트어",""]],"산스크리트어 śarkarā(자갈, 알갱이)가 페르시아어와 아랍어를 거쳐 유럽에 왔어요.","sugar"],
+["fd-satang","🍬","사탕과 일본어 ‘설탕’은 같은 한자다",[["사탕","한국어",""],["砂糖","일본어","さとう satō","さとう"],["砂糖","중국어","shātáng"]],"砂糖은 ‘모래 당’이에요. 한국어 사탕도 설탕을 뜻했고, 사탕수수에 그 흔적이 남았어요.","sugar"],
+["fd-norange","🍊","orange 앞에는 원래 n이 있었다",[["nāraṅga","산스크리트어",""],["naranja","스페인어","/naˈɾanxa/"],["orange","프랑스어","/ɔ.ʁɑ̃ʒ/"],["orange","영어","/ˈɔːrɪndʒ/"]],"‘une narange’처럼 관사와 헷갈려 n이 떨어졌다는 설이 유력해요. 스페인어 naranja엔 n이 남았어요.","orange"],
+["fd-apfelsine","🚢","독일어로 오렌지는 ‘중국 사과’",[["Apfelsine","독일어","/apfl̩ˈziːnə/"],["sinaasappel","네덜란드어","/ˈsinaːsˌɑpəl/"],["apelsin","러시아어","/ɐpʲɪlʲˈsʲin/","апельсин"],["portakal","튀르키예어","/poɾtaˈkal/"]],"네덜란드어 ‘중국 사과’가 독일과 러시아로 퍼졌어요. 튀르키예어 portakal은 ‘포르투갈’에서 왔어요.","orange"],
+["fd-basho","🍌","시인 바쇼의 이름은 ‘바나나 나무’",[["芭蕉","일본어","ばしょう bashō","ばしょう"],["파초","한국어",""],["バナナ","일본어","banana"]],"제자가 그의 오두막에 파초(일본 바나나 나무)를 심어 주자 그 이름을 호로 삼았어요.","banana"],
+["fd-gamja","🥔","감자도 potato도 원래 고구마였다",[["감자","한국어",""],["甘藷","한자",""],["batata","스페인어","/baˈtata/"],["potato","영어","/pəˈteɪtoʊ/"]],"감저(甘藷)는 처음엔 고구마를 가리켰어요. potato도 카리브해 말 batata(고구마)에서 왔어요.","potato"],
+["fd-kartoffel","🍄","Kartoffel의 뜻은 ‘송로버섯’",[["Kartoffel","독일어","/kaʁˈtɔfl̩/"],["tartufo","이탈리아어","/tarˈtuːfo/"],["truffle","영어","/ˈtrʌfəl/"]],"땅속에서 캐는 감자를 이탈리아에서 tartufolo(작은 송로버섯)라 부른 게 독일어로 넘어갔어요.","potato"],
+["fd-tomatl","🍅","토마토와 아보카도는 아즈텍 말이다",[["tomato","영어","/təˈmeɪtoʊ/"],["tomate","스페인어","/toˈmate/"],["tomatl","나와틀어",""],["aguacate","스페인어","/aɡwaˈkate/"]],"나와틀어 tomatl, ahuacatl이 스페인어를 거쳐 퍼졌어요. 칠리, 초콜릿도 나와틀어예요.","tomato"],
+["fd-fanqie","🍆","중국어로 토마토는 ‘외국 가지’",[["番茄","중국어","fānqié"],["茄子","중국어","qiézi"],["西红柿","중국어","xīhóngshì"]],"番은 외국에서 들어온 것, 茄는 가지예요. ‘서쪽에서 온 붉은 감’ 西红柿라고도 해요.","tomato"],
+["fd-cocoa","🥥","cocoa와 coconut은 남남이다",[["cocoa","영어","/ˈkoʊkoʊ/"],["cacao","스페인어","/kaˈkao/"],["coco","포르투갈어","/ˈkoku/"],["coconut","영어","/ˈkoʊkənʌt/"]],"cocoa는 나와틀어에서 온 cacao가 coco에 끌려 바뀐 말이에요. coco는 껍질 구멍이 닮은 ‘찡그린 얼굴’이고요.","chocolate"],
+["fd-garlic","🧄","garlic의 뜻은 ‘창 모양 파’",[["garlic","영어","/ˈɡɑːrlɪk/"],["gār","고대영어",""],["leek","영어","/liːk/"],["Knoblauch","독일어","/ˈknoːplaʊ̯x/"]],"고대영어 gār(창)와 lēac(파)를 합쳤어요. 마늘쪽을 창끝에 빗댔죠. 독일어 Knoblauch의 Lauch도 ‘파’예요.","garlic"],
+["fd-onion","🧅","onion과 union은 같은 단어다",[["onion","영어","/ˈʌnjən/"],["oignon","프랑스어","/ɔ.ɲɔ̃/"],["unio","라틴어",""],["union","영어","/ˈjuːnjən/"]],"라틴어 unio(하나 됨)에서 왔어요. 쪽으로 갈라지는 마늘과 달리 겹겹이 한 덩이라서라고 봐요.","onion"],
+["fd-yangpa","🧦","양파의 뜻은 ‘서양 파’",[["양파","한국어",""],["洋葱","중국어","yángcōng"],["양말","한국어",""],["양초","한국어",""]],"洋은 바다 건너 서양에서 온 것에 붙여요. 양말(洋襪)은 서양 버선, 양초는 서양 초예요.","onion"],
+["fd-huchu","🌰","후추와 호두의 ‘후·호’는 같은 글자",[["후추","한국어",""],["胡椒","중국어","hújiāo"],["胡椒","일본어","こしょう koshō","こしょう"],["호두","한국어",""]],"胡는 중국 서북쪽 이민족을 가리켜요. 후추는 호초(胡椒), 호두는 호도(胡桃)에서 왔어요.","pepper"],
+["fd-vinegar","🍷","vinegar의 뜻은 ‘시어진 와인’",[["vinegar","영어","/ˈvɪnɪɡɚ/"],["vinaigre","프랑스어","/vi.nɛɡʁ/"],["vin","프랑스어","/vɛ̃/"],["aigre","프랑스어","/ɛɡʁ/"]],"프랑스어 vin(와인)에 aigre(시큼한)를 붙인 말이에요. 와인이 시어지면 식초가 되거든요.","wine"],
+["fd-biru","🍺","일본어 ビール는 네덜란드어다",[["ビール","일본어","bīru"],["bier","네덜란드어","/bir/"],["啤酒","중국어","píjiǔ"],["맥주","한국어",""]],"에도 시대 네덜란드 상인의 bier예요. 중국어 啤酒는 소리를 딴 啤에 술 酒를 붙였어요.","beer"],
+["fd-cheese","🧀","fromage는 왜 cheese와 다를까?",[["cheese","영어","/tʃiːz/"],["Käse","독일어","/ˈkɛːzə/"],["queso","스페인어","/ˈkeso/"],["fromage","프랑스어","/fʁɔ.maʒ/"]],"앞의 셋은 라틴어 caseus(치즈)에서, fromage는 치즈를 눌러 담던 ‘틀’ forma에서 왔어요.","cheese"],
+["fd-butter","🧈","butter의 뜻은 ‘소 치즈’?",[["butter","영어","/ˈbʌtɚ/"],["Butter","독일어","/ˈbʊtɐ/"],["beurre","프랑스어","/bœʁ/"],["boutyron","그리스어",""]],"그리스어 bous(소)+tyros(치즈)로 풀지만, 스키타이 말을 그리스식으로 해석한 것이란 설도 있어요.","butter"],
+["fd-supper","🥣","soup의 원래 뜻은 ‘국물 적신 빵’",[["soup","영어","/suːp/"],["soupe","프랑스어","/sup/"],["sopa","스페인어","/ˈsopa/"],["supper","영어","/ˈsʌpɚ/"]],"후기 라틴어 suppa는 국물에 적신 빵이었어요. 저녁밥 supper도 이 말에서 나왔다는 설이 유력해요.","soup"],
+["fd-cookie","🍪","cookie의 뜻은 ‘작은 케이크’",[["cake","영어","/keɪk/"],["Kuchen","독일어","/ˈkuːxn̩/"],["koekje","네덜란드어","/ˈkukjə/"],["cookie","영어","/ˈkʊki/"]],"네덜란드어 koek(케이크)에 ‘작은’을 붙인 koekje가 미국 영어에 들어왔어요. 모두 한 뿌리예요.","cake"],
+["fd-dambae","🚬","담배는 포르투갈어가 일본을 거친 말",[["담배","한국어",""],["タバコ","일본어","tabako"],["tabaco","포르투갈어","/tɐˈbaku/"],["tobacco","영어","/təˈbækoʊ/"]],"1600년대 초 일본을 거쳐 들어와 ‘담바고’라 불리다가 담배로 줄었어요.","tobacco"],
+["fd-kopf","🥤","Kopf(머리)는 원래 ‘잔’이었다",[["cup","영어","/kʌp/"],["Kopf","독일어","/kɔpf/"],["coppa","이탈리아어","/ˈkɔppa/"],["tête","프랑스어","/tɛt/"]],"옛 독일어 kopf는 ‘잔’이었고, cup처럼 라틴어 cuppa에서 왔다는 설이 유력해요. tête도 질그릇 testa에서 왔어요.","cup"],
+["fd-koppu","🥃","‘고뿌’와 ‘컵’은 사촌 사이다",[["고뿌","한국어",""],["コップ","일본어","koppu"],["kop","네덜란드어","/kɔp/"],["カップ","일본어","kappu"]],"고뿌는 네덜란드어 kop이나 포르투갈어 copo가 일본을 거친 말, 컵은 영어 cup이에요. 뿌리는 같아요.","cup"],
+["fd-messer","🔪","Messer(칼) 속에는 meat가 있다",[["Messer","독일어","/ˈmɛsɐ/"],["mezzisahs","고대독일어",""],["meat","영어","/miːt/"]],"옛 독일어 mezzisahs는 ‘음식’과 ‘칼’을 합친 말이에요. 앞부분이 meat와 같은 뿌리예요.","knife"],
+["fd-hocho","🍳","일본 식칼 hōchō의 뜻은 ‘요리사’",[["包丁","일본어","ほうちょう hōchō","ほうちょう"],["庖丁","한자",""],["菜刀","중국어","càidāo"]],"庖丁은 원래 요리사란 뜻이었어요. 요리사의 칼 ‘庖丁刀’를 줄여 부르면서 칼 이름이 됐어요.","knife"],
+["fd-cuchara","🐌","스페인어 숟가락은 ‘달팽이’에서 왔다",[["cuchara","스페인어","/kuˈtʃaɾa/"],["cuillère","프랑스어","/kɥi.jɛʁ/"],["cochlea","라틴어",""]],"라틴어 cochlear는 달팽이 살을 빼 먹던 숟가락이었다고 해요. 귓속 달팽이관도 cochlea예요.","spoon"],
+["fd-sutgarak","🥄","숟가락은 왜 ㄷ, 젓가락은 왜 ㅅ?",[["숟가락","한국어",""],["술","한국어",""],["젓가락","한국어",""],["箸","한자",""]],"숟가락은 ‘밥 한 술’의 술+가락이라 ㄹ이 ㄷ으로 바뀌었고, 젓가락은 저(箸)+ㅅ+가락이에요.","spoon"],
+["fd-plata","🥈","스페인어로 은은 ‘납작한 판’",[["plate","영어","/pleɪt/"],["plato","스페인어","/ˈplato/"],["plata","스페인어","/ˈplata/"],["platys","그리스어",""]],"‘얇은 금속판’이 스페인어에선 은이 됐어요. 뿌리는 그리스어 platys(넓적한)라는 설이 유력하고, 접시 plato도 친척이에요.","plate"],
+["fd-tisch","💿","Tisch(탁자)와 dish는 같은 말",[["Tisch","독일어","/tɪʃ/"],["dish","영어","/dɪʃ/"],["desk","영어","/dɛsk/"],["discus","라틴어",""]],"모두 라틴어 discus(원반, 쟁반)에서 왔어요. 쟁반을 뜻하던 말이 독일어에선 탁자가 됐어요.","table"],
+["fd-cathedral","⛪","cathedral의 뜻은 ‘의자 있는 교회’",[["chair","영어","/tʃɛr/"],["chaise","프랑스어","/ʃɛz/"],["cathedral","영어","/kəˈθiːdrəl/"],["kathedra","그리스어",""]],"그리스어 kathedra(의자)에서 왔어요. 주교의 의자가 놓인 교회라서 대성당이에요.","chair"],
+["fd-mattress","🛏️","매트리스는 아랍어다",[["mattress","영어","/ˈmætrəs/"],["materasso","이탈리아어","/mateˈrasso/"],["maṭraḥ","아랍어","/ˈmatˤraħ/","مطرح"]],"아랍어 maṭraḥ(바닥에 던져 놓은 깔개)가 시칠리아를 거쳐 유럽에 들어왔어요.","bed"],
+["fd-window","🪟","window의 뜻은 ‘바람의 눈’",[["window","영어","/ˈwɪndoʊ/"],["vindauga","고대노르드어",""],["ventana","스페인어","/benˈtana/"]],"노르드어 vindr(바람)+auga(눈)예요. 스페인어 ventana도 ‘바람’ ventus에서 왔어요.","window"],
+["fd-conclave","🔑","콘클라베의 뜻은 ‘열쇠로 잠근 방’",[["conclave","영어","/ˈkɑːnkleɪv/"],["clavis","라틴어",""],["clé","프랑스어","/kle/"],["llave","스페인어","/ˈʝabe/"]],"라틴어 con(함께)+clavis(열쇠)예요. 추기경들을 방에 가두고 교황을 뽑을 때까지 못 나오게 했어요.","key"],
+["fd-shirt","👕","shirt와 skirt는 원래 같은 단어",[["shirt","영어","/ʃɝːt/"],["skirt","영어","/skɝːt/"],["skyrta","고대노르드어",""],["short","영어","/ʃɔːrt/"]],"영어에선 sh-, 노르드어에선 sk-로 갈라졌어요. ‘짧게 자른 옷’이라 short와 친척이라는 설이 있어요.","clothes"],
+["fd-waishatsu","👔","와이셔츠의 ‘와이’는 Y가 아니다",[["와이셔츠","한국어",""],["ワイシャツ","일본어","waishatsu"],["white shirt","영어","/waɪt ʃɝːt/"]],"일본에서 white shirt를 ワイシャツ로 받은 말이에요. Y자 모양이라서라는 설명은 민간어원이에요.","clothes"],
+["fd-hojumeoni","👖","호주머니의 ‘호’는 오랑캐 胡",[["호주머니","한국어",""],["胡","한자",""],["주머니","한국어",""]],"한복엔 원래 옷에 붙은 주머니가 없었어요. 북방 민족 옷을 본떠 덧단 주머니라 胡를 붙였다고 해요.","clothes"],
+["fd-soap","🧼","soap의 첫 기록은 ‘머리 염색약’",[["soap","영어","/soʊp/"],["Seife","독일어","/ˈzaɪ̯fə/"],["sapo","라틴어",""],["savon","프랑스어","/sa.vɔ̃/"]],"플리니우스가 처음 기록한 sapo는 게르만 남자들이 머리를 붉게 물들이던 것이었어요. 단어도 게르만어예요.","soap"],
+["fd-candy","🍭","candy와 candle은 남남이다",[["candle","영어","/ˈkændəl/"],["candela","라틴어",""],["candy","영어","/ˈkændi/"],["qand","페르시아어",""]],"candle은 라틴어 candela(등불), candy는 페르시아어 qand(사탕수수 설탕)에서 왔어요.","candle"],
+["tm-journey","🧳","journey의 원래 뜻은 ‘하루치 길’",[["journey","영어","/ˈdʒɝːni/"],["journée","프랑스어","/ʒuʁ.ne/"],["jour","프랑스어","/ʒuʁ/"],["diurnum","라틴어",""]],"옛 프랑스어 journée는 ‘하루치 일이나 여정’이었어요. 일기 journal도 jour(날)와 같은 뿌리예요.","day"],
+["tm-dia","👥","day와 스페인어 día는 남남이다",[["day","영어","/deɪ/"],["Tag","독일어","/taːk/"],["día","스페인어","/ˈdia/"],["dies","라틴어",""]],"day는 독일어 Tag와 형제고, día는 라틴어 dies에서 왔어요. 닮은 건 우연이에요.","day"],
+["tm-nedelya","🛌","러시아어 ‘주’는 원래 ‘일요일’이었다",[["nedelya","러시아어","/nʲɪˈdʲelʲə/","неделя"],["voskresenye","러시아어","/vəskrʲɪˈsʲenʲje/","воскресенье"]],"‘일 안 하는 날’이란 뜻으로 일요일을 가리키다 ‘주’가 됐어요. 일요일은 ‘부활’로 이름이 바뀌었고요.","week"],
+["tm-youil","🔭","월화수목금토일은 유럽 요일과 같은 뿌리",[["水曜日","일본어","すいようび suiyōbi","すいようび"],["mercredi","프랑스어","/mɛʁ.kʁə.di/"],["miércoles","스페인어","/ˈmjeɾkoles/"]],"해, 달, 맨눈에 보이는 다섯 행성을 같은 순서로 붙였어요. 수요일도 mercredi도 수성(메르쿠리우스)의 날이에요.","week"],
+["tm-hour-year","⌛","hour와 year는 같은 뿌리다",[["year","영어","/jɪr/"],["Jahr","독일어","/jaːɐ̯/"],["hōra","그리스어",""],["hour","영어","/ˈaʊɚ/"]],"그리스어 hōra는 ‘계절’이자 ‘시간’이었어요. year와 같은 ‘해·계절’ 뿌리에서 갈라졌어요.","hour"],
+["tm-nyeon","🌾","年의 옛 모양은 ‘곡식 진 사람’",[["年","중국어","nián"],["年","일본어","ねん nen","ねん"],["년","한국어",""],["禾","한자",""]],"사람(人)이 곡식(禾)을 등에 진 모양으로 ‘수확’을 뜻했어요. 해마다 한 번 거두니 ‘해’가 됐어요.","year"],
+["tm-aujourdhui","🔁","프랑스어 ‘오늘’ 속엔 ‘날’이 두 번",[["aujourd'hui","프랑스어","/o.ʒuʁ.dɥi/"],["jour","프랑스어","/ʒuʁ/"],["hodie","라틴어",""],["hoy","스페인어","/oi̯/"]],"hui가 이미 라틴어 hodie(이 날)라서 ‘이 날의 날에’가 됐어요. 스페인어 hoy도 hodie예요.","today"],
+["tm-manana","🌄","mañana는 ‘아침’이자 ‘내일’",[["mañana","스페인어","/maˈɲana/"],["Morgen","독일어","/ˈmɔʁɡn̩/"],["tomorrow","영어","/təˈmɑːroʊ/"]],"‘내일 아침’이 줄어 ‘내일’이 됐어요. 독일어 morgen도 아침·내일이고, tomorrow의 morrow도 원래 아침이에요.","morning"],
+["tm-eve","🎄","Christmas Eve의 eve는 ‘저녁’",[["eve","영어","/iːv/"],["evening","영어","/ˈiːvnɪŋ/"],["Heiligabend","독일어","/ˈhaɪ̯lɪçˌʔaːbn̩t/"],["Abend","독일어","/ˈaːbn̩t/"]],"eve는 evening과 한 뿌리로, 원래 ‘저녁’이에요. 독일어도 성탄 전야를 ‘거룩한 저녁’이라 해요.","evening"],
+["tm-noon","🕒","noon은 원래 오후 3시였다",[["noon","영어","/nuːn/"],["nona hora","라틴어",""],["nine","영어","/naɪn/"]],"라틴어 nona hora(아홉째 시)로, 해 뜨고 9시간째인 오후 3시였어요. 12~14세기에 정오로 옮겨졌어요.","hour"],
+["tm-minute","🍽️","minute과 menu는 같은 뿌리",[["minute","영어","/ˈmɪnɪt/"],["menu","영어","/ˈmenjuː/"],["minutus","라틴어",""]],"라틴어 minutus(작게 만든)예요. 한 시간을 잘게 쪼갠 조각이 ‘분’, 자잘하게 적은 목록이 ‘메뉴’예요.","minute"],
+["tm-second","✂️","second(초)는 ‘두 번째 조각’",[["second","영어","/ˈsekənd/"],["Sekunde","독일어","/zeˈkʊndə/"],["secunda","라틴어",""]],"한 시간을 60으로 쪼갠 첫 조각이 minute, 그걸 다시 60으로 쪼갠 두 번째 조각이 second예요.","second"],
+["tm-myo","⏱️","초(秒)의 원래 뜻은 ‘벼의 까끄라기’",[["秒","중국어","miǎo"],["秒","일본어","びょう byō","びょう"],["禾","한자",""]],"설문해자에 ‘벼 까끄라기’로 나와요. 아주 작은 것을 뜻하다가 분을 다시 쪼갠 ‘초’가 됐어요.","second"],
+["tm-calendar","📒","calendar는 원래 ‘빚 장부’였다",[["calendar","영어","/ˈkæləndɚ/"],["Kalender","독일어","/kaˈlɛndɐ/"],["kalendae","라틴어",""],["calendarium","라틴어",""]],"로마는 매달 첫날(kalendae)에 빚을 갚았어요. 그걸 적던 장부 calendarium이 달력이 됐어요.","calendar"],
+["tm-mardi","🛡️","화요일과 3월 March는 같은 신",[["mardi","프랑스어","/maʁ.di/"],["martes","스페인어","/ˈmaɾtes/"],["March","영어","/mɑːrtʃ/"],["火曜日","일본어","かようび kayōbi","かようび"]],"로마 군신 마르스, 곧 화성(Mars)이에요. 마르스의 날이 화요일, 로마 달력 첫 달이 마르스의 달 March예요.","tuesday"],
+["tm-tuesday","🌩️","Tuesday와 제우스는 같은 뿌리",[["Tuesday","영어","/ˈtuːzdeɪ/"],["Tīw","고대영어",""],["Zeus","그리스어",""],["deus","라틴어",""]],"게르만 신 티우(Tīw)의 날이에요. 티우, 제우스, 라틴어 deus(신)는 모두 ‘빛나는 하늘’ 뿌리에서 왔어요.","tuesday"],
+["tm-wednesday","🧙","Wednesday의 묵음 d는 오딘의 흔적",[["Wednesday","영어","/ˈwenzdeɪ/"],["Wōdnesdæg","고대영어",""],["Óðinn","고대노르드어",""]],"고대영어 Wōdnesdæg(워든의 날)에서 왔어요. 워든은 북유럽 신화의 오딘이에요.","wednesday"],
+["tm-thursday","⚡","Thursday는 ‘천둥의 날’",[["Thursday","영어","/ˈθɝːzdeɪ/"],["thunder","영어","/ˈθʌndɚ/"],["Donnerstag","독일어","/ˈdɔnɐsˌtaːk/"],["jeudi","프랑스어","/ʒø.di/"]],"천둥신 토르의 이름이 곧 ‘천둥’이에요. 로마 하늘신 유피테르의 날(jeudi)을 토르로 바꿔 불렀어요.","thursday"],
+["tm-friday","💞","Friday는 여신 프리그의 날",[["Friday","영어","/ˈfraɪdeɪ/"],["Freitag","독일어","/ˈfʁaɪ̯ˌtaːk/"],["vendredi","프랑스어","/vɑ̃.dʁə.di/"],["viernes","스페인어","/ˈbjeɾnes/"]],"로마의 ‘비너스(금성)의 날’을 게르만 여신 프리그로 바꿨어요. vendredi와 viernes는 비너스 그대로예요.","friday"],
+["tm-pyatnitsa","5️⃣","금요일이 러시아는 5, 포르투갈은 6",[["pyatnitsa","러시아어","/ˈpʲætʲnʲɪtsə/","пятница"],["pyat","러시아어","/pʲætʲ/","пять"],["sexta-feira","포르투갈어","/ˌsɐjʃtɐ ˈfɐjɾɐ/"]],"러시아는 월요일부터, 포르투갈은 일요일부터 세서 같은 금요일이 ‘다섯째’, ‘여섯째’가 됐어요.","friday"],
+["tm-saturday","🪐","영어 요일 중 로마 신은 토요일뿐",[["Saturday","영어","/ˈsætɚdeɪ/"],["Saturn","영어","/ˈsætɚn/"],["土曜日","일본어","どようび doyōbi","どようび"]],"화~금요일은 게르만 신으로 바꿨는데 토성(사투르누스)만 그대로예요. 짝이 될 게르만 신이 없어서라는 설이 있어요.","saturday"],
+["tm-domingo","⛪","일요일 domingo의 뜻은 ‘주님의 날’",[["domingo","스페인어","/doˈmiŋɡo/"],["dimanche","프랑스어","/di.mɑ̃ʃ/"],["domenica","이탈리아어","/doˈmeːnika/"],["dominate","영어","/ˈdɑːmɪneɪt/"]],"라틴어 dies Dominica(주님의 날)에서 왔어요. dominus(주인)는 영어 dominate의 뿌리이기도 해요.","sunday"],
+["tm-september","7️⃣","9월 September의 sept는 7이다",[["September","영어","/sepˈtembɚ/"],["sept","프랑스어","/sɛt/"],["October","영어","/ɑːkˈtoʊbɚ/"],["December","영어","/dɪˈsembɚ/"]],"3월에 시작하던 로마 달력의 7번째 달이었어요. 새해가 1월로 당겨지며 October(8)도 두 칸 밀렸어요.","september"],
+["tm-january","🎭","January와 janitor는 같은 ‘문’",[["January","영어","/ˈdʒænjueri/"],["janitor","영어","/ˈdʒænɪtɚ/"],["Janus","라틴어",""],["ianua","라틴어",""]],"문과 시작을 맡은 두 얼굴의 신 야누스의 달이에요. 문지기에서 온 janitor(관리인)도 같은 뿌리예요.","january"],
+["tm-august","🙅","8월이 31일인 건 황제 욕심 탓?",[["August","영어","/ˈɑːɡəst/"],["agosto","스페인어","/aˈɡosto/"],["Augustus","라틴어",""]],"아우구스투스가 2월에서 하루를 빼앗았다는 건 중세에 생긴 이야기예요. 8월은 카이사르 때 이미 31일이었어요.","august"],
+["tm-lent","🌱","옛 영어에서 봄은 ‘Lent’였다",[["Lent","영어","/lent/"],["lencten","고대영어",""],["Lenz","독일어","/lɛnts/"],["long","영어","/lɔːŋ/"]],"‘낮이 길어지는 때’라는 뜻으로 보는 설이 유력해요. 지금은 봄에 있는 사순절(Lent) 이름으로 남았어요.","spring"],
+["tm-verano","🏝️","스페인어 ‘여름’은 원래 ‘봄’이었다",[["verano","스페인어","/beˈɾano/"],["primavera","스페인어","/pɾimaˈbeɾa/"],["ver","라틴어",""]],"라틴어 ver(봄)에서 온 verano는 옛 스페인어에선 봄을 가리켰어요. 지금 봄은 ‘첫 봄’이란 뜻의 primavera예요.","summer"],
+["tm-harvest","🚜","harvest의 원래 뜻은 ‘가을’",[["harvest","영어","/ˈhɑːrvɪst/"],["Herbst","독일어","/hɛʁpst/"],["autumn","영어","/ˈɑːtəm/"]],"고대영어 hærfest는 계절 이름이었어요. 독일어 Herbst는 지금도 ‘가을’이고, 영어는 autumn에 자리를 내줬어요.","autumn"],
+["tm-himalaya","🐻","히말라야와 hibernate는 같은 ‘겨울’",[["hima","산스크리트어",""],["hibernate","영어","/ˈhaɪbɚneɪt/"],["invierno","스페인어","/imˈbjeɾno/"],["zima","러시아어","/zʲɪˈma/","зима"]],"산스크리트어 hima(눈)와 라틴어 hiems(겨울)는 한 뿌리예요. 히말라야는 ‘눈의 집’, hibernate는 ‘겨울나기’예요.","winter"],
+["tm-cipher","🔐","zero와 암호 cipher는 같은 말",[["zero","영어","/ˈzɪroʊ/"],["cipher","영어","/ˈsaɪfɚ/"],["sifr","아랍어","/sˤifr/","صفر"]],"아랍어 ṣifr(비어 있음)에서 둘 다 왔어요. 옛 암호는 글자를 숫자로 바꿔 써서 ‘숫자’가 ‘암호’가 됐어요.","zero"],
+["tm-alone","☝️","alone은 ‘all one’이 붙은 말",[["alone","영어","/əˈloʊn/"],["one","영어","/wʌn/"],["only","영어","/ˈoʊnli/"]],"고대영어 all ana(온전히 혼자)가 줄었어요. only도 ‘하나 같은(one-like)’이라는 말에서 왔어요.","one"],
+["tm-doubt","🤔","doubt(의심)에는 숫자 2가 숨어 있다",[["doubt","영어","/daʊt/"],["duo","라틴어",""],["Zweifel","독일어","/ˈtsvaɪ̯fl̩/"],["zwei","독일어","/tsvaɪ̯/"]],"‘둘 중에 골라야 하는’ 상태가 의심이에요. 독일어 Zweifel(의심)도 zwei(2)에서 왔어요.","two"],
+["tm-eleven","🙌","eleven의 뜻은 ‘하나 남음’",[["eleven","영어","/ɪˈlevən/"],["twelve","영어","/twelv/"],["elf","독일어","/ɛlf/"],["zwölf","독일어","/tsvœlf/"]],"열까지 세고 ‘하나 남았다’, ‘둘 남았다’는 뜻이에요. 13부터는 ‘셋+열(teen)’처럼 세요.","ten"],
+["tm-hundred","💯","hundred와 cent는 원래 같은 말",[["hundred","영어","/ˈhʌndrəd/"],["hundert","독일어","/ˈhʊndɐt/"],["cent","프랑스어","/sɑ̃/"],["centum","라틴어",""]],"같은 조상말의 k 소리가 게르만어에서만 h로 바뀌었어요. 라틴어 centum에선 퍼센트와 센트가 나왔고요.","hundred"],
+["tm-on","📜","100의 옛 고유어는 ‘온’",[["온","한국어",""],["즈믄","한국어",""],["百","한자",""],["千","한자",""]],"옛 우리말에서 백은 ‘온’, 천은 ‘즈믄’이었어요. 한자어 백, 천에 밀려 지금은 거의 안 써요.","hundred"],
+["tm-mile","🏃","mile은 원래 그냥 ‘천’이었다",[["mile","영어","/maɪl/"],["mille","라틴어",""],["mille","프랑스어","/mil/"],["mil","스페인어","/mil/"]],"로마의 1마일은 두 걸음을 한 보로 쳐서 천 보였어요. 라틴어 ‘천’ mille가 그대로 단위 이름이 됐어요.","thousand"],
+["tm-million","💰","million의 뜻은 ‘큰 천’",[["million","영어","/ˈmɪljən/"],["mille","이탈리아어","/ˈmille/"],["milione","이탈리아어","/miˈljoːne/"]],"이탈리아어 mille(천)에 ‘큰’을 뜻하는 꼬리 -one를 붙였어요. 천의 천 배인 큰 수예요.","million"],
+["tm-krasnaya","🟥","붉은 광장은 ‘아름다운 광장’",[["Krasnaya ploshchad","러시아어","/ˈkrasnəjə ˈploɕːɪtʲ/","Красная площадь"],["krasnyy","러시아어","/ˈkrasnɨj/","красный"],["krasivyy","러시아어","/krɐˈsʲivɨj/","красивый"]],"옛 러시아어 krasnyy는 ‘아름다운’이란 뜻이었어요. 지금 ‘예쁜’은 krasivyy고요. 공산주의보다 훨씬 오래된 이름이에요.","red"],
+["tm-crimson","🐛","crimson의 뿌리는 ‘벌레’",[["crimson","영어","/ˈkrɪmzən/"],["qirmiz","아랍어","/ˈqirmiz/","قرمز"],["kṛmija","산스크리트어",""]],"붉은 염료를 깍지벌레에서 얻었거든요. ‘벌레’를 뜻하는 인도·이란 계통의 말이 아랍어를 거쳐 유럽에 왔어요.","red"],
+["tm-candidate","🗳️","candidate는 ‘흰 옷 입은 사람’",[["candidate","영어","/ˈkændɪdeɪt/"],["candidus","라틴어",""],["candle","영어","/ˈkændəl/"]],"로마의 공직 후보는 눈부신 흰 토가를 입었어요. candidus(빛나는 흰)에서 왔고, candle(초)도 친척이에요.","white"],
+["tm-melancholy","🖤","멜랑콜리의 뜻은 ‘검은 쓸개즙’",[["melancholy","영어","/ˈmelənkɑːli/"],["melas","그리스어",""],["melanin","영어","/ˈmelənɪn/"]],"검은 쓸개즙이 넘치면 우울해진다고 믿었어요. 피부색을 내는 멜라닌도 melas(검은)에서 왔어요.","black"],
+["tm-azul","💎","파랑 azul은 원래 보석 이름",[["azul","스페인어","/aˈθul/"],["azure","영어","/ˈæʒɚ/"],["lājward","페르시아어",""],["lapis lazuli","영어","/ˌlæpɪs ˈlæzəli/"]],"푸른 보석 청금석의 페르시아어 이름이 아랍어를 거쳐 azul이 됐어요. 그 이름은 산지 지명이란 설이 있어요.","blue"],
+["tm-paranbul","🚦","초록불을 ‘파란불’이라 하는 이유",[["파란불","한국어",""],["푸르다","한국어",""],["青信号","일본어","あおしんごう aoshingō","あおしんごう"]],"‘푸르다’는 하늘에도 풀에도 써요. 일본어 青(あお)도 예전엔 초록까지 아울러서 초록 신호가 ‘青信号’예요.","green"],
+["tm-yolk","🍳","노른자도 yolk도 ‘노란 것’",[["yolk","영어","/joʊk/"],["yellow","영어","/ˈjeloʊ/"],["geolu","고대영어",""],["노른자","한국어",""]],"고대영어 geolca(노른자)는 geolu(노랑)에서 왔어요. 한국어 노른자도 ‘노르다’에서 나왔어요.","yellow"],
+["ct-bus","🚌","bus의 원래 뜻은 ‘모두를 위해’",[["omnibus","라틴어",""],["omnibus","영어","/ˈɑːmnɪbəs/"],["bus","영어","/bʌs/"],["Bus","독일어","/bʊs/"]],"1820년대 프랑스 합승마차 voiture omnibus(모두를 위한 마차)를 줄인 말이에요.","bus"],
+["ct-robot","🤖","robot의 원래 뜻은 ‘강제 노동’",[["robota","체코어",""],["robot","영어","/ˈroʊbɑːt/"],["Roboter","독일어","/ˈrɔbɔtɐ/"]],"체코어 robota(부역)에서 왔어요. 1920년 차페크의 희곡으로 퍼졌고, 형 요제프가 지어 준 말이에요.","robot"],
+["ct-arbeit","💼","알바와 로봇은 먼 친척이다",[["Arbeit","독일어","/ˈaʁbaɪ̯t/"],["アルバイト","일본어","arubaito"],["rabota","러시아어","/rɐˈbotə/","работа"],["robot","영어","/ˈroʊbɑːt/"]],"독일어 Arbeit(일)가 일본을 거쳐 알바가 됐어요. 슬라브어 rabota(일)와 같은 인도유럽 뿌리예요.","work"],
+["ct-money","💰","money는 여신 이름에서 왔다",[["Moneta","라틴어",""],["money","영어","/ˈmʌni/"],["monnaie","프랑스어","/mɔ.nɛ/"],["mint","영어","/mɪnt/"]],"로마는 유노 모네타 여신의 신전 근처에서 돈을 찍었어요. 조폐국 mint도 같은 말에서 갈라졌어요.","money"],
+["ct-fee","🐄","fee(요금)의 뿌리는 ‘가축’",[["fee","영어","/fiː/"],["Vieh","독일어","/fiː/"],["pecu","라틴어",""],["pecunia","라틴어",""]],"가축이 곧 재산이었거든요. 라틴어 pecu(가축)에서 pecunia(돈)가 나왔고, 게르만어에선 p가 f가 됐어요.","money"],
+["ct-won","⭕","원·엔·위안은 같은 글자다",[["원","한국어",""],["円","일본어","えん en","えん"],["圆","중국어","yuán"],["圓","한자",""]],"모두 ‘둥글다’는 뜻의 圓을 나라마다 다르게 읽은 거예요. 둥근 은화를 세던 단위였어요.","money"],
+["ct-bank","🏦","bank의 원래 뜻은 ‘탁자’",[["bank","영어","/bæŋk/"],["banca","이탈리아어","/ˈbaŋka/"],["Bank","독일어","/baŋk/"],["bench","영어","/bentʃ/"]],"환전상이 돈을 늘어놓던 이탈리아의 탁자 banca에서 왔어요. bench와 같은 뿌리라 독일어 Bank는 ‘벤치’도 돼요.","bank"],
+["ct-eunhaeng","💱","은행(銀行)의 行은 ‘가다’가 아니다",[["银行","중국어","yínháng"],["銀行","일본어","ぎんこう ginkō","ぎんこう"],["은행","한국어",""]],"여기서 行은 중국어로 ‘가게, 업종’이라는 뜻이에요(háng). 은(돈)을 다루는 가게라는 말이에요.","bank"],
+["ct-hotel","🏨","hotel과 hospital은 원래 같은 말",[["hospes","라틴어",""],["hotel","영어","/hoʊˈtel/"],["hospital","영어","/ˈhɑːspɪtəl/"],["hostel","영어","/ˈhɑːstəl/"]],"라틴어 hospes(손님, 주인)에서 나온 hospitale(손님 숙소)가 호텔, 병원, 호스텔로 갈라졌어요.","hotel"],
+["ct-restaurant","🍲","레스토랑은 원래 ‘기운 나는 수프’",[["restaurant","프랑스어","/ʁɛs.to.ʁɑ̃/"],["restaurer","프랑스어","/ʁɛs.to.ʁe/"],["restore","영어","/rɪˈstɔːr/"]],"프랑스어 restaurer(회복시키다)에서 왔어요. 1760년대 파리에서 기운을 북돋는 수프를 팔던 곳이 시작이에요.","restaurant"],
+["ct-bistro","🍷","‘비스트로=빨리’ 설은 근거가 약하다",[["bistro","프랑스어","/bis.tʁo/"],["bystro","러시아어","/ˈbɨstrə/","быстро"]],"1815년 파리의 러시아 병사가 ‘빨리!’를 외쳐 생겼다는데, 이 말은 1884년에야 기록돼요. 기원은 아직 몰라요.","restaurant"],
+["ct-telephone","☎️","telephone은 벨보다 먼저 있었다",[["telephone","영어","/ˈteləfoʊn/"],["téléphone","프랑스어","/te.le.fɔn/"],["Telefon","독일어","/ˈteːləfoːn/"]],"1830년대 프랑스에서 음표로 글자를 전하던 신호 체계의 이름이었어요. tele(멀리)+phone(소리)이에요.","telephone"],
+["ct-deokryulpung","📞","전화의 옛 이름은 ‘덕률풍’",[["德律風","한자",""],["덕률풍","한국어",""],["telephone","영어","/ˈteləfoʊn/"],["电话","중국어","diànhuà"]],"telephone을 중국에서 소리대로 적은 德律風이에요. 지금 쓰는 電話는 일본에서 만든 말이고요.","telephone"],
+["ct-television","📺","TV는 반은 그리스어, 반은 라틴어",[["television","영어","/ˈteləvɪʒən/"],["tēle","그리스어",""],["visio","라틴어",""],["Fernseher","독일어","/ˈfɛʁnˌzeːɐ̯/"]],"tele(멀리)는 그리스어, vision(봄)은 라틴어예요. 독일어는 이걸 fern(멀리)+sehen(보다)으로 옮겼어요.","television"],
+["ct-computer","💻","computer는 원래 사람의 직업이었다",[["computer","영어","/kəmˈpjuːtɚ/"],["computare","라틴어",""],["Computer","독일어","/kɔmˈpjuːtɐ/"],["电脑","중국어","diànnǎo"]],"1640년대엔 ‘계산하는 사람’이었고, 기계가 된 건 1890년대부터예요. 중국어로는 ‘전기 뇌’ 电脑예요.","computer"],
+["ct-bug","🐛","버그가 나방 사건에서 왔다는 건 오해",[["bug","영어","/bʌɡ/"],["debug","영어","/diːˈbʌɡ/"]],"1947년 컴퓨터에서 나온 나방은 ‘진짜 벌레가 나온 첫 사례’로 기록됐어요. 에디슨은 1878년에 이미 썼고요.","computer"],
+["ct-nausea","🤢","nausea(메스꺼움)의 뜻은 ‘뱃멀미’",[["nausea","영어","/ˈnɔːziə/"],["naus","그리스어",""],["navis","라틴어",""],["navy","영어","/ˈneɪvi/"]],"그리스어 naus(배)에서 왔어요. 같은 뿌리인 라틴어 navis(배)에서 navy와 navigate가 나왔어요.","ship"],
+["ct-cockpit","🐓","cockpit의 원래 뜻은 ‘닭싸움판’",[["cockpit","영어","/ˈkɑːkpɪt/"],["cock","영어","/kɑːk/"],["pit","영어","/pɪt/"]],"수탉(cock)이 싸우던 구덩이(pit)였어요. 군함의 좁은 선실을 거쳐 1914년 비행기 조종석이 됐어요.","airplane"],
+["ct-train","👗","train은 기차 전에 드레스 자락이었다",[["train","영어","/treɪn/"],["traîner","프랑스어","/tʁɛ.ne/"],["trahere","라틴어",""],["tractor","영어","/ˈtræktɚ/"]],"라틴어 trahere(끌다)에서 왔어요. 끌리는 옷자락은 14세기, 줄줄이 끌려가는 열차는 19세기 초부터 train이에요.","train"],
+["ct-kisha","🚂","汽車는 중국에선 ‘자동차’다",[["汽车","중국어","qìchē"],["汽車","일본어","きしゃ kisha","きしゃ"],["기차","한국어",""],["火车","중국어","huǒchē"]],"한국·일본에선 증기(汽)로 가는 기차지만 중국어로는 자동차예요. 중국어로 기차는 火车(불 수레)예요.","train"],
+["ct-chauffeur","🚗","chauffeur(기사)는 ‘불 때는 사람’",[["chauffeur","프랑스어","/ʃo.fœʁ/"],["chauffer","프랑스어","/ʃo.fe/"],["chauffeur","영어","/ʃoʊˈfɝː/"]],"초기 자동차는 증기로 달렸거든요. 보일러에 불을 때던 화부의 이름이 운전사에게 넘어왔어요.","car"],
+["ct-taxi","🚕","taxi와 tax(세금)는 같은 뿌리",[["taxi","영어","/ˈtæksi/"],["Taxameter","독일어","/taksaˈmeːtɐ/"],["taxa","라틴어",""],["tax","영어","/tæks/"]],"요금 미터기 taximeter를 단 차라서 taxi예요. 중세 라틴어 taxa(요금, 부과금)에서 tax도 나왔어요.","car"],
+["ct-road","🐎","road의 원래 뜻은 ‘말 타고 가기’",[["rād","고대영어",""],["road","영어","/roʊd/"],["ride","영어","/raɪd/"],["raid","영어","/reɪd/"]],"고대영어 rād는 말 타고 가는 여정, 또 습격이었어요. 그래서 ride, raid와 형제고, ‘길’은 1590년대에 생긴 뜻이에요.","road"],
+["ct-metro","🚇","metro의 뿌리는 ‘엄마 도시’",[["métro","프랑스어","/me.tʁo/"],["metropolis","영어","/məˈtrɑːpəlɪs/"],["mētēr","그리스어",""],["polis","그리스어",""]],"파리 Métropolitain(수도 철도)의 줄임말이에요. 그리스어로 식민지를 낸 본국을 ‘어머니 도시’라 했어요.","city"],
+["ct-country","🌄","country의 뜻은 ‘맞은편 땅’",[["contra","라틴어",""],["contrée","프랑스어","/kɔ̃.tʁe/"],["country","영어","/ˈkʌntri/"]],"라틴어 contra(맞은편)에서 온 말로, 눈앞에 펼쳐진 땅을 뜻했어요. 지역을 거쳐 나라가 됐어요.","country"],
+["ct-dutch","🌷","Dutch는 원래 ‘독일어’였다",[["Dutch","영어","/dʌtʃ/"],["Deutsch","독일어","/dɔʏ̯tʃ/"],["Duits","네덜란드어","/dœy̯ts/"]],"둘 다 ‘민중의’라는 같은 말이에요. 영어는 17세기에야 Dutch를 네덜란드로 좁혔고, 네덜란드어 Duits는 ‘독일어’예요.","country"],
+["ct-gage","🏪","가게는 ‘임시로 지은 집’이었다",[["假家","한자",""],["가가","한국어",""],["가게","한국어",""]],"임시로 지은 집, 가가(假家)가 변한 말이에요. 물건을 두거나 쉬던 곳이 장사하는 곳이 된 것으로 추정돼요.","shop"],
+["ct-boutique","💊","부티크와 약국은 같은 말에서 왔다",[["apothēkē","그리스어",""],["boutique","프랑스어","/bu.tik/"],["bodega","스페인어","/boˈðeɣa/"],["Apotheke","독일어","/apoˈteːkə/"]],"그리스어 apothēkē(창고)가 프랑스어 boutique, 스페인어 bodega, 독일어 Apotheke(약국)로 갈라졌어요.","shop"],
+["ct-bureau","🗄️","bureau(사무실)의 원래 뜻은 ‘천’",[["bureau","프랑스어","/by.ʁo/"],["Büro","독일어","/byˈʁoː/"],["bureaucracy","영어","/bjʊˈrɑːkrəsi/"]],"책상을 덮던 거친 모직 천 burel이 책상을, 다시 책상이 놓인 사무실을 뜻하게 됐어요.","office"],
+["ct-freelance","🗡️","프리랜서의 원래 뜻은 ‘자유로운 창’",[["freelance","영어","/ˈfriːlæns/"],["lance","영어","/læns/"],["lance","프랑스어","/lɑ̃s/"]],"월터 스콧이 소설 『아이반호』에서 주인 없이 떠도는 중세 용병을 이렇게 부른 게 처음으로 알려져 있어요.","job"],
+["ct-pen","✒️","pen의 원래 뜻은 ‘깃털’",[["penna","라틴어",""],["pen","영어","/pen/"],["pluma","스페인어","/ˈpluma/"],["Feder","독일어","/ˈfeːdɐ/"]],"라틴어 penna는 깃털이에요. 깃펜을 쓰던 흔적이라 스페인어 pluma, 독일어 Feder도 깃털이자 펜이에요.","pen"],
+["ct-pencil","✏️","pen과 pencil은 남남이다",[["pencil","영어","/ˈpensəl/"],["penicillus","라틴어",""],["pinceau","프랑스어","/pɛ̃.so/"],["penicillin","영어","/ˌpenəˈsɪlɪn/"]],"pencil은 라틴어 penicillus(붓, 원뜻 ‘작은 꼬리’)에서 왔어요. 깃털 penna와는 무관하고 페니실린과 친척이에요.","pencil"],
+["ct-yeonpil","📝","연필(鉛筆)에는 납이 없다",[["鉛筆","일본어","えんぴつ enpitsu","えんぴつ"],["铅笔","중국어","qiānbǐ"],["Bleistift","독일어","/ˈblaɪ̯ʃtɪft/"],["lead pencil","영어","/led ˈpensəl/"]],"심은 흑연인데, 옛 유럽에선 납으로 여겨 ‘검은 납’이라 불렀어요. 독일어 Bleistift도 ‘납 막대’예요.","pencil"],
+["ct-tegami","✉️","일본의 편지 手紙는 중국에선 휴지",[["手紙","일본어","てがみ tegami","てがみ"],["手纸","중국어","shǒuzhǐ"],["信","중국어","xìn"],["편지","한국어",""]],"같은 한자인데 일본어로는 편지, 중국어로는 화장지예요. 중국어로 편지는 信이라고 해요.","letter"],
+["ct-news","📰","news는 동서남북의 약자가 아니다",[["news","영어","/nuːz/"],["new","영어","/nuː/"],["nouvelles","프랑스어","/nu.vɛl/"]],"‘새로운 것들’이라는 복수형이에요. 동서남북 약자설은 1640년 우스개책에 나온 민간어원이에요.","news"],
+["ct-sinmun","🗞️","新聞은 중국어로 ‘뉴스’다",[["신문","한국어",""],["新聞","일본어","しんぶん shinbun","しんぶん"],["新闻","중국어","xīnwén"],["报纸","중국어","bàozhǐ"]],"‘새로 들은 것’이라는 뜻이라 중국어에선 뉴스예요. 중국어로 신문은 报纸라고 해요.","news"],
+["ct-ticket","🎫","ticket과 에티켓은 같은 말이었다",[["ticket","영어","/ˈtɪkɪt/"],["étiquette","프랑스어","/e.ti.kɛt/"],["etiquette","영어","/ˈetɪkət/"],["stick","영어","/stɪk/"]],"고대 프랑스어 estiquette(붙여 두는 쪽지)에서 왔어요. 프랑스어 étiquette는 지금도 ‘라벨’이자 ‘예절’이에요.","ticket"],
+["ct-map","🗺️","map의 원래 뜻은 ‘냅킨’",[["mappa","라틴어",""],["map","영어","/mæp/"],["napkin","영어","/ˈnæpkɪn/"],["nappe","프랑스어","/nap/"]],"라틴어 mappa는 냅킨 같은 천 조각이었어요. 천에 그린 세계 mappa mundi가 map이 됐고, napkin도 친척이에요.","map"],
+["ct-gift","🎁","독일어 Gift의 뜻은 ‘독’",[["gift","영어","/ɡɪft/"],["Gift","독일어","/ɡɪft/"],["geben","독일어","/ˈɡeːbn̩/"],["Mitgift","독일어","/ˈmɪtɡɪft/"]],"원래 ‘주는 것’인데, ‘해로운 선물’을 돌려 말하다 독이 됐다는 설이 유력해요. 혼수 Mitgift에 옛 뜻이 남았어요.","gift"],
+["ct-chess","♟️","chess와 check는 ‘왕’에서 왔다",[["shāh","페르시아어",""],["échecs","프랑스어","/e.ʃɛk/"],["chess","영어","/tʃes/"],["check","영어","/tʃek/"]],"페르시아어 shāh(왕)가 아랍어를 거쳐 ‘장군!’을 뜻하는 eschec이 됐어요. 그 복수형이 chess예요.","game"],
+["ct-ballot","🎈","ballot의 원래 뜻은 ‘작은 공’",[["palla","이탈리아어","/ˈpalla/"],["ballot","영어","/ˈbælət/"],["pallone","이탈리아어","/palˈloːne/"],["balloon","영어","/bəˈluːn/"]],"이탈리아어 palla(공)의 작은 꼴이 ballot, 큰 꼴 pallone이 balloon이에요. 베네치아에선 작은 공으로 투표했어요.","ball"],
+["ct-balldance","💃","무도회 ball과 공 ball은 남남이다",[["ball","영어","/bɔːl/"],["ballare","라틴어",""],["bailar","스페인어","/bai̯ˈlaɾ/"],["ballet","영어","/bæˈleɪ/"]],"공은 게르만어, 무도회는 라틴어 ballare(춤추다)에서 왔어요. ballet와 스페인어 bailar가 무도회 쪽 친척이에요.","ball"],
+["ct-sajin","🖼️","사진(寫眞)은 원래 ‘초상화’였다",[["사진","한국어",""],["写真","일본어","しゃしん shashin","しゃしん"],["照片","중국어","zhàopiàn"]],"‘참모습을 베낀다’는 뜻으로 초상화를 가리키다가, 19세기 일본에서 photograph의 번역어가 됐어요.","photo"],
+["ct-camera","📷","camera의 원래 뜻은 ‘방’",[["camera","영어","/ˈkæmərə/"],["camera","이탈리아어","/ˈkaːmera/"],["chamber","영어","/ˈtʃeɪmbɚ/"],["Kammer","독일어","/ˈkamɐ/"]],"바깥 풍경을 비추던 camera obscura(어두운 방)를 줄인 말이에요. 이탈리아어 camera는 지금도 ‘방’이에요.","photo"]
+];
+const V = {
+"school":["🏫","학교","school","Schule","école","escuela",["学校","gakkō"],["学校","xuéxiào"]],
+"bread":["🍞","빵","bread","Brot","pain","pan",["パン","pan"],["面包","miànbāo"]],
+"mother":["👩","엄마","mother","Mutter","mère","madre",["お母さん","okāsan"],["妈妈","māma"]],
+"father":["👨","아버지","father","Vater","père","padre",["お父さん","otōsan"],["父亲","fùqīn"]],
+"water":["💧","물","water","Wasser","eau","agua",["水","mizu"],["水","shuǐ"]],
+"tea":["🍵","차","tea","Tee","thé","té",["お茶","ocha"],["茶","chá"]],
+"coffee":["☕","커피","coffee","Kaffee","café","café",["コーヒー","kōhī"],["咖啡","kāfēi"]],
+"foot":["🦶","발","foot","Fuß","pied","pie",["足","ashi"],["脚","jiǎo"]],
+"heart":["❤️","심장","heart","Herz","cœur","corazón",["心臓","shinzō"],["心脏","xīnzàng"]],
+"fire":["🔥","불","fire","Feuer","feu","fuego",["火","hi"],["火","huǒ"]],
+"night":["🌃","밤","night","Nacht","nuit","noche",["夜","yoru"],["夜晚","yèwǎn"]],
+"name":["🏷️","이름","name","Name","nom","nombre",["名前","namae"],["名字","míngzi"]],
+"new":["✨","새로운","new","neu","nouveau","nuevo",["新しい","atarashii"],["新的","xīn de"]],
+"star":["⭐","별","star","Stern","étoile","estrella",["星","hoshi"],["星星","xīngxing"]],
+"moon":["🌕","달","moon","Mond","lune","luna",["月","tsuki"],["月亮","yuèliang"]],
+"sun":["☀️","태양","sun","Sonne","soleil","sol",["太陽","taiyō"],["太阳","tàiyáng"]],
+"tooth":["🦷","치아","tooth","Zahn","dent","diente",["歯","ha"],["牙齿","yáchǐ"]],
+"three":["3️⃣","삼","three","drei","trois","tres",["三","san"],["三","sān"]],
+"salt":["🧂","소금","salt","Salz","sel","sal",["塩","shio"],["盐","yán"]],
+"milk":["🥛","우유","milk","Milch","lait","leche",["牛乳","gyūnyū"],["牛奶","niúnǎi"]],
+"house":["🏠","집","house","Haus","maison","casa",["家","ie"],["家","jiā"]],
+"dog":["🐕","개","dog","Hund","chien","perro",["犬","inu"],["狗","gǒu"]],
+"king":["👑","왕","king","König","roi","rey",["王様","ōsama"],["国王","guówáng"]],
+"music":["🎵","음악","music","Musik","musique","música",["音楽","ongaku"],["音乐","yīnyuè"]],
+"apple":["🍎","사과","apple","Apfel","pomme","manzana",["りんご","ringo"],["苹果","píngguǒ"]],
+"door":["🚪","문","door","Tür","porte","puerta",["ドア","doa"],["门","mén"]],
+"hand":["✋","손","hand","Hand","main","mano",["手","te"],["手","shǒu"]],
+"time":["⏳","시간","time","Zeit","temps","tiempo",["時間","jikan"],["时间","shíjiān"]],
+"sea":["🌊","바다","sea","Meer","mer","mar",["海","umi"],["海","hǎi"]],
+"snow":["❄️","눈","snow","Schnee","neige","nieve",["雪","yuki"],["雪","xuě"]],
+"book":["📖","책","book","Buch","livre","libro",["本","hon"],["书","shū"]],
+"eye":["👁️","눈","eye","Auge","œil","ojo",["目","me"],["眼睛","yǎnjing"]],
+"ear":["👂","귀","ear","Ohr","oreille","oreja",["耳","mimi"],["耳朵","ěrduo"]],
+"nose":["👃","코","nose","Nase","nez","nariz",["鼻","hana"],["鼻子","bízi"]],
+"mouth":["👄","입","mouth","Mund","bouche","boca",["口","kuchi"],["嘴","zuǐ"]],
+"tongue":["👅","혀","tongue","Zunge","langue","lengua",["舌","shita"],["舌头","shétou"]],
+"lip":["💋","입술","lip","Lippe","lèvre","labio",["唇","kuchibiru"],["嘴唇","zuǐchún"]],
+"face":["🙂","얼굴","face","Gesicht","visage","cara",["顔","kao"],["脸","liǎn"]],
+"head":["👤","머리","head","Kopf","tête","cabeza",["頭","atama"],["头","tóu"]],
+"hair":["💇","머리카락","hair","Haar","cheveux","pelo",["髪","kami"],["头发","tóufa"]],
+"shoulder":["🤷","어깨","shoulder","Schulter","épaule","hombro",["肩","kata"],["肩膀","jiānbǎng"]],
+"arm":["💪","팔","arm","Arm","bras","brazo",["腕","ude"],["胳膊","gēbo"]],
+"elbow":["🦾","팔꿈치","elbow","Ellbogen","coude","codo",["肘","hiji"],["胳膊肘","gēbozhǒu"]],
+"finger":["☝️","손가락","finger","Finger","doigt","dedo",["指","yubi"],["手指","shǒuzhǐ"]],
+"knee":["🧎","무릎","knee","Knie","genou","rodilla",["膝","hiza"],["膝盖","xīgài"]],
+"leg":["🦵","다리","leg","Bein","jambe","pierna",["脚","ashi"],["腿","tuǐ"]],
+"bone":["🦴","뼈","bone","Knochen","os","hueso",["骨","hone"],["骨头","gǔtou"]],
+"blood":["🩸","피","blood","Blut","sang","sangre",["血","chi"],["血","xuè"]],
+"brain":["🧠","뇌","brain","Gehirn","cerveau","cerebro",["脳","nō"],["大脑","dànǎo"]],
+"skin":["🧴","피부","skin","Haut","peau","piel",["肌","hada"],["皮肤","pífū"]],
+"muscle":["🏋️","근육","muscle","Muskel","muscle","músculo",["筋肉","kinniku"],["肌肉","jīròu"]],
+"belly":["🤰","배","belly","Bauch","ventre","barriga",["お腹","onaka"],["肚子","dùzi"]],
+"breath":["🌬️","숨","breath","Atem","souffle","aliento",["息","iki"],["呼吸","hūxī"]],
+"doctor":["🩺","의사","doctor","Arzt","médecin","médico",["医者","isha"],["医生","yīshēng"]],
+"medicine":["💊","약","medicine","Medikament","médicament","medicina",["薬","kusuri"],["药","yào"]],
+"sleep":["😴","잠","sleep","Schlaf","sommeil","sueño",["眠り","nemuri"],["睡眠","shuìmián"]],
+"dream":["💭","꿈","dream","Traum","rêve","sueño",["夢","yume"],["梦","mèng"]],
+"sick":["🤒","아프다","sick","krank","malade","enfermo",["病気","byōki"],["生病","shēngbìng"]],
+"body":["🧍","몸","body","Körper","corps","cuerpo",["体","karada"],["身体","shēntǐ"]],
+"health":["🏃","건강","health","Gesundheit","santé","salud",["健康","kenkō"],["健康","jiànkāng"]],
+"brother":["👬","형제","brother","Bruder","frère","hermano",["兄弟","kyōdai"],["兄弟","xiōngdì"]],
+"sister":["👭","자매","sister","Schwester","sœur","hermana",["姉妹","shimai"],["姐妹","jiěmèi"]],
+"son":["👦","아들","son","Sohn","fils","hijo",["息子","musuko"],["儿子","érzi"]],
+"daughter":["👧","딸","daughter","Tochter","fille","hija",["娘","musume"],["女儿","nǚ'ér"]],
+"child":["🧒","아이","child","Kind","enfant","niño",["子ども","kodomo"],["孩子","háizi"]],
+"baby":["👶","아기","baby","Baby","bébé","bebé",["赤ちゃん","akachan"],["婴儿","yīng'ér"]],
+"friend":["🤝","친구","friend","Freund","ami","amigo",["友達","tomodachi"],["朋友","péngyou"]],
+"enemy":["⚔️","적","enemy","Feind","ennemi","enemigo",["敵","teki"],["敌人","dírén"]],
+"guest":["🛎️","손님","guest","Gast","invité","invitado",["お客さん","okyakusan"],["客人","kèrén"]],
+"man":["🚹","남자","man","Mann","homme","hombre",["男の人","otoko no hito"],["男人","nánrén"]],
+"woman":["🚺","여자","woman","Frau","femme","mujer",["女の人","onna no hito"],["女人","nǚrén"]],
+"person":["🧑","사람","person","Mensch","personne","persona",["人","hito"],["人","rén"]],
+"husband":["🤵","남편","husband","Ehemann","mari","marido",["夫","otto"],["丈夫","zhàngfu"]],
+"wife":["👰","아내","wife","Ehefrau","femme","esposa",["妻","tsuma"],["妻子","qīzi"]],
+"family":["👪","가족","family","Familie","famille","familia",["家族","kazoku"],["家人","jiārén"]],
+"neighbor":["🏘️","이웃","neighbor","Nachbar","voisin","vecino",["隣人","rinjin"],["邻居","línjū"]],
+"teacher":["👩‍🏫","선생님","teacher","Lehrer","professeur","profesor",["先生","sensei"],["老师","lǎoshī"]],
+"student":["🎓","학생","student","Student","étudiant","estudiante",["学生","gakusei"],["学生","xuésheng"]],
+"love":["💕","사랑","love","Liebe","amour","amor",["愛","ai"],["爱","ài"]],
+"happiness":["😊","행복","happiness","Glück","bonheur","felicidad",["幸せ","shiawase"],["幸福","xìngfú"]],
+"sad":["😢","슬프다","sad","traurig","triste","triste",["悲しい","kanashii"],["难过","nánguò"]],
+"fear":["😱","두려움","fear","Angst","peur","miedo",["恐怖","kyōfu"],["恐惧","kǒngjù"]],
+"cry":["😭","울다","cry","weinen","pleurer","llorar",["泣く","naku"],["哭","kū"]],
+"hello":["🙋","안녕","hello","Hallo","bonjour","hola",["こんにちは","konnichiwa"],["你好","nǐ hǎo"]],
+"goodbye":["👋","잘 가","goodbye","Tschüss","au revoir","adiós",["さようなら","sayōnara"],["再见","zàijiàn"]],
+"thanks":["🙏","고마워","thanks","danke","merci","gracias",["ありがとう","arigatō"],["谢谢","xièxie"]],
+"sorry":["🙇","미안해","sorry","Entschuldigung","désolé","lo siento",["ごめんなさい","gomen nasai"],["对不起","duìbuqǐ"]],
+"please":["🤲","부탁해","please","bitte","s'il vous plaît","por favor",["お願い","onegai"],["请","qǐng"]],
+"tree":["🌳","나무","tree","Baum","arbre","árbol",["木","ki"],["树","shù"]],
+"flower":["🌸","꽃","flower","Blume","fleur","flor",["花","hana"],["花","huā"]],
+"leaf":["🍃","잎","leaf","Blatt","feuille","hoja",["葉","ha"],["叶子","yèzi"]],
+"grass":["🌿","풀","grass","Gras","herbe","hierba",["草","kusa"],["草","cǎo"]],
+"rain":["🌧️","비","rain","Regen","pluie","lluvia",["雨","ame"],["雨","yǔ"]],
+"wind":["💨","바람","wind","Wind","vent","viento",["風","kaze"],["风","fēng"]],
+"cloud":["☁️","구름","cloud","Wolke","nuage","nube",["雲","kumo"],["云","yún"]],
+"sky":["🌤️","하늘","sky","Himmel","ciel","cielo",["空","sora"],["天空","tiānkōng"]],
+"earth":["🌍","땅","earth","Erde","terre","tierra",["地面","jimen"],["地面","dìmiàn"]],
+"mountain":["⛰️","산","mountain","Berg","montagne","montaña",["山","yama"],["山","shān"]],
+"river":["🏞️","강","river","Fluss","rivière","río",["川","kawa"],["河","hé"]],
+"lake":["🛶","호수","lake","See","lac","lago",["湖","mizuumi"],["湖","hú"]],
+"stone":["🗿","돌","stone","Stein","pierre","piedra",["石","ishi"],["石头","shítou"]],
+"island":["🏝️","섬","island","Insel","île","isla",["島","shima"],["岛","dǎo"]],
+"forest":["🌲","숲","forest","Wald","forêt","bosque",["森","mori"],["森林","sēnlín"]],
+"horse":["🐎","말","horse","Pferd","cheval","caballo",["馬","uma"],["马","mǎ"]],
+"cow":["🐄","소","cow","Kuh","vache","vaca",["牛","ushi"],["牛","niú"]],
+"pig":["🐖","돼지","pig","Schwein","cochon","cerdo",["豚","buta"],["猪","zhū"]],
+"sheep":["🐑","양","sheep","Schaf","mouton","oveja",["羊","hitsuji"],["羊","yáng"]],
+"bird":["🐦","새","bird","Vogel","oiseau","pájaro",["鳥","tori"],["鸟","niǎo"]],
+"fish":["🐟","물고기","fish","Fisch","poisson","pez",["魚","sakana"],["鱼","yú"]],
+"mouse":["🐭","쥐","mouse","Maus","souris","ratón",["ネズミ","nezumi"],["老鼠","lǎoshǔ"]],
+"wolf":["🐺","늑대","wolf","Wolf","loup","lobo",["狼","ōkami"],["狼","láng"]],
+"bear":["🐻","곰","bear","Bär","ours","oso",["熊","kuma"],["熊","xióng"]],
+"lion":["🦁","사자","lion","Löwe","lion","león",["ライオン","raion"],["狮子","shīzi"]],
+"tiger":["🐯","호랑이","tiger","Tiger","tigre","tigre",["虎","tora"],["老虎","lǎohǔ"]],
+"elephant":["🐘","코끼리","elephant","Elefant","éléphant","elefante",["象","zō"],["大象","dàxiàng"]],
+"hippo":["🦛","하마","hippo","Nilpferd","hippopotame","hipopótamo",["カバ","kaba"],["河马","hémǎ"]],
+"crocodile":["🐊","악어","crocodile","Krokodil","crocodile","cocodrilo",["ワニ","wani"],["鳄鱼","èyú"]],
+"giraffe":["🦒","기린","giraffe","Giraffe","girafe","jirafa",["キリン","kirin"],["长颈鹿","chángjǐnglù"]],
+"insect":["🐛","곤충","insect","Insekt","insecte","insecto",["虫","mushi"],["虫子","chóngzi"]],
+"rice":["🍚","쌀","rice","Reis","riz","arroz",["米","kome"],["米","mǐ"]],
+"meat":["🍖","고기","meat","Fleisch","viande","carne",["肉","niku"],["肉","ròu"]],
+"egg":["🥚","달걀","egg","Ei","œuf","huevo",["卵","tamago"],["鸡蛋","jīdàn"]],
+"sugar":["🍬","설탕","sugar","Zucker","sucre","azúcar",["砂糖","satō"],["糖","táng"]],
+"orange":["🍊","오렌지","orange","Orange","orange","naranja",["オレンジ","orenji"],["橙子","chéngzi"]],
+"banana":["🍌","바나나","banana","Banane","banane","plátano",["バナナ","banana"],["香蕉","xiāngjiāo"]],
+"potato":["🥔","감자","potato","Kartoffel","pomme de terre","patata",["じゃがいも","jagaimo"],["土豆","tǔdòu"]],
+"tomato":["🍅","토마토","tomato","Tomate","tomate","tomate",["トマト","tomato"],["西红柿","xīhóngshì"]],
+"chocolate":["🍫","초콜릿","chocolate","Schokolade","chocolat","chocolate",["チョコレート","chokorēto"],["巧克力","qiǎokèlì"]],
+"garlic":["🧄","마늘","garlic","Knoblauch","ail","ajo",["にんにく","ninniku"],["大蒜","dàsuàn"]],
+"onion":["🧅","양파","onion","Zwiebel","oignon","cebolla",["玉ねぎ","tamanegi"],["洋葱","yángcōng"]],
+"pepper":["⚫","후추","pepper","Pfeffer","poivre","pimienta",["胡椒","koshō"],["胡椒","hújiāo"]],
+"wine":["🍷","와인","wine","Wein","vin","vino",["ワイン","wain"],["葡萄酒","pútaojiǔ"]],
+"beer":["🍺","맥주","beer","Bier","bière","cerveza",["ビール","bīru"],["啤酒","píjiǔ"]],
+"cheese":["🧀","치즈","cheese","Käse","fromage","queso",["チーズ","chīzu"],["奶酪","nǎilào"]],
+"butter":["🧈","버터","butter","Butter","beurre","mantequilla",["バター","batā"],["黄油","huángyóu"]],
+"soup":["🥣","수프","soup","Suppe","soupe","sopa",["スープ","sūpu"],["汤","tāng"]],
+"cake":["🍰","케이크","cake","Kuchen","gâteau","pastel",["ケーキ","kēki"],["蛋糕","dàngāo"]],
+"tobacco":["🚬","담배","tobacco","Tabak","tabac","tabaco",["タバコ","tabako"],["烟草","yāncǎo"]],
+"cup":["🥤","컵","cup","Tasse","tasse","taza",["コップ","koppu"],["杯子","bēizi"]],
+"knife":["🔪","칼","knife","Messer","couteau","cuchillo",["ナイフ","naifu"],["刀子","dāozi"]],
+"spoon":["🥄","숟가락","spoon","Löffel","cuillère","cuchara",["スプーン","supūn"],["勺子","sháozi"]],
+"plate":["🍽️","접시","plate","Teller","assiette","plato",["皿","sara"],["盘子","pánzi"]],
+"table":["🪵","탁자","table","Tisch","table","mesa",["テーブル","tēburu"],["桌子","zhuōzi"]],
+"chair":["🪑","의자","chair","Stuhl","chaise","silla",["椅子","isu"],["椅子","yǐzi"]],
+"bed":["🛏️","침대","bed","Bett","lit","cama",["ベッド","beddo"],["床","chuáng"]],
+"window":["🪟","창문","window","Fenster","fenêtre","ventana",["窓","mado"],["窗户","chuānghu"]],
+"key":["🔑","열쇠","key","Schlüssel","clé","llave",["鍵","kagi"],["钥匙","yàoshi"]],
+"clothes":["👕","옷","clothes","Kleidung","vêtements","ropa",["服","fuku"],["衣服","yīfu"]],
+"soap":["🧼","비누","soap","Seife","savon","jabón",["石鹸","sekken"],["肥皂","féizào"]],
+"candle":["🕯️","초","candle","Kerze","bougie","vela",["蝋燭","rōsoku"],["蜡烛","làzhú"]],
+"day":["🌤️","날","day","Tag","jour","día",["日","hi"],["天","tiān"]],
+"week":["🗓️","주","week","Woche","semaine","semana",["週","shū"],["星期","xīngqī"]],
+"year":["🎆","해","year","Jahr","an","año",["年","toshi"],["年","nián"]],
+"today":["📍","오늘","today","heute","aujourd'hui","hoy",["今日","kyō"],["今天","jīntiān"]],
+"morning":["🌅","아침","morning","Morgen","matin","mañana",["朝","asa"],["早上","zǎoshang"]],
+"evening":["🌆","저녁","evening","Abend","soir","tarde",["夕方","yūgata"],["晚上","wǎnshang"]],
+"hour":["🕐","시간","hour","Stunde","heure","hora",["時間","jikan"],["小时","xiǎoshí"]],
+"minute":["⏱️","분","minute","Minute","minute","minuto",["分","fun"],["分钟","fēnzhōng"]],
+"second":["⏲️","초","second","Sekunde","seconde","segundo",["秒","byō"],["秒","miǎo"]],
+"calendar":["📅","달력","calendar","Kalender","calendrier","calendario",["カレンダー","karendā"],["日历","rìlì"]],
+"tuesday":["⚔️","화요일","Tuesday","Dienstag","mardi","martes",["火曜日","kayōbi"],["星期二","xīngqī'èr"]],
+"wednesday":["🧙","수요일","Wednesday","Mittwoch","mercredi","miércoles",["水曜日","suiyōbi"],["星期三","xīngqīsān"]],
+"thursday":["⚡","목요일","Thursday","Donnerstag","jeudi","jueves",["木曜日","mokuyōbi"],["星期四","xīngqīsì"]],
+"friday":["🎉","금요일","Friday","Freitag","vendredi","viernes",["金曜日","kin'yōbi"],["星期五","xīngqīwǔ"]],
+"saturday":["🪐","토요일","Saturday","Samstag","samedi","sábado",["土曜日","doyōbi"],["星期六","xīngqīliù"]],
+"sunday":["⛪","일요일","Sunday","Sonntag","dimanche","domingo",["日曜日","nichiyōbi"],["星期天","xīngqītiān"]],
+"january":["🎍","1월","January","Januar","janvier","enero",["一月","ichigatsu"],["一月","yīyuè"]],
+"august":["🍉","8월","August","August","août","agosto",["八月","hachigatsu"],["八月","bāyuè"]],
+"september":["🍇","9월","September","September","septembre","septiembre",["九月","kugatsu"],["九月","jiǔyuè"]],
+"spring":["🌸","봄","spring","Frühling","printemps","primavera",["春","haru"],["春天","chūntiān"]],
+"summer":["🌻","여름","summer","Sommer","été","verano",["夏","natsu"],["夏天","xiàtiān"]],
+"autumn":["🍁","가을","autumn","Herbst","automne","otoño",["秋","aki"],["秋天","qiūtiān"]],
+"winter":["⛄","겨울","winter","Winter","hiver","invierno",["冬","fuyu"],["冬天","dōngtiān"]],
+"zero":["0️⃣","영","zero","null","zéro","cero",["ゼロ","zero"],["零","líng"]],
+"one":["1️⃣","하나","one","eins","un","uno",["一","ichi"],["一","yī"]],
+"two":["2️⃣","둘","two","zwei","deux","dos",["二","ni"],["二","èr"]],
+"ten":["🔟","열","ten","zehn","dix","diez",["十","jū"],["十","shí"]],
+"hundred":["💯","백","hundred","hundert","cent","cien",["百","hyaku"],["百","bǎi"]],
+"thousand":["🧮","천","thousand","tausend","mille","mil",["千","sen"],["千","qiān"]],
+"million":["💰","백만","million","Million","million","millón",["百万","hyakuman"],["百万","bǎiwàn"]],
+"number":["🔢","숫자","number","Zahl","nombre","número",["数字","sūji"],["数字","shùzì"]],
+"red":["🔴","빨강","red","rot","rouge","rojo",["赤","aka"],["红色","hóngsè"]],
+"white":["⚪","하양","white","weiß","blanc","blanco",["白","shiro"],["白色","báisè"]],
+"black":["⚫","검정","black","schwarz","noir","negro",["黒","kuro"],["黑色","hēisè"]],
+"blue":["🔵","파랑","blue","blau","bleu","azul",["青","ao"],["蓝色","lánsè"]],
+"green":["🟢","초록","green","grün","vert","verde",["緑","midori"],["绿色","lǜsè"]],
+"yellow":["🟡","노랑","yellow","gelb","jaune","amarillo",["黄色","kiiro"],["黄色","huángsè"]],
+"color":["🎨","색","color","Farbe","couleur","color",["色","iro"],["颜色","yánsè"]],
+"bus":["🚌","버스","bus","Bus","bus","autobús",["バス","basu"],["公交车","gōngjiāochē"]],
+"robot":["🤖","로봇","robot","Roboter","robot","robot",["ロボット","robotto"],["机器人","jīqìrén"]],
+"work":["💼","일","work","Arbeit","travail","trabajo",["仕事","shigoto"],["工作","gōngzuò"]],
+"money":["💰","돈","money","Geld","argent","dinero",["お金","okane"],["钱","qián"]],
+"bank":["🏦","은행","bank","Bank","banque","banco",["銀行","ginkō"],["银行","yínháng"]],
+"hotel":["🏨","호텔","hotel","Hotel","hôtel","hotel",["ホテル","hoteru"],["酒店","jiǔdiàn"]],
+"restaurant":["🍽️","식당","restaurant","Restaurant","restaurant","restaurante",["レストラン","resutoran"],["餐厅","cāntīng"]],
+"telephone":["☎️","전화","telephone","Telefon","téléphone","teléfono",["電話","denwa"],["电话","diànhuà"]],
+"television":["📺","텔레비전","television","Fernseher","télévision","televisión",["テレビ","terebi"],["电视","diànshì"]],
+"computer":["💻","컴퓨터","computer","Computer","ordinateur","ordenador",["コンピューター","konpyūtā"],["电脑","diànnǎo"]],
+"ship":["🚢","배","ship","Schiff","bateau","barco",["船","fune"],["船","chuán"]],
+"airplane":["✈️","비행기","airplane","Flugzeug","avion","avión",["飛行機","hikōki"],["飞机","fēijī"]],
+"train":["🚆","기차","train","Zug","train","tren",["電車","densha"],["火车","huǒchē"]],
+"car":["🚗","자동차","car","Auto","voiture","coche",["車","kuruma"],["汽车","qìchē"]],
+"road":["🛣️","길","road","Straße","route","carretera",["道","michi"],["路","lù"]],
+"city":["🏙️","도시","city","Stadt","ville","ciudad",["都市","toshi"],["城市","chéngshì"]],
+"country":["🌏","나라","country","Land","pays","país",["国","kuni"],["国家","guójiā"]],
+"market":["🛒","시장","market","Markt","marché","mercado",["市場","ichiba"],["市场","shìchǎng"]],
+"shop":["🏪","가게","shop","Laden","magasin","tienda",["店","mise"],["商店","shāngdiàn"]],
+"office":["🏢","사무실","office","Büro","bureau","oficina",["事務所","jimusho"],["办公室","bàngōngshì"]],
+"job":["👷","직업","job","Beruf","métier","profesión",["職業","shokugyō"],["职业","zhíyè"]],
+"pen":["🖊️","펜","pen","Stift","stylo","bolígrafo",["ペン","pen"],["笔","bǐ"]],
+"pencil":["✏️","연필","pencil","Bleistift","crayon","lápiz",["鉛筆","enpitsu"],["铅笔","qiānbǐ"]],
+"letter":["✉️","편지","letter","Brief","lettre","carta",["手紙","tegami"],["信","xìn"]],
+"news":["📰","뉴스","news","Nachrichten","nouvelles","noticias",["ニュース","nyūsu"],["新闻","xīnwén"]],
+"ticket":["🎫","표","ticket","Fahrkarte","billet","billete",["切符","kippu"],["票","piào"]],
+"map":["🗺️","지도","map","Karte","carte","mapa",["地図","chizu"],["地图","dìtú"]],
+"gift":["🎁","선물","gift","Geschenk","cadeau","regalo",["プレゼント","purezento"],["礼物","lǐwù"]],
+"game":["🎮","게임","game","Spiel","jeu","juego",["ゲーム","gēmu"],["游戏","yóuxì"]],
+"ball":["⚽","공","ball","Ball","ballon","pelota",["ボール","bōru"],["球","qiú"]],
+"photo":["📷","사진","photo","Foto","photo","foto",["写真","shashin"],["照片","zhàopiàn"]]
+};
+
+const DAILY = 10;
+const QUIZ_EVERY = 5;
+const LN = { en:['영어',2,'en'], de:['독일어',3,'de'], fr:['프랑스어',4,'fr'], es:['스페인어',5,'es'], ja:['일본어',6,'ja'], zh:['중국어',7,'zh-Hans'] };
+const LA = { '일본어':'ja', '중국어':'zh-Hans', '한국어':'ko', '한자':'ja' };
+const TTS = { '영어':'en-US', '독일어':'de-DE', '프랑스어':'fr-FR', '스페인어':'es-ES', '일본어':'ja-JP', '중국어':'zh-CN', '러시아어':'ru-RU', '포르투갈어':'pt-PT', '이탈리아어':'it-IT', '네덜란드어':'nl-NL', '아랍어':'ar-SA', '튀르키예어':'tr-TR' };
+const THEMES = [
+  { bg:'#1E3A2F', ink:'#EEF2EA', acc:'#E8B04A' },
+  { bg:'#22407E', ink:'#F1F3FA', acc:'#F4C95D' },
+  { bg:'#E4AE45', ink:'#20190C', acc:'#5A2A10' },
+  { bg:'#5E1F38', ink:'#F7ECEF', acc:'#F2B6C8' },
+  { bg:'#DCE4D4', ink:'#18231E', acc:'#22407E' },
+  { bg:'#2E2A4F', ink:'#EEEAF7', acc:'#9FD8C8' }
+];
+const CBY = {};
+C.forEach(c => CBY[c[0]] = c);
+const FIRST = ['school','bread','mama','vodka','tea'];
+
+/* ---------- 저장 ---------- */
+const KEY = 'ppuri-v3';
+let S = { seen: [], qr: 0, qt: 0, last: '', streak: 0, day: '', today: [], todaySeen: [], dq: 0, dqr: 0 };
+try { const raw = localStorage.getItem(KEY); if (raw) S = Object.assign(S, JSON.parse(raw)); } catch (e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+const seen = new Set(Array.isArray(S.seen) ? S.seen.filter(id => CBY[id]) : []);
+const dstr = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pick = a => a[Math.floor(Math.random() * a.length)];
+
+(function newDay(){
+  const t = dstr(new Date());
+  if (S.last !== t) {
+    const y = new Date(); y.setDate(y.getDate() - 1);
+    S.streak = (S.last === dstr(y)) ? (S.streak || 0) + 1 : 1;
+    S.last = t;
+  }
+  const valid = Array.isArray(S.today) && S.today.length && S.today.every(id => CBY[id]);
+  if (S.day !== t || !valid) {
+    const all = C.map(c => c[0]);
+    const order = FIRST.concat(shuffle(all.filter(id => !FIRST.includes(id))));
+    let list = order.filter(id => !seen.has(id)).slice(0, DAILY);
+    if (list.length < DAILY) list = list.concat(shuffle(all.filter(id => !list.includes(id))).slice(0, DAILY - list.length));
+    S.day = t; S.today = list; S.todaySeen = []; S.dq = 0; S.dqr = 0;
+  }
+  save();
+})();
+const newLeft = C.filter(c => !seen.has(c[0]) && !S.today.includes(c[0])).length;
+
+/* ---------- 발음 ---------- */
+const canSpeak = ('speechSynthesis' in window) && typeof SpeechSynthesisUtterance !== 'undefined';
+const SPK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+function speak(btn){
+  if (!canSpeak) return;
+  try {
+    speechSynthesis.cancel();
+    document.querySelectorAll('.si.playing').forEach(x => x.classList.remove('playing'));
+    const lang = btn.dataset.lang;
+    const u = new SpeechSynthesisUtterance(btn.dataset.say);
+    u.lang = lang; u.rate = 0.85;
+    const vs = speechSynthesis.getVoices() || [];
+    const norm = s => (s || '').replace('_','-').toLowerCase();
+    const v = vs.find(x => norm(x.lang) === lang.toLowerCase()) || vs.find(x => norm(x.lang).startsWith(lang.slice(0,2).toLowerCase()));
+    if (v) u.voice = v;
+    btn.classList.add('playing');
+    const stop = () => btn.classList.remove('playing');
+    u.onend = stop; u.onerror = stop;
+    setTimeout(stop, 4000);
+    speechSynthesis.speak(u);
+  } catch (e) {}
+}
+if (canSpeak) { try { speechSynthesis.getVoices(); } catch (e) {} }
+
+/* ---------- 카드 ---------- */
+let themeIdx = 0;
+function nextTheme(){ const i = themeIdx++ % THEMES.length; const t = THEMES[i]; return { i, style: `--bg:${t.bg};--ink:${t.ink};--acc:${t.acc}` }; }
+function themeStyle(){ return nextTheme().style; }
+const SHARE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 8 5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>';
+
+function stripItem([w, l, p, say]){
+  const tts = canSpeak ? TTS[l] : null;
+  const la = LA[l] ? ` lang="${LA[l]}"` : '';
+  const inner = `<span class="spk${tts ? '' : ' none'}" aria-hidden="true">${tts ? SPK : ''}</span><b${la}>${esc(w)}</b><em${la}>${esc(p || '')}</em><i>${esc(l)}</i>`;
+  return tts
+    ? `<button class="si" data-say="${esc(say || w)}" data-lang="${tts}" aria-label="${esc(w)}, ${esc(l)} 발음 듣기" tabindex="-1">${inner}</button>`
+    : `<span class="si">${inner}</span>`;
+}
+function hookCard(c, hint){
+  const [id, e, h, strip, more] = c;
+  const el = document.createElement('section');
+  const th = nextTheme();
+  el.className = 'card';
+  el.dataset.id = id;
+  el.dataset.theme = th.i;
+  el.innerHTML =
+    `<div class="frame" style="${th.style}" tabindex="0" aria-expanded="false">` +
+      `<div class="femo" aria-hidden="true">${e}</div>` +
+      `<div class="fbody"><p class="hook">${esc(h)}</p>` +
+        `<div class="strip">${strip.map(stripItem).join('')}</div>` +
+        `<p class="more">${esc(more)}</p></div>` +
+      `<div class="fmark">뿌리</div>` +
+    `</div><div class="below row"><span class="hint">${hint}</span><button class="share" data-share aria-label="이미지로 공유">${SHARE_SVG}<span>공유</span></button></div>`;
+  return el;
+}
+function vword(id, l){ const x = V[id][LN[l][1]]; return Array.isArray(x) ? { t: x[0], r: x[1] } : { t: x, r: '' }; }
+function quizCard(vid){
+  const v = V[vid];
+  const l = pick(Object.keys(LN));
+  const typeA = Math.random() < 0.5;
+  const others = [];
+  const ko = new Set([v[1]]), fw = new Set([vword(vid, l).t]);
+  for (const o of shuffle(Object.keys(V).filter(k => k !== vid))) {
+    const k2 = V[o][1], f2 = vword(o, l).t;
+    if (ko.has(k2) || fw.has(f2)) continue;
+    ko.add(k2); fw.add(f2); others.push(o);
+    if (others.length === 2) break;
+  }
+  const opts = shuffle([vid, ...others]);
+  let emo, big, small;
+  if (typeA) { emo = v[0]; big = esc(v[1]); small = `${LN[l][0]}로는?`; }
+  else {
+    const x = vword(vid, l);
+    emo = '🔤';
+    big = `<span lang="${LN[l][2]}">${esc(x.t)}</span>`;
+    small = `${LN[l][0]}${x.r ? ' ' + esc(x.r) : ''}, 무슨 뜻일까?`;
+  }
+  const optHtml = opts.map(o => {
+    let lab;
+    if (typeA) { const x = vword(o, l); lab = `<span lang="${LN[l][2]}">${esc(x.t)}</span>${x.r ? `<small>${esc(x.r)}</small>` : ''}`; }
+    else lab = `${V[o][0]} ${esc(V[o][1])}`;
+    return `<button class="opt" data-id="${o}">${lab}</button>`;
+  }).join('');
+  const el = document.createElement('section');
+  el.className = 'card';
+  el.dataset.ans = vid;
+  el.innerHTML =
+    `<div class="frame quizf" style="${themeStyle()}">` +
+      `<div class="femo" aria-hidden="true">${emo}</div>` +
+      `<div class="fbody"><p class="hook">${big}</p><p class="qsmall">${small}</p><div class="opts">${optHtml}</div></div>` +
+      `<div class="fmark">뿌리</div>` +
+    `</div><div class="below" aria-live="polite"></div>`;
+  return el;
+}
+function doneCard(){
+  const el = document.createElement('section');
+  el.className = 'card done';
+  el.innerHTML =
+    `<div class="frame donef" style="--bg:#1E3A2F;--ink:#EEF2EA;--acc:#E8B04A">` +
+      `<div class="femo" aria-hidden="true">🌳</div>` +
+      `<div class="fbody"><p class="hook">오늘의 ${DAILY}장 끝</p><p class="qsmall" id="doneText"></p>` +
+        `<div class="opts"><button class="opt solid" id="reviewBtn">본 카드 다시 넘기기</button></div></div>` +
+      `<div class="fmark">뿌리</div>` +
+    `</div><div class="below">${newLeft > 0 ? `내일 새 카드 ${Math.min(DAILY, newLeft)}장이 열려요` : '새 카드가 곧 더 추가돼요'}</div>`;
+  return el;
+}
+function doneSummary(){
+  const n = S.today.filter(id => S.todaySeen.includes(id)).length;
+  let t = `오늘 ${n}가지를 새로 알았어요.`;
+  if (S.dq) t += ` 퀴즈 ${S.dq}문제 중 ${S.dqr}문제 정답.`;
+  if (S.streak > 1) t += ` ${S.streak}일 연속이에요.`;
+  return t;
+}
+
+/* ---------- 피드 ---------- */
+const feed = document.getElementById('feed');
+let reviewMode = false, reviewQueue = [], reviewCount = 0, recentV = [];
+
+function buildToday(){
+  S.today.forEach((id, i) => {
+    const c = CBY[id];
+    feed.appendChild(hookCard(c, i < 2 ? '탭하면 발음과 이유가 나와요' : ''));
+    recentV.push(c[5]);
+    if ((i + 1) % QUIZ_EVERY === 0) { feed.appendChild(quizCard(pick(recentV.slice(-QUIZ_EVERY)))); }
+  });
+  feed.appendChild(doneCard());
+  observeNew();
+}
+function appendReview(n){
+  const pool = C.map(c => c[0]).filter(id => seen.has(id) || S.today.includes(id));
+  for (let i = 0; i < n; i++) {
+    if (!reviewQueue.length) reviewQueue = shuffle(pool);
+    const c = CBY[reviewQueue.shift()];
+    feed.appendChild(hookCard(c, '복습'));
+    recentV.push(c[5]); if (recentV.length > 6) recentV.shift();
+    reviewCount++;
+    if (reviewCount % QUIZ_EVERY === 0) feed.appendChild(quizCard(pick(recentV.slice(-QUIZ_EVERY))));
+  }
+  observeNew();
+}
+
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    const c = en.target;
+    if (c.dataset.id) markSeen(c.dataset.id);
+    if (c.classList.contains('done')) { const d = document.getElementById('doneText'); if (d) d.textContent = doneSummary(); }
+    if (reviewMode) {
+      const kids = feed.children;
+      if (c === kids[kids.length - 1] || c === kids[kids.length - 4]) appendReview(10);
+    }
+  });
+}, { root: feed, threshold: 0.6 });
+function observeNew(){
+  feed.querySelectorAll('.card:not([data-obs])').forEach(c => { c.dataset.obs = '1'; io.observe(c); });
+}
+
+function markSeen(id){
+  let changed = false;
+  if (S.today.includes(id) && !S.todaySeen.includes(id)) { S.todaySeen.push(id); changed = true; }
+  if (!seen.has(id)) { seen.add(id); S.seen = Array.from(seen); changed = true; }
+  if (changed) { save(); updateCount(true); }
+}
+
+function toggle(f){
+  const open = f.classList.toggle('open');
+  f.setAttribute('aria-expanded', open ? 'true' : 'false');
+  f.querySelectorAll('button.si').forEach(b => b.tabIndex = open ? 0 : -1);
+  const b = f.parentElement.querySelector('.hint');
+  if (b && open && b.textContent !== '복습') b.textContent = '';
+}
+feed.addEventListener('click', e => {
+  if (e.target.closest('#reviewBtn')) { startReview(); return; }
+  const sh = e.target.closest('[data-share]');
+  if (sh) { shareCard(sh.closest('.card'), sh); return; }
+  const o = e.target.closest('.opt');
+  if (o) { answer(o); return; }
+  const f = e.target.closest('.frame');
+  if (!f || f.classList.contains('quizf') || f.classList.contains('introf') || f.classList.contains('donef')) return;
+  const si = e.target.closest('button.si');
+  if (si && f.classList.contains('open')) { speak(si); return; }
+  toggle(f);
+});
+feed.addEventListener('keydown', e => {
+  const f = e.target;
+  if ((e.key === 'Enter' || e.key === ' ') && f.classList && f.classList.contains('frame') &&
+      !f.classList.contains('quizf') && !f.classList.contains('introf') && !f.classList.contains('donef')) {
+    e.preventDefault(); toggle(f);
+  }
+});
+
+function startReview(){
+  const btn = document.getElementById('reviewBtn');
+  if (reviewMode) return;
+  reviewMode = true;
+  if (btn) { btn.disabled = true; btn.textContent = '아래로 이어져요'; }
+  appendReview(10);
+  const doneEl = feed.querySelector('.card.done');
+  if (doneEl && doneEl.nextElementSibling) doneEl.nextElementSibling.scrollIntoView({ behavior: 'smooth' });
+}
+
+function answer(o){
+  const card = o.closest('.card');
+  if (card.dataset.done) return;
+  card.dataset.done = '1';
+  const ans = card.dataset.ans;
+  const ok = o.dataset.id === ans;
+  let rightBtn = null;
+  card.querySelectorAll('.opt').forEach(b => {
+    b.disabled = true;
+    if (b.dataset.id === ans) { b.classList.add('right'); rightBtn = b; }
+  });
+  if (!ok) o.classList.add('wrong');
+  S.qt++; if (ok) S.qr++;
+  if (!reviewMode) { S.dq++; if (ok) S.dqr++; }
+  save();
+  card.querySelector('.below').textContent = ok ? '정답' : `정답은 ${rightBtn ? rightBtn.textContent.trim() : V[ans][1]}`;
+}
+
+/* ---------- 기록 ---------- */
+const countBtn = document.getElementById('countBtn');
+function updateCount(bump){
+  const n = S.today.filter(id => S.todaySeen.includes(id)).length;
+  countBtn.textContent = n >= DAILY ? `오늘 완료` : `오늘 ${n}/${DAILY}`;
+  if (bump) { countBtn.classList.remove('bump'); void countBtn.offsetWidth; countBtn.classList.add('bump'); }
+}
+const sheet = document.getElementById('recSheet');
+countBtn.addEventListener('click', () => {
+  const n = S.today.filter(id => S.todaySeen.includes(id)).length;
+  let txt = `오늘의 ${DAILY}장 중 ${n}장을 봤어요.`;
+  if (S.dq) txt += ` 퀴즈는 ${S.dq}문제 중 ${S.dqr}문제를 맞혔어요.`;
+  txt += ` 지금까지 ${C.length}장 중 ${seen.size}장을 모았어요.`;
+  if (S.streak > 1) txt += ` ${S.streak}일 연속으로 들렀어요.`;
+  document.getElementById('recText').textContent = txt;
+  document.getElementById('recGrid').innerHTML = C.map(c => `<div class="tile${seen.has(c[0]) ? '' : ' locked'}"><span aria-hidden="true">${c[1]}</span></div>`).join('');
+  sheet.classList.add('open');
+});
+document.querySelectorAll('.sheet').forEach(sh => sh.addEventListener('click', e => {
+  if (e.target === sh || e.target.closest('[data-close]')) sh.classList.remove('open');
+}));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') document.querySelectorAll('.sheet.open').forEach(sh => sh.classList.remove('open')); });
+
+/* ---------- 크기 ---------- */
+function sizeFrames(){
+  const h = feed.clientHeight, w = feed.clientWidth;
+  const fw = Math.floor(Math.max(220, Math.min(w - 32, (h - 24 - 30) * 0.8, 460)));
+  document.documentElement.style.setProperty('--fw', fw + 'px');
+}
+window.addEventListener('resize', sizeFrames);
+sizeFrames();
+if (S.today.every(id => S.todaySeen.includes(id))) document.getElementById('introHint').textContent = '오늘 분량은 다 봤어요. 다시 넘겨 봐도 돼요';
+updateCount(false);
+buildToday();
+
+/* ---------- 이미지로 공유 (인스타 4:5) ---------- */
+const SERIF = '"Hahmlet","Noto Serif KR","AppleMyungjo",serif';
+const SANS = '"IBM Plex Sans KR","Apple SD Gothic Neo","Noto Sans KR",sans-serif';
+const EMOJI = '"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';
+function wrapText(x, text, maxW){
+  const lines = []; let cur = '';
+  const push = w => {
+    if (x.measureText(w).width <= maxW) return w;
+    let part = '';
+    for (const ch of w) {
+      if (x.measureText(part + ch).width > maxW && part) { lines.push(part); part = ch; } else part += ch;
+    }
+    return part;
+  };
+  for (const word of String(text).split(' ')) {
+    const test = cur ? cur + ' ' + word : word;
+    if (x.measureText(test).width <= maxW) { cur = test; continue; }
+    if (cur) lines.push(cur);
+    cur = push(word);
+  }
+  if (cur) lines.push(cur);
+  return lines;
+}
+async function renderShare(c, t){
+  const W = 1080, H = 1350, P = 96, maxW = W - P * 2;
+  try {
+    await Promise.race([
+      Promise.all([`800 80px ${SERIF}`, `600 48px ${SERIF}`, `400 36px ${SERIF}`, `400 28px ${SANS}`].map(f => document.fonts.load(f, '가Aa'))),
+      new Promise(r => setTimeout(r, 1500))
+    ]);
+  } catch (e) {}
+  const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+  const x = cv.getContext('2d');
+  x.fillStyle = t.bg; x.fillRect(0, 0, W, H);
+  x.textBaseline = 'alphabetic';
+  x.fillStyle = t.ink;
+  x.font = `120px ${EMOJI}`;
+  x.fillText(c[1], P, P + 112);
+
+  const layout = hs => {
+    x.font = `800 ${hs}px ${SERIF}`;
+    const hook = wrapText(x, c[2], maxW);
+    const items = c[3].map(([w, l]) => {
+      x.font = `600 48px ${SERIF}`; const ww = x.measureText(w).width;
+      x.font = `400 28px ${SANS}`; const lw = x.measureText(l).width;
+      return { w, l, width: Math.max(ww, lw) };
+    });
+    const rows = []; let row = [], rw = 0;
+    items.forEach(it => {
+      const add = (row.length ? 56 : 0) + it.width;
+      if (row.length && rw + add > maxW) { rows.push(row); row = [it]; rw = it.width; } else { row.push(it); rw += add; }
+    });
+    if (row.length) rows.push(row);
+    x.font = `400 36px ${SERIF}`;
+    const more = wrapText(x, c[4], maxW);
+    const hookH = hook.length * hs * 1.3;
+    const stripH = 48 + rows.length * 108;
+    const moreH = 48 + more.length * 36 * 1.65;
+    return { hs, hook, rows, more, total: hookH + stripH + moreH };
+  };
+  const top = P + 160, bottom = H - P - 70;
+  let L = layout(84);
+  for (const hs of [76, 68, 60]) { if (L.total <= bottom - top) break; L = layout(hs); }
+  let y = top + Math.max(0, (bottom - top - L.total) / 2);
+
+  x.fillStyle = t.ink; x.font = `800 ${L.hs}px ${SERIF}`;
+  L.hook.forEach(line => { y += L.hs * 1.3; x.fillText(line, P, y - L.hs * 0.28); });
+  y += 40;
+  x.fillStyle = t.acc; x.fillRect(P, y, maxW, 4);
+  y += 8;
+  L.rows.forEach(r => {
+    let cx = P;
+    r.forEach(it => {
+      x.fillStyle = t.ink; x.globalAlpha = 1; x.font = `600 48px ${SERIF}`; x.fillText(it.w, cx, y + 58);
+      x.globalAlpha = .7; x.font = `400 28px ${SANS}`; x.fillText(it.l, cx, y + 96);
+      x.globalAlpha = 1; cx += it.width + 56;
+    });
+    y += 108;
+  });
+  y += 48;
+  x.fillStyle = t.ink; x.globalAlpha = .92; x.font = `400 36px ${SERIF}`;
+  L.more.forEach(line => { x.fillText(line, P, y + 36); y += 36 * 1.65; });
+  x.globalAlpha = .55; x.font = `800 40px ${SERIF}`;
+  x.fillText('뿌리', P, H - P);
+  x.font = `400 26px ${SANS}`; x.textAlign = 'right';
+  x.fillText('단어에도 족보가 있다', W - P, H - P);
+  x.globalAlpha = 1; x.textAlign = 'left';
+  return new Promise(res => cv.toBlob(b => res(b), 'image/png'));
+}
+let shareFile = null, shareURL = null;
+function openShareSheet(blob, file){
+  if (shareURL) URL.revokeObjectURL(shareURL);
+  shareURL = URL.createObjectURL(blob);
+  document.getElementById('shareImg').src = shareURL;
+  const dl = document.getElementById('shareDl');
+  dl.href = shareURL; dl.download = file.name; dl.hidden = !!window.PPURI_PREVIEW;
+  const again = document.getElementById('shareAgain');
+  again.hidden = !(navigator.canShare && navigator.canShare({ files: [file] }));
+  document.getElementById('shareSheet').classList.add('open');
+}
+async function shareCard(cardEl, btn){
+  const c = CBY[cardEl.dataset.id];
+  const t = THEMES[+cardEl.dataset.theme || 0];
+  if (!c) return;
+  btn.disabled = true;
+  try {
+    const blob = await renderShare(c, t);
+    if (!blob) return;
+    const file = new File([blob], `ppuri-${c[0]}.png`, { type: 'image/png' });
+    shareFile = file;
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      try { await navigator.share({ files: [file] }); }
+      catch (e) { if (!e || e.name !== 'AbortError') openShareSheet(blob, file); }
+    } else {
+      openShareSheet(blob, file);
+    }
+  } catch (e) {
+  } finally {
+    btn.disabled = false;
+  }
+}
+document.getElementById('shareAgain').addEventListener('click', async () => {
+  if (!shareFile) return;
+  try { await navigator.share({ files: [shareFile] }); } catch (e) {}
+});
+
+/* ---------- 설치 안내 ---------- */
+const installBtn = document.getElementById('installBtn');
+let installEvt = null;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); installEvt = e; installBtn.hidden = false; });
+installBtn.addEventListener('click', async () => {
+  if (!installEvt) return;
+  installEvt.prompt();
+  try { await installEvt.userChoice; } catch (e) {}
+  installEvt = null; installBtn.hidden = true;
+});
+window.addEventListener('appinstalled', () => { installBtn.hidden = true; });
+(function iosTip(){
+  const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const standalone = navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
+  let dismissed = false;
+  try { dismissed = localStorage.getItem('ppuri-tip') === '1'; } catch (e) {}
+  if (!ios || standalone || dismissed || window.PPURI_PREVIEW) return;
+  const tip = document.getElementById('iosTip');
+  tip.classList.add('show');
+  document.getElementById('iosTipClose').addEventListener('click', () => {
+    tip.classList.remove('show');
+    try { localStorage.setItem('ppuri-tip', '1'); } catch (e) {}
+    sizeFrames();
+  });
+  sizeFrames();
+})();
+
+/* ---------- 오프라인 ---------- */
+if (!window.PPURI_PREVIEW && 'serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
+}
+</script>
+</body>
+</html>
