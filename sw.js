@@ -1,6 +1,6 @@
 /* 뿌리 오프라인 지원.
    카드 데이터를 고치면 CACHE 이름의 숫자를 올려야 사용자 폰에 새 버전이 확실히 반영된다. */
-const CACHE = 'ppuri-v5';
+const CACHE = 'ppuri-v6';
 const FONTS = 'ppuri-fonts';
 const CORE = [
   './',

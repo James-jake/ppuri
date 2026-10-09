@@ -189,6 +189,7 @@ button{font-family:inherit}
   </div>
 </div>
 
+<script>if (!window.PPURI_PREVIEW) { const g = document.createElement('script'); g.async = true; g.src = 'https://gc.zgo.at/count.js'; g.dataset.goatcounter = 'https://kjake.goatcounter.com/count'; document.head.appendChild(g); }</script>
 <script>
 /* 카드: [id, 이모지, 한 줄, [[단어, 언어, 발음 표기, 음성용 텍스트]...], 탭하면 나오는 설명, 퀴즈용 어휘 id]
    발음 표기: 유럽어는 IPA(영어는 미국식, 스페인어는 스페인식), 일본어는 가나와 로마자, 중국어는 병음.
@@ -770,6 +771,11 @@ const pick = a => a[Math.floor(Math.random() * a.length)];
 })();
 const newLeft = C.filter(c => !seen.has(c[0]) && !S.today.includes(c[0])).length;
 
+/* ---------- 방문 통계 (GoatCounter, 쿠키 없음) ---------- */
+function track(name){
+  try { if (!window.PPURI_PREVIEW && window.goatcounter && window.goatcounter.count) window.goatcounter.count({ path: name, title: name, event: true }); } catch (e) {}
+}
+
 /* ---------- 발음 ---------- */
 const canSpeak = ('speechSynthesis' in window) && typeof SpeechSynthesisUtterance !== 'undefined';
 const SPK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
@@ -980,7 +986,7 @@ function observeNew(){
 
 function markSeen(id){
   let changed = false;
-  if (S.today.includes(id) && !S.todaySeen.includes(id)) { S.todaySeen.push(id); changed = true; }
+  if (S.today.includes(id) && !S.todaySeen.includes(id)) { S.todaySeen.push(id); changed = true; if (S.today.every(x => S.todaySeen.includes(x))) track('day-complete'); }
   if (!seen.has(id)) { seen.add(id); S.seen = Array.from(seen); changed = true; }
   if (changed) { save(); updateCount(true); }
 }
@@ -1015,6 +1021,7 @@ feed.addEventListener('keydown', e => {
 function startReview(){
   const btn = document.getElementById('reviewBtn');
   if (reviewMode) return;
+  track('review-start');
   reviewMode = true;
   if (btn) { btn.disabled = true; btn.textContent = '아래로 이어져요'; }
   appendReview(10);
@@ -1037,6 +1044,7 @@ function answer(o){
   const blank = card.querySelector('.blank');
   if (blank && card.dataset.fill) { blank.textContent = card.dataset.fill; blank.classList.add('filled'); }
   S.qt++; if (ok) S.qr++;
+  track(ok ? 'quiz-right' : 'quiz-wrong');
   if (!reviewMode) { S.dq++; if (ok) S.dqr++; }
   save();
   card.querySelector('.below').textContent = ok ? '정답' : `정답은 ${rightBtn ? rightBtn.textContent.trim() : ''}`;
@@ -1162,7 +1170,7 @@ async function renderShare(c, t){
   x.globalAlpha = .55; x.font = `800 40px ${SERIF}`;
   x.fillText('뿌리', P, H - P);
   x.font = `400 26px ${SANS}`; x.textAlign = 'right';
-  x.fillText('단어에도 족보가 있다', W - P, H - P);
+  x.fillText('james-jake.github.io/ppuri', W - P, H - P);
   x.globalAlpha = 1; x.textAlign = 'left';
   return new Promise(res => cv.toBlob(b => res(b), 'image/png'));
 }
@@ -1187,6 +1195,7 @@ async function shareCard(cardEl, btn){
     if (!blob) return;
     const file = new File([blob], `ppuri-${c[0]}.png`, { type: 'image/png' });
     shareFile = file;
+    track('share');
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
       try { await navigator.share({ files: [file] }); }
       catch (e) { if (!e || e.name !== 'AbortError') openShareSheet(blob, file); }
@@ -1213,7 +1222,7 @@ installBtn.addEventListener('click', async () => {
   try { await installEvt.userChoice; } catch (e) {}
   installEvt = null; installBtn.hidden = true;
 });
-window.addEventListener('appinstalled', () => { installBtn.hidden = true; });
+window.addEventListener('appinstalled', () => { installBtn.hidden = true; track('install'); });
 (function iosTip(){
   const ios = /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
   const standalone = navigator.standalone === true || (window.matchMedia && matchMedia('(display-mode: standalone)').matches);
