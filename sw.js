@@ -1,11 +1,14 @@
-/* 뿌리 오프라인 지원.
-   카드 데이터를 고치면 CACHE 이름의 숫자를 올려야 사용자 폰에 새 버전이 확실히 반영된다. */
-const CACHE = 'ppuri-v6';
+/* 뿌리 오프라인 지원 (한국어판 / 와 영어판 /en/ 공용).
+   카드나 화면을 고치면 CACHE 이름의 숫자를 올려야 설치한 폰에도 새 버전이 확실히 반영된다. */
+const CACHE = 'ppuri-v7';
 const FONTS = 'ppuri-fonts';
 const CORE = [
   './',
   'index.html',
   'manifest.webmanifest',
+  'en/',
+  'en/index.html',
+  'en/manifest.webmanifest',
   'icons/icon-192.png',
   'icons/icon-512.png',
   'icons/icon-maskable-512.png',
@@ -30,15 +33,20 @@ self.addEventListener('fetch', e => {
   if (req.method !== 'GET') return;
   const url = new URL(req.url);
 
-  // 앱 화면: 온라인이면 새 버전, 오프라인이면 저장해 둔 버전
+  // 앱 화면: 온라인이면 새 버전, 오프라인이면 그 주소로 저장해 둔 버전
   if (req.mode === 'navigate') {
+    const key = new URL(url.href); key.search = ''; key.hash = '';
+    const isEn = /\/en\/?(index\.html)?$/.test(key.pathname);
     e.respondWith(
       fetch(req)
         .then(res => {
-          if (res.ok) { const copy = res.clone(); caches.open(CACHE).then(c => c.put('index.html', copy)); }
+          if (res.ok && res.type === 'basic') { const copy = res.clone(); caches.open(CACHE).then(c => c.put(key.href, copy)); }
           return res;
         })
-        .catch(() => caches.match('index.html', { ignoreSearch: true }).then(r => r || caches.match('./')))
+        .catch(async () =>
+          (await caches.match(key.href)) ||
+          (await caches.match(isEn ? 'en/index.html' : 'index.html')) ||
+          caches.match(isEn ? 'en/' : './'))
     );
     return;
   }

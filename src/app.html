@@ -1,20 +1,20 @@
 <!doctype html>
-<html lang="ko">
+<html lang="{{lang}}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>뿌리</title>
-<meta name="description" content="한 장에 한 줄, 단어의 족보를 넘겨 보는 어원 카드">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
 <meta name="theme-color" content="#E9EDE6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#101512" media="(prefers-color-scheme: dark)">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="alternate" hreflang="en" href="en/">
-<link rel="icon" type="image/png" href="icons/favicon.png">
-<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="alternate" hreflang="{{otherLang}}" href="{{otherHref}}">
+<link rel="icon" type="image/png" href="{{base}}icons/favicon.png">
+<link rel="apple-touch-icon" href="{{base}}icons/apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="뿌리">
-<script>try{if(!window.PPURI_PREVIEW){var p=localStorage.getItem('ppuri-lang');var ls=((navigator.languages&&navigator.languages.length)?navigator.languages:[navigator.language||'']).join(',').toLowerCase();if(p==='en'||(p!=='ko'&&ls.indexOf('ko')<0)){location.replace('en/'+location.search+location.hash);}}}catch(e){}</script>
+<meta name="apple-mobile-web-app-title" content="{{appTitle}}">
+{{redirect}}
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -148,14 +148,14 @@ html[lang="en"] .hook{letter-spacing:-0.015em}
 </head>
 <body>
 <header class="bar">
-  <span class="logo">뿌리</span>
-  <a class="count" id="langLink" href="en/" hreflang="en" lang="en" aria-label="English version">EN</a>
-  <button class="count" id="installBtn" hidden>앱 설치</button>
-  <button class="count" id="countBtn">오늘</button>
+  <span class="logo">{{logo}}</span>
+  <a class="count" id="langLink" href="{{otherHref}}" hreflang="{{otherLang}}" lang="{{otherLang}}" aria-label="{{otherAria}}">{{otherLabel}}</a>
+  <button class="count" id="installBtn" hidden>{{install}}</button>
+  <button class="count" id="countBtn">{{today}}</button>
 </header>
 <div class="tip" id="iosTip" role="note">
-  <span>Safari 아래쪽 공유 버튼에서 ‘홈 화면에 추가’를 누르면 앱처럼 열려요.</span>
-  <button class="count" id="iosTipClose">닫기</button>
+  <span>{{iosTip}}</span>
+  <button class="count" id="iosTipClose">{{close}}</button>
 </div>
 
 <main id="feed">
@@ -163,43 +163,43 @@ html[lang="en"] .hook{letter-spacing:-0.015em}
     <div class="frame introf" style="--bg:#DCE4D4;--ink:#18231E;--acc:#22407E">
       <div class="femo" aria-hidden="true">🌱</div>
       <div class="fbody">
-        <p class="hook">단어에도 족보가 있다</p>
-        <div class="strip"><span class="si"><b>night</b><i>영어</i></span><span class="si"><b>Nacht</b><i>독일어</i></span><span class="si"><b>nuit</b><i>프랑스어</i></span><span class="si"><b>noche</b><i>스페인어</i></span></div>
+        <p class="hook">{{introHook}}</p>
+        <div class="strip"><span class="si"><b>night</b><i>{{introL1}}</i></span><span class="si"><b>Nacht</b><i>{{introL2}}</i></span><span class="si"><b>nuit</b><i>{{introL3}}</i></span><span class="si"><b>noche</b><i>{{introL4}}</i></span></div>
       </div>
-      <div class="fmark">뿌리</div>
+      <div class="fmark">{{logo}}</div>
     </div>
     <div class="below">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 15 6-6 6 6"/></svg>
-      <span id="introHint">오늘의 10장, 위로 넘겨서 시작</span>
+      <span id="introHint">{{introHint}}</span>
     </div>
   </section>
 </main>
 
 <div class="sheet" id="recSheet" role="dialog" aria-modal="true" aria-labelledby="recTitle">
   <div class="panel">
-    <div class="ptop"><h2 id="recTitle">기록</h2><button class="count" data-close>닫기</button></div>
+    <div class="ptop"><h2 id="recTitle">{{recTitle}}</h2><button class="count" data-close>{{close}}</button></div>
     <p class="ptext" id="recText"></p>
     <div class="grid" id="recGrid"></div>
-    <button class="pbtn" data-close>계속 보기</button>
+    <button class="pbtn" data-close>{{keepGoing}}</button>
   </div>
 </div>
 
 <div class="sheet" id="shareSheet" role="dialog" aria-modal="true" aria-labelledby="shareTitle">
   <div class="panel">
-    <div class="ptop"><h2 id="shareTitle">이미지로 저장</h2><button class="count" data-close>닫기</button></div>
-    <img class="simg" id="shareImg" alt="공유용 카드 이미지">
-    <p class="ptext" style="font-size:15px">이미지를 길게 눌러 사진에 저장한 뒤 인스타그램에 올려 보세요.</p>
-    <button class="pbtn" id="shareAgain" hidden>공유하기</button>
-    <a class="pbtn ghost" id="shareDl" download="ppuri.png" href="#">이미지 파일 받기</a>
+    <div class="ptop"><h2 id="shareTitle">{{shareTitle}}</h2><button class="count" data-close>{{close}}</button></div>
+    <img class="simg" id="shareImg" alt="{{shareAlt}}">
+    <p class="ptext" style="font-size:15px">{{shareHelp}}</p>
+    <button class="pbtn" id="shareAgain" hidden>{{shareAgain}}</button>
+    <a class="pbtn ghost" id="shareDl" download="ppuri.png" href="#">{{shareDl}}</a>
   </div>
 </div>
 
 <script>if (!window.PPURI_PREVIEW) { const g = document.createElement('script'); g.async = true; g.src = 'https://gc.zgo.at/count.js'; g.dataset.goatcounter = 'https://kjake.goatcounter.com/count'; document.head.appendChild(g); }</script>
 <script>
-const LOCALE = 'ko';
-const BASE = '';
-const STR = {"title":"뿌리","description":"한 장에 한 줄, 단어의 족보를 넘겨 보는 어원 카드","appTitle":"뿌리","logo":"뿌리","install":"앱 설치","today":"오늘","iosTip":"Safari 아래쪽 공유 버튼에서 ‘홈 화면에 추가’를 누르면 앱처럼 열려요.","close":"닫기","introHook":"단어에도 족보가 있다","introL1":"영어","introL2":"독일어","introL3":"프랑스어","introL4":"스페인어","introHint":"오늘의 10장, 위로 넘겨서 시작","introDone":"오늘 분량은 다 봤어요. 다시 넘겨 봐도 돼요","recTitle":"기록","keepGoing":"계속 보기","shareTitle":"이미지로 저장","shareAlt":"공유용 카드 이미지","shareHelp":"이미지를 길게 눌러 사진에 저장한 뒤 인스타그램에 올려 보세요.","shareAgain":"공유하기","shareDl":"이미지 파일 받기","otherLabel":"EN","otherAria":"English version","speakAria":"{w}, {l} 발음 듣기","shareAria":"이미지로 공유","shareBtn":"공유","blank":"빈칸","clozeAsk":"방금 본 카드예요. 빈칸에 들어갈 말은?","vocabAskA":"방금 본 카드에 나왔어요. {l}로는?","vocabAskB":"방금 본 {l} 단어{r}, 무슨 뜻일까?","doneHook":"오늘의 {n}장 끝","reviewBtn":"본 카드 다시 넘기기","tomorrow":"내일 새 카드 {n}장이 열려요","moreSoon":"새 카드가 곧 더 추가돼요","doneLearned":"오늘 {n}가지를 새로 알았어요.","doneQuiz":" 퀴즈 {a}문제 중 {b}문제 정답.","doneStreak":" {n}일 연속이에요.","hintTap":"탭하면 발음과 이유가 나와요","review":"복습","keepScrolling":"아래로 이어져요","correct":"정답","answerIs":"정답은 {x}","doneToday":"오늘 완료","todayN":"오늘 {n}/{d}","recSeen":"오늘의 {d}장 중 {n}장을 봤어요.","recQuiz":" 퀴즈는 {a}문제 중 {b}문제를 맞혔어요.","recTotal":" 지금까지 {t}장 중 {n}장을 모았어요.","recStreak":" {n}일 연속으로 들렀어요.","brand":"뿌리","shareUrl":"james-jake.github.io/ppuri"};
-const EN = null;
+const LOCALE = '{{lang}}';
+const BASE = '{{base}}';
+const STR = {{STR_JSON}};
+const EN = {{EN_JSON}};
 const fmt = (s, o) => s.replace(/\{(\w+)\}/g, (m, k) => (k in o ? o[k] : m));
 const LANG_EN = { '영어':'English', '독일어':'German', '프랑스어':'French', '스페인어':'Spanish', '이탈리아어':'Italian', '포르투갈어':'Portuguese', '네덜란드어':'Dutch', '러시아어':'Russian', '일본어':'Japanese', '중국어':'Chinese', '한국어':'Korean', '한자':'Hanja', '라틴어':'Latin', '그리스어':'Greek', '고대영어':'Old English', '중세영어':'Middle English', '고대노르드어':'Old Norse', '고대독일어':'Old High German', '산스크리트어':'Sanskrit', '페르시아어':'Persian', '아랍어':'Arabic', '튀르키예어':'Turkish', '힌디어':'Hindi', '나와틀어':'Nahuatl', '체코어':'Czech' };
 const langName = l => (LOCALE === 'en' ? (LANG_EN[l] || l) : l);

@@ -1,0 +1,1448 @@
+{
+ "school": {
+  "h": "School originally meant ‘leisure’",
+  "m": "People gathered to debate in their free time, when they didn't have to work, and that grew into school."
+ },
+ "bread": {
+  "h": "Korean ppang (bread) is a Portuguese word",
+  "m": "Portuguese traders brought pão to Japan in the 1500s, and from Japan the word made its way to Korea.",
+  "roman": {
+   "빵": "ppang"
+  }
+ },
+ "mama": {
+  "h": "Korean eomma and Chinese mama aren't related",
+  "m": "‘Ma’ is the first sound a baby can make, so unrelated languages arrived at the same answer independently.",
+  "roman": {
+   "엄마": "eomma"
+  }
+ },
+ "vodka": {
+  "h": "Vodka literally means ‘little water’",
+  "m": "Russian voda (water) plus a suffix meaning small. Voda shares a root with English water."
+ },
+ "tea": {
+  "h": "Tea and Korean cha come from one Chinese character",
+  "m": "Both are 茶. The te pronunciation traveled by sea to Europe, while cha spread overland to Korea and Russia.",
+  "roman": {
+   "차": "cha"
+  }
+ },
+ "coffee": {
+  "h": "Coffee is the same word in almost every language",
+  "m": "Arabic qahwa spread around the world by way of Turkish and Italian."
+ },
+ "gabae": {
+  "h": "Koreans once called coffee ‘gabae’",
+  "m": "It's the Korean reading of 珈琲, the Chinese characters chosen to spell out the sound of coffee.",
+  "roman": {
+   "珈琲": "gabae",
+   "가배": "gabae"
+  }
+ },
+ "mother": {
+  "h": "Mother and madre were once the same word",
+  "m": "They're siblings, all branching off from Proto-Indo-European *méh₂tēr."
+ },
+ "father": {
+  "h": "Father has an f, padre a p. Why?",
+  "m": "In the Germanic languages, p shifted to f across the board. It's Grimm's law, worked out by Jacob Grimm of the Brothers Grimm."
+ },
+ "foot": {
+  "h": "Foot and pedal split from the same word",
+  "m": "Thanks to Grimm's law, only Germanic got the f. Latin kept the p, which gave us pedal and pedestrian."
+ },
+ "heart": {
+  "h": "Heart and courage share a root",
+  "m": "Latin cor (heart) gave French cœur and English courage. In Germanic, k shifted to h, giving heart."
+ },
+ "focus": {
+  "h": "Focus originally meant ‘hearth’",
+  "m": "The hearth was the center of the home. The French and Spanish words for fire, feu and fuego, come from it too."
+ },
+ "nocturne": {
+  "h": "Chopin's nocturnes are just ‘night songs’",
+  "m": "Latin nox (night) gave us both nocturnal and nocturne."
+ },
+ "namae": {
+  "h": "Japanese namae looks like name by pure chance",
+  "m": "It comes from native Japanese na (name), with no link to European languages. Name and French nom, though, really are relatives."
+ },
+ "novel": {
+  "h": "Novel literally means ‘new story’",
+  "m": "Latin novus (new) gave us novel, and also nova, a ‘new star’."
+ },
+ "disaster": {
+  "h": "Disaster literally means ‘bad star’",
+  "m": "Dis (bad) plus astro (star). It meant misfortune caused by an unlucky position of the stars."
+ },
+ "month": {
+  "h": "Month comes from moon",
+  "m": "Months were measured by the moon's cycle. Same idea as the Chinese character 月, which means both moon and month."
+ },
+ "soleil": {
+  "h": "French soleil literally means ‘little sun’",
+  "m": "It comes from Latin sol (sun) plus a suffix meaning small."
+ },
+ "taiyang": {
+  "h": "Korean taeyang (sun) means ‘greatest yang’",
+  "m": "That's yang as in yin and yang. The moon is taeeum (太陰), ‘greatest yin’, and in Korean the lunar calendar is named after it.",
+  "roman": {
+   "태양": "taeyang"
+  }
+ },
+ "dandelion": {
+  "h": "Dandelion literally means ‘lion's tooth’",
+  "m": "From French dent de lion, named for its leaves, which are jagged like the teeth of a saw."
+ },
+ "sam": {
+  "h": "Sam, san and sān (three) are the same word",
+  "m": "All three split off from Middle Chinese sam. The native Korean word for three, set, comes from a different line.",
+  "roman": {
+   "삼": "sam"
+  }
+ },
+ "salad": {
+  "h": "Salad literally means ‘salted’",
+  "m": "Latin sal (salt) gave us not just salad but sauce and even sausage."
+ },
+ "salary": {
+  "h": "Paid in salt? That salary story is ‘shaky’",
+  "m": "Salary is linked to salt, but there's little record of Roman soldiers actually being paid in salt."
+ },
+ "galaxy": {
+  "h": "Galaxy literally means ‘milky’",
+  "m": "Greek gala means milk. The Milky Way looked like a trail of spilled milk, hence the name."
+ },
+ "casino": {
+  "h": "Casino literally means ‘little house’",
+  "m": "It's Italian casa (house) plus a suffix meaning small."
+ },
+ "mansion": {
+  "h": "French maison (house) and mansion are siblings",
+  "m": "Both come from Latin mansio, a place to stay."
+ },
+ "dog": {
+  "h": "The origin of dog is still a mystery",
+  "m": "German Hund and French chien share a root, but where dog and Spanish perro came from remains unknown."
+ },
+ "maharaja": {
+  "h": "Maharaja means ‘great king’",
+  "m": "Latin rex and Sanskrit raja share a root, and maha means great."
+ },
+ "king": {
+  "h": "King probably goes back to kin",
+  "m": "The leading theory is that a king was the head of the kin, the family clan. It isn't settled, though."
+ },
+ "museum": {
+  "h": "Museum means ‘place of the Muses’",
+  "m": "Music, too, comes from a Greek word meaning the art of the Muses."
+ },
+ "pomegranate": {
+  "h": "Pomegranate means ‘fruit full of seeds’",
+  "m": "Latin pomum originally meant just fruit. That's why the French word for apple is pomme."
+ },
+ "manzana": {
+  "h": "Spanish manzana (apple) is named after a Roman",
+  "m": "It comes from an apple variety named after a Roman called Matius."
+ },
+ "foreign": {
+  "h": "Foreign originally meant ‘outside the door’",
+  "m": "It comes from Latin foras (outside the door), which shares a root with door."
+ },
+ "gasu": {
+  "h": "Korean gasu (歌手, singer) is a ‘singing hand’",
+  "m": "歌 is song, and 手 is hand in the sense of a skilled person, like a deckhand. Korean, Chinese and Japanese all share this word.",
+  "roman": {
+   "가수": "gasu"
+  }
+ },
+ "manual": {
+  "h": "Manual and manicure both come from ‘hand’",
+  "m": "Latin manus (hand) also gave us manuscript, something written by hand."
+ },
+ "tide": {
+  "h": "Tide originally meant ‘time’",
+  "m": "The German word for time is Zeit, which shares a root with tide."
+ },
+ "mermaid": {
+  "h": "The mer in mermaid means ‘sea’",
+  "m": "English says sea, but an older root for it survives in mermaid."
+ },
+ "nevada": {
+  "h": "Nevada literally means ‘snow-covered’",
+  "m": "In Spanish, snow is nieve and snow-covered is nevada."
+ },
+ "library": {
+  "h": "Library goes back to ‘tree bark’",
+  "m": "Latin liber originally meant the inner bark of a tree, because that's what people wrote on."
+ },
+ "book": {
+  "h": "One theory says book comes from the beech tree",
+  "m": "The idea is that it comes from letters carved into beech-wood boards."
+ },
+ "eau": {
+  "h": "French eau is aqua, worn all the way down",
+  "m": "The sounds kept wearing away in French until it became eau, which is pronounced simply ‘oh’."
+ },
+ "milk": {
+  "h": "Korean uyu (milk) is simply ‘cow milk’",
+  "m": "It's written 牛乳, cow plus milk. Korean, Chinese and Japanese all use the character 牛 for cow.",
+  "roman": {
+   "우유": "uyu"
+  }
+ },
+ "snow": {
+  "h": "Snow and French neige share a root",
+  "m": "On the way into Latin the initial s fell off, giving nix, which became French neige and Spanish nieve."
+ },
+ "bd-pupil": {
+  "h": "Pupil (of the eye) means ‘little doll’",
+  "m": "It's from the tiny image of yourself reflected in someone else's eye. Korean calls that image nunbucheo.",
+  "roman": {
+   "눈부처": "nunbucheo"
+  }
+ },
+ "bd-daisy": {
+  "h": "Daisy literally means ‘day's eye’",
+  "m": "From Old English dæges eage. The petals open at dawn and close at dusk."
+ },
+ "bd-ear-corn": {
+  "h": "Your ear and an ear of corn are unrelated",
+  "m": "The body part is kin to German Ohr and Latin auris; the grain ear, to German Ähre. Only in English did they end up sounding alike, by chance."
+ },
+ "bd-self-nose": {
+  "h": "自 (self) was originally a picture of a ‘nose’",
+  "m": "In oracle bone script, 自 is shaped like a nose. Once 自 came to mean self, a separate character, 鼻, was created for nose.",
+  "roman": {
+   "自": "ja",
+   "鼻": "bi"
+  }
+ },
+ "bd-gobbul": {
+  "skip": true,
+  "why": "Native Korean word history: the 뿔 in 고뿔 was 불 (fire), from Middle Korean 곳블 (코+ㅅ+블). Only works if you read Hangul."
+ },
+ "bd-rhino": {
+  "h": "Rhinoceros literally means ‘nose horn’",
+  "m": "Greek rhis (nose) plus keras (horn). Korean koppulso was built the same way: nose + horn + cow.",
+  "roman": {
+   "코뿔소": "koppulso"
+  }
+ },
+ "bd-mouth": {
+  "h": "Mouth is missing an n it should have",
+  "m": "In Old English, n vanished before th, s and f. Five vs. German fünf and us vs. uns are the same story."
+ },
+ "bd-stomach": {
+  "h": "Stomach goes back to ‘mouth’",
+  "m": "Greek stomachos, from stoma (mouth), originally meant the throat. Only later did it come to mean the stomach."
+ },
+ "bd-lingua": {
+  "h": "Tongue and Latin lingua were once the same word",
+  "m": "The leading theory: Old Latin dingua became lingua, influenced by lingere (to lick). Language comes from it too."
+ },
+ "bd-ipsul": {
+  "skip": true,
+  "why": "Native Korean word history: 입술 and 눈시울 share 시울 (curved edge), via Middle Korean 입시울. Only works in Hangul."
+ },
+ "bd-eolgul": {
+  "h": "Korean eolgul (face) originally meant ‘appearance’",
+  "m": "In the 15th century, eolgul meant form or appearance; by the 17th it had narrowed to the face. Latin facies, too, first meant appearance.",
+  "roman": {
+   "얼굴": "eolgul"
+  }
+ },
+ "bd-lose-face": {
+  "h": "Lose face is a translation from Chinese",
+  "m": "It's English for Chinese 丢脸 (to lose face), on record since 1835."
+ },
+ "bd-tete": {
+  "h": "French tête (head) first meant ‘clay pot’",
+  "m": "Latin testa was an earthenware pot or a shell. It's uncertain whether the head was jokingly called a jar or the skull was called a shell."
+ },
+ "bd-mari": {
+  "h": "The Korean counter for animals, mari, meant ‘head’",
+  "m": "In Middle Korean, mari meant head. Many languages count animals by the head, like Japanese 一頭 or 50 head of cattle.",
+  "roman": {
+   "마리": "mari"
+  }
+ },
+ "bd-meorikarak": {
+  "skip": true,
+  "why": "Korean sound change: the leftover ㅎ in 머리카락, 살코기, 안팎. Only works if you read Hangul."
+ },
+ "bd-shampoo": {
+  "h": "Shampoo originally meant ‘massage’",
+  "m": "From Hindi champo (press!). It meant massaging the body, then around 1860 came to mean washing the hair.",
+  "roman": {
+   "샴푸": "syampu"
+  }
+ },
+ "bd-epaule": {
+  "h": "French épaule (shoulder) is a spatula",
+  "m": "Latin spatula came to mean the broad, flat shoulder blade. In Spanish it became espalda, the back."
+ },
+ "bd-bra": {
+  "h": "The bra in brassiere means ‘arm’",
+  "m": "French bras (arm) gave a word for an arm guard, which shifted to a child's top and then to underwear."
+ },
+ "bd-cubit": {
+  "h": "The cubit, as in Noah's ark, means ‘elbow’",
+  "m": "From Latin cubitum (elbow). One cubit is the length from elbow to fingertip, roughly half a meter."
+ },
+ "bd-digit": {
+  "h": "Digital goes back to ‘finger’",
+  "m": "Counting on fingers turned digit into a word for the numerals 0–9. Process something as numbers, and it's digital."
+ },
+ "bd-garak": {
+  "skip": true,
+  "why": "Depends on Korean spelling: 손가락/젓가락 share the native word 가락."
+ },
+ "bd-knee": {
+  "h": "The k in knee used to be pronounced",
+  "m": "English once pronounced the k, just like German. It weakened over about 100 years and disappeared around 1750, surviving only in the spelling."
+ },
+ "bd-leg-skin": {
+  "h": "Leg and skin are words the Vikings left behind",
+  "m": "Both came in from Old Norse. Before that, English called a leg a shank and skin hide."
+ },
+ "bd-bein": {
+  "h": "German Bein (leg) originally meant ‘bone’",
+  "m": "The meaning widened from bone to the whole leg. Elfenbein, ivory, means ‘elephant bone’."
+ },
+ "bd-gips": {
+  "h": "Korean gipseu (a cast) is German for ‘plaster’",
+  "m": "It seems to have come from German Gips (plaster) by way of Japanese gipusu.",
+  "roman": {
+   "깁스": "gipseu"
+  }
+ },
+ "bd-bless": {
+  "h": "Bless goes back to ‘blood’",
+  "m": "From Germanic *blodison, to mark with blood: a rite of sprinkling an altar with blood to make it holy."
+ },
+ "bd-brainwash": {
+  "h": "Brainwashing is translated straight from Chinese",
+  "m": "It's said to be a literal rendering of Chinese 洗脑 (wash the brain), from around 1950. Korean senoe uses the same characters.",
+  "roman": {
+   "세뇌": "senoe"
+  }
+ },
+ "bd-shinkei": {
+  "h": "Korean singyeong (nerve): made in Japan, 1774",
+  "m": "In Kaitai Shinsho, Sugita Genpaku rendered Dutch zenuw as 神經: the meridian (經脈) of the vital spirit (神氣).",
+  "roman": {
+   "신경": "singyeong"
+  }
+ },
+ "bd-film": {
+  "h": "Film originally meant ‘thin skin’",
+  "m": "Old English filmen was a thin membrane or skin. Around 1845 it came to name the thin coating on photographic plates.",
+  "roman": {
+   "필름": "pilleum"
+  }
+ },
+ "bd-muscle": {
+  "h": "Muscle literally means ‘little mouse’",
+  "m": "A rippling muscle looked like a mouse under the skin. Mussel comes from the same Latin musculus."
+ },
+ "bd-ventriloquism": {
+  "h": "Ventriloquism is Latin for ‘belly speaking’",
+  "m": "It joins Latin venter (belly) and loqui (to speak). Korean bokhwasul (腹話術) means the same.",
+  "roman": {
+   "복화술": "bokhwasul"
+  }
+ },
+ "bd-spirit": {
+  "h": "Spirit originally meant ‘breath’",
+  "m": "From Latin spirare (to breathe). Likewise expire, to breathe out, came to mean both to die and to run out."
+ },
+ "bd-doctor": {
+  "h": "Doctor originally meant ‘teacher’",
+  "m": "From Latin docere (to teach). Once a title for scholars, it came to mean a physician around 1400."
+ },
+ "bd-yi": {
+  "h": "醫, the character for doctor, contains ‘liquor’",
+  "m": "The 酉 at the bottom is a liquor jar. The Shuowen Jiezi explains it as ‘because illness is cured with liquor’.",
+  "roman": {
+   "醫": "ui",
+   "酉": "yu"
+  }
+ },
+ "bd-mes": {
+  "h": "Korean meseu (scalpel) is Dutch for ‘knife’",
+  "m": "Dutch mes came via Japanese mesu. In the Netherlands even a kitchen knife is simply a mes.",
+  "roman": {
+   "메스": "meseu"
+  }
+ },
+ "bd-vaccine": {
+  "h": "Vaccine literally means ‘of cows’",
+  "m": "It comes from Jenner using cowpox, a disease of cows, to prevent smallpox. Pasteur extended the name to vaccines for other diseases."
+ },
+ "bd-ringer": {
+  "h": "Korean ringgeo (IV drip) is ‘a person's name’",
+  "m": "It's named for the solution British doctor Sydney Ringer made in the 1880s for experiments on frog hearts.",
+  "roman": {
+   "링거": "ringgeo"
+  }
+ },
+ "bd-cemetery": {
+  "h": "Cemetery literally means ‘bedroom’",
+  "m": "It's Greek for a place to sleep. Early Christians saw death as sleep and gave the name to burial grounds."
+ },
+ "bd-nightmare": {
+  "h": "The mare in nightmare isn't a horse",
+  "m": "A mare was a demon that pressed down on sleepers. It only sounds like mare, the female horse; they're unrelated."
+ },
+ "bd-morphine": {
+  "h": "Morphine is named after the god of dreams",
+  "m": "Because it brings on sleep, German pharmacist Sertürner named it after Morpheus, the god of dreams.",
+  "roman": {
+   "모르핀": "moreupin"
+  }
+ },
+ "bd-gamgi": {
+  "h": "Gamgi (感氣, a cold) is Korea's own coinage",
+  "m": "It's a Korean-made word in Chinese characters, seen from the late 18th century on. China says 感冒 and Japan says 風邪.",
+  "roman": {
+   "감기": "gamgi"
+  }
+ },
+ "bd-korper": {
+  "h": "German Körper (body) is a borrowed word",
+  "m": "It was borrowed from Latin corpus (body) in the 13th century. The old word for body, lîch, survives only in Leiche (corpse)."
+ },
+ "bd-gesund": {
+  "h": "Sound and Gesundheit share a root",
+  "m": "Sound meaning healthy is unrelated to sound the noise, but kin to German gesund. Gesundheit! after a sneeze means ‘health!’"
+ },
+ "bd-wisaeng": {
+  "h": "Korean wisaeng (hygiene) is borrowed from Zhuangzi",
+  "m": "In the early Meiji era, Nagayo Sensai translated German Hygiene as 衛生, ‘guarding life’, a term taken from Zhuangzi.",
+  "roman": {
+   "위생": "wisaeng"
+  }
+ },
+ "pp-hermano": {
+  "h": "Frère and hermano (brother) have different roots",
+  "m": "Hermano keeps only germanus from Latin frater germanus (full brother). The usual view is that it's unrelated to the name of the Germans."
+ },
+ "pp-cousin": {
+  "h": "Cousin has a ‘sister’ hiding inside it",
+  "m": "Latin consobrinus first meant a child of your mother's sister, and soror (sister) is tucked inside it."
+ },
+ "pp-sohn": {
+  "h": "Son and sun, Sohn and Sonne: pure coincidence",
+  "m": "Son comes from a root meaning to give birth; sun, from an unrelated root for the sun. In English and German alike, the match is an accident."
+ },
+ "pp-daughter": {
+  "h": "Latin lost its own version of daughter",
+  "m": "The word died out in Latin, which used filia, the feminine of filius (son), instead. That became Spanish hija."
+ },
+ "pp-niang": {
+  "h": "娘 means mom in China and daughter in Japan",
+  "m": "Chinese 娘 can mean young lady or mother. In Japanese it means daughter, and Korean keeps it in nangja (娘子).",
+  "roman": {
+   "낭자(娘子)": "nangja"
+  }
+ },
+ "pp-kind": {
+  "h": "German Kind and English child aren't related",
+  "m": "Kind comes from a root meaning to give birth, which makes it kin to gene. Child shares a root with a Gothic word for womb."
+ },
+ "pp-kodomo": {
+  "h": "Japanese kodomo and tomodachi were once plurals",
+  "m": "The -domo and -tachi are plural endings. Now they're used for just one person, so another plural gets stacked on, as in kodomotachi."
+ },
+ "pp-infant": {
+  "h": "Infant literally means ‘one who can't speak’",
+  "m": "Latin in (not) plus fans (speaking). Infante, once meaning a youth, also gave us infantry, the foot soldiers."
+ },
+ "pp-akachan": {
+  "h": "Japanese akachan (baby) is a ‘red child’",
+  "m": "Newborn skin has a reddish tint. The Sino-Korean word jeokja (赤子) also means a newborn baby.",
+  "roman": {
+   "적자(赤子)": "jeokja"
+  }
+ },
+ "pp-fiend": {
+  "h": "Friend and fiend were a pair of opposites",
+  "m": "In Old English they meant one who loves and one who hates. German Feind still means enemy."
+ },
+ "pp-free": {
+  "h": "Free and friend share a root",
+  "m": "Both come from a root meaning to love. The leading theory: the free were the beloved members of the household, as opposed to slaves."
+ },
+ "pp-enemy": {
+  "h": "Enemy originally meant ‘not a friend’",
+  "m": "Latin in (not) plus amicus (friend), in the same family as French ami and Spanish amigo."
+ },
+ "pp-guest": {
+  "h": "Guest and hostile share a root",
+  "m": "The root meant stranger. A stranger could be a guest or an enemy, and Latin hostis came to mean enemy."
+ },
+ "pp-werewolf": {
+  "h": "The were in werewolf means ‘man’",
+  "m": "Old English wer (man) shares a root with Latin vir. Virtue, too, originally meant manliness."
+ },
+ "pp-guy": {
+  "h": "Guy was originally one man's name",
+  "m": "Guy Fawkes, who plotted to blow up Parliament in 1605. Effigies of him, called guys, made guy mean man."
+ },
+ "pp-woman": {
+  "h": "Woman was once ‘female + person’",
+  "m": "Old English wīfmann = wīf (female) + mann (person). Man then meant anyone, male or female, and wife just meant “woman.”"
+ },
+ "pp-persona": {
+  "h": "Person originally meant ‘mask’",
+  "m": "Latin persona was the mask an actor wore. The mask came to mean the role, and the role came to mean a person."
+ },
+ "pp-ningen": {
+  "h": "人間 (human) first meant ‘the world of people’",
+  "m": "Chinese 人间 still means “the human world.” In Korean and Japanese, it came to mean the people who live in that world.",
+  "roman": {
+   "인간": "ingan"
+  }
+ },
+ "pp-husband": {
+  "h": "Husband originally meant ‘master of the house’",
+  "m": "Old Norse hús (house) + bóndi (dweller). It only came to mean “married man” in the late 13th century."
+ },
+ "pp-zhangfu": {
+  "h": "丈夫: husband in China, ‘sturdy’ in Japan",
+  "m": "It first meant “a grown man.” Japanese 大丈夫 (it's okay) went from “a fine man” through “sturdy, reliable” to get there.",
+  "roman": {
+   "대장부": "daejangbu"
+  }
+ },
+ "pp-anae": {
+  "skip": true,
+  "why": "Depends on Korean: native vs Sino-Korean words for husband/wife (남편/男便, 아내/안해, 여편네)."
+ },
+ "pp-manura": {
+  "skip": true,
+  "why": "History of a native Korean word (마노라 → 마누라) and its drop in register; strip is all Korean."
+ },
+ "pp-family": {
+  "h": "Family originally meant ‘the servants’",
+  "m": "Latin famulus meant “servant,” and familia was all the servants in a household. Only later did it include relatives."
+ },
+ "pp-neighbor": {
+  "h": "Neighbor and German Bauer share a root",
+  "m": "Neigh- means “near” and -bor means “dweller.” That -bor shares a root with German Bauer (farmer)."
+ },
+ "pp-sensei": {
+  "h": "In China, 先生 means ‘Mister’",
+  "m": "It literally means “born first.” In Chinese it's a polite title for men and also “husband”; in Korea and Japan it mostly means “teacher.”",
+  "roman": {
+   "선생님": "seonsaengnim"
+  }
+ },
+ "pp-student": {
+  "h": "Student originally meant ‘eager one’",
+  "m": "Latin studere meant “to be eager, to strive.” A person keen on something became a student."
+ },
+ "pp-sarang": {
+  "h": "Korean saranghada (to love) once meant ‘to think’",
+  "m": "In Middle Korean, saranghada mostly meant “to think” (思). By the early modern era, only the “love” (愛) sense was left.",
+  "roman": {
+   "사랑": "sarang",
+   "생각": "saenggak",
+   "思": "sa",
+   "愛": "ae"
+  }
+ },
+ "pp-airen": {
+  "h": "愛人: spouse in China, ‘lover on the side’ in Japan",
+  "m": "In mainland China it means a husband or wife; in Japan, the partner in an affair. Korean aein just means a sweetheart.",
+  "roman": {
+   "애인": "aein"
+  }
+ },
+ "pp-bonheur": {
+  "h": "French bonheur isn't a ‘good hour’",
+  "m": "Its heur comes from Latin augurium (omen) and means “luck.” It just sounds like heure (hour); the two are unrelated."
+ },
+ "pp-sad": {
+  "h": "Sad originally meant ‘full from eating’",
+  "m": "It went from “sated, had enough” to “heavy, weary,” and then to “sorrowful.” German satt still means “full.”"
+ },
+ "pp-fear": {
+  "h": "Fear originally meant ‘danger’",
+  "m": "Old English fǣr meant “sudden danger, calamity.” It shares a root with German Gefahr (danger)."
+ },
+ "pp-cry": {
+  "h": "Cry originally meant ‘to shout’",
+  "m": "From Latin quiritare (to scream). The “shed tears” sense came later and pushed aside the older word, weep."
+ },
+ "pp-hello": {
+  "h": "Hello took off thanks to the telephone",
+  "m": "In 1877 Edison recommended it as a phone greeting, and it spread widely. Bell pushed for ahoy, but hello won."
+ },
+ "pp-happy": {
+  "h": "Happy originally meant ‘lucky’",
+  "m": "From hap (chance, luck), which also gave us happen and perhaps. German Glück means both “luck” and “happiness.”"
+ },
+ "pp-goodbye": {
+  "h": "Goodbye was once ‘God be with you’",
+  "m": "“God be with ye” got shortened, and God turned into good, influenced by “good day.” Adieu and adiós also mean “to God.”"
+ },
+ "pp-ciao": {
+  "h": "Ciao originally meant ‘your slave’",
+  "m": "It was a Venetian dialect greeting: “(I am) your servant.” Servus, a greeting in Austria, is also Latin for “servant.”"
+ },
+ "pp-sayonara": {
+  "h": "Sayonara literally means ‘if that's the case’",
+  "m": "It's short for 左様ならば, “if that is so.” A sign-off like “well then, I'll be off” became the word for goodbye."
+ },
+ "pp-thank": {
+  "h": "Thank and think share a root",
+  "m": "Both come from a Germanic word that meant “thought” and “gratitude” at once. German has the same pair: danken and denken."
+ },
+ "pp-merci": {
+  "h": "Merci originally meant ‘wages’",
+  "m": "Latin merces (wages, reward) shifted to “favor, mercy” and then to “thank you.” It's also related to market."
+ },
+ "pp-arigato": {
+  "h": "Arigatō originally meant ‘hard to come by’",
+  "m": "From 有り難い: rare and precious in this world. The idea that it comes from Portuguese obrigado is a popular myth."
+ },
+ "pp-sorry": {
+  "h": "Sorry and sorrow aren't related",
+  "m": "Sorry comes from sore (painful); sorrow has a different root. Sorry's spelling just drifted toward sorrow, giving it the o."
+ },
+ "pp-mian": {
+  "h": "Korean mian (sorry) means ‘not yet at ease’",
+  "m": "未 (not) + 安 (at ease): a Sino-Korean word for when you've caused someone trouble and your own heart isn't at ease.",
+  "roman": {
+   "미안": "mian",
+   "未安": "mian",
+   "불안(不安)": "buran"
+  }
+ },
+ "pp-bead": {
+  "h": "Bead originally meant ‘prayer’",
+  "m": "People counted their prayers on rosary beads. It shares a root with German Gebet (prayer) and bitte (please)."
+ },
+ "pp-lord": {
+  "h": "Lord originally meant ‘bread keeper’",
+  "m": "Old English hlāf (bread) + weard (keeper). One theory says lady was the “bread kneader,” but it's uncertain."
+ },
+ "pp-companion": {
+  "h": "Companion means someone you ‘eat bread with’",
+  "m": "Latin com (with) + panis (bread). Company comes from the same word."
+ },
+ "nt-hama": {
+  "h": "Hippopotamus and 河馬 both mean ‘river horse’",
+  "m": "Greek hippos (horse) + potamos (river) matches 河 (river) + 馬 (horse). German calls it Nilpferd, “Nile horse.”"
+ },
+ "nt-crocodile": {
+  "h": "Crocodile means ‘pebble worm’? Maybe not",
+  "m": "The “pebble + worm” reading is famous, but scholars are skeptical. Herodotus said it was originally the name of a lizard."
+ },
+ "nt-kirin": {
+  "h": "Kirin (giraffe) was first a ‘mythical beast’",
+  "m": "麒麟 is a legendary creature. In 1414 the Ming court called its first giraffe a 麒麟 too, but in Chinese today it's the “long-necked deer.”",
+  "roman": {
+   "기린": "girin",
+   "麒麟": "girin"
+  }
+ },
+ "nt-kokkiri": {
+  "h": "Korean kokkiri (elephant) is the ‘long-nosed one’",
+  "m": "It was gokiri in the 15th century. The usual explanation: ko (nose) + gilda (to be long).",
+  "roman": {
+   "코끼리": "kokkiri",
+   "고키리": "gokiri",
+   "길다": "gilda"
+  }
+ },
+ "nt-sangsang": {
+  "h": "想像 (imagination) hides an ‘elephant’",
+  "m": "A story in the Han Feizi: people who'd never seen a live elephant (象) pictured one from its bones, so 象 came to mean “image.”",
+  "roman": {
+   "象": "sang"
+  }
+ },
+ "nt-bear": {
+  "h": "Bear may have meant ‘the brown one’",
+  "m": "The leading theory: hunters avoided the bear's real name and called it “the brown one” instead."
+ },
+ "nt-arctic": {
+  "h": "Arctic comes from the word for ‘bear’",
+  "m": "From Greek arktos (bear), for the Great Bear constellation in the northern sky. Antarctic means “opposite the Arctic.”"
+ },
+ "nt-titmouse": {
+  "h": "The titmouse is a bird, not a mouse",
+  "m": "Old English māse meant the titmouse. In the 16th century its spelling shifted to look like the unrelated word mouse."
+ },
+ "nt-philip": {
+  "h": "Philip means ‘horse lover’",
+  "m": "Greek philos (loving) + hippos (horse). The Philippines was named after the Spanish prince who would become Philip II."
+ },
+ "nt-marshal": {
+  "h": "Marshal originally meant ‘horse servant’",
+  "m": "Germanic marh (horse) + skalk (servant): a stable hand rose to the top military rank. Same root as mare."
+ },
+ "nt-hwangso": {
+  "skip": true,
+  "why": "Korean sound change: 한쇼 (big ox) reshaped toward 黃牛 into 황소; 황새 < 한새 likewise."
+ },
+ "nt-cattle": {
+  "h": "Cattle and capital were once the same word",
+  "m": "Both come from Latin capitale (property), from caput (head). Cattle narrowed from property to livestock, and finally to cows."
+ },
+ "nt-pork": {
+  "h": "Why does a pig become pork on the plate?",
+  "m": "After the Norman Conquest, French porc (pig) and bœuf (ox) came into English and stuck as the names for the meat."
+ },
+ "nt-dwaeji": {
+  "h": "Korean dwaeji (pig) may have meant ‘piglet’",
+  "m": "It's thought that dot (old word for pig) + -aji (a baby-animal suffix) gave doyaji, then dwaeji. Songaji (calf) and mangaji (foal) are built the same way.",
+  "roman": {
+   "돝": "dot",
+   "도야지": "doyaji",
+   "송아지": "songaji",
+   "망아지": "mangaji"
+  }
+ },
+ "nt-mi": {
+  "h": "美 (beautiful) may come from a ‘big sheep’",
+  "m": "The Shuowen Jiezi reads it as 羊 (sheep) + 大 (big) and explains it as “tasty.” Others argue it depicts an adorned person.",
+  "roman": {
+   "美": "mi",
+   "羊": "yang",
+   "大": "dae"
+  }
+ },
+ "nt-bird": {
+  "h": "Bird originally meant ‘young bird’",
+  "m": "In Old English, a bird was fugol (today's fowl), while bridd meant a young bird. German Vogel keeps the old word."
+ },
+ "nt-tajo": {
+  "h": "In Chinese characters, ostrich is ‘camel bird’",
+  "m": "駝 means camel. The Greeks called it a “camel sparrow,” which lives on in its scientific name, Struthio camelus.",
+  "roman": {
+   "타조": "tajo"
+  }
+ },
+ "nt-pisces": {
+  "h": "Pisces and fish are family",
+  "m": "Fish is thought to share a root with Latin piscis (fish). Only in the Germanic languages did p turn into f."
+ },
+ "nt-sakana": {
+  "h": "Sakana (fish) first meant ‘drinking snacks’",
+  "m": "酒 (saka, alcohol) + 菜 (na, side dish): food to go with drinks. Fish was such a common drinking snack that the word came to mean fish."
+ },
+ "nt-tsuyu": {
+  "h": "Japan and China call the rainy season ‘plum rain’",
+  "m": "One theory: it's the rain that comes as plums ripen. Another: the characters were changed from 黴雨, “mold rain.”",
+  "roman": {
+   "梅": "mae",
+   "장마": "jangma"
+  }
+ },
+ "nt-nirvana": {
+  "h": "Nirvana and wind share a root",
+  "m": "Nirvāṇa means “blown out”: the fire of worldly passions put out. Its va (to blow) shares an Indo-European root with wind.",
+  "roman": {
+   "涅槃": "yeolban"
+  }
+ },
+ "nt-hurricane": {
+  "h": "Hurricane is an Indigenous Caribbean word",
+  "m": "Spaniards in the 1500s took it from an Arawakan language of the West Indies as huracán, then spread it across Europe."
+ },
+ "nt-cloud": {
+  "h": "Cloud originally meant ‘lump of rock’",
+  "m": "Old English clūd meant a rock or hill. Billowing clouds were likened to rocks, and by about 1300 it meant “cloud.”"
+ },
+ "nt-sky": {
+  "h": "Sky originally meant ‘cloud’",
+  "m": "The Vikings' word ský (cloud) took over from heaven as the word for the sky. In Danish, sky still means “cloud.”"
+ },
+ "nt-human": {
+  "h": "Human may have meant ‘earthly being’",
+  "m": "The leading theory: humans were “earth dwellers,” as opposed to gods. It's thought to share a root with humus (soil) and humble (low to the ground)."
+ },
+ "nt-amount": {
+  "h": "Amount originally meant ‘toward the mountain’",
+  "m": "Old French amont (toward the mountain, upward) came to mean “to go up,” then “to add up to” a total."
+ },
+ "nt-metdwaeji": {
+  "skip": true,
+  "why": "History of a native Korean word: 멧 in 멧돼지/멧비둘기 is the old word 뫼 (mountain)."
+ },
+ "nt-arrive": {
+  "h": "Arrive originally meant ‘reach the shore’",
+  "m": "River and arrive both come from Latin ripa (riverbank, shore). Arriving was a boat touching the shore."
+ },
+ "nt-gangha": {
+  "h": "江 once meant the Yangtze; 河, the Yellow River",
+  "m": "Both were originally the names of specific rivers. That's why southern rivers still tend to be called 江, and northern ones 河."
+ },
+ "nt-mizuumi": {
+  "h": "Japanese mizuumi (lake) means ‘water sea’",
+  "m": "水 (mizu, water) + 海 (umi, sea). In effect, a “freshwater sea,” as opposed to the salty one."
+ },
+ "nt-petroleum": {
+  "h": "Petroleum and 石油 both mean ‘rock oil’",
+  "m": "Latin petra (rock) + oleum (oil). Chinese 石油 follows the same idea and appears as early as the Song-dynasty Dream Pool Essays."
+ },
+ "nt-island": {
+  "h": "The s in island is a fake",
+  "m": "Old English īegland had no s. In the 16th century an s was added to match the unrelated isle (from Latin insula)."
+ },
+ "nt-savage": {
+  "h": "Savage originally meant ‘of the forest’",
+  "m": "Latin silvaticus (of the woods), from silva (forest), came to mean “wild,” then “barbaric.” Transylvania means “beyond the forest.”"
+ },
+ "nt-kinoko": {
+  "h": "Kinoko (mushroom) means ‘child of the tree’",
+  "m": "木 (ki, tree) + の (no, of) + 子 (ko, child): a child that sprouts from a tree."
+ },
+ "nt-flour": {
+  "h": "Flour and flower were once the same word",
+  "m": "The finest meal was called the “flower” of the grain. The two spellings only fully split around 1830."
+ },
+ "nt-foil": {
+  "h": "The foil in aluminum foil originally meant ‘leaf’",
+  "m": "From Latin folium (leaf): thin metal was likened to a leaf. Portfolio, a case for carrying papers, shares the root."
+ },
+ "nt-green": {
+  "h": "Grass, green and grow share one root",
+  "m": "All from Proto-Indo-European *ghre- (to grow). Green was simply the color of growing grass."
+ },
+ "nt-kusa": {
+  "h": "On the Japanese internet, “grass” means ‘lol’",
+  "m": "Laughter is 笑い (warai). Typing its w as www looked like a field of grass, so it became 草 (kusa, grass): Japan's ㅋㅋ.",
+  "roman": {
+   "ㅋㅋ": "kk"
+  }
+ },
+ "nt-insect": {
+  "h": "Insect literally means ‘cut into’",
+  "m": "Its body is divided into segments, hence Latin insectum, “cut into.” It translates Greek entomon, as in entomology."
+ },
+ "nt-horangi": {
+  "h": "Korean horangi (tiger) hides a ‘wolf’",
+  "m": "It's 虎狼 (tiger and wolf) plus the suffix -i. The native Korean word is beom; the form horangi appears from the late 19th century.",
+  "roman": {
+   "호랑이": "horangi",
+   "虎": "ho",
+   "狼": "rang",
+   "범": "beom"
+  }
+ },
+ "nt-chameleon": {
+  "h": "Chameleon literally means ‘ground lion’",
+  "m": "Greek khamai (on the ground) + leōn (lion). Why a lion is unclear; one explanation is that its head crest looks like a mane."
+ },
+ "nt-singapore": {
+  "h": "Singapore means ‘lion city’",
+  "m": "Sanskrit siṃha (lion) + pura (city). The Sikh surname Singh is the same “lion.”"
+ },
+ "fd-arroz": {
+  "h": "The ar in Spanish arroz is Arabic for ‘the’",
+  "m": "Spanish took Arabic ar-ruzz whole, article (al) and all. Azúcar (sugar) is likewise as-sukkar."
+ },
+ "fd-beikoku": {
+  "h": "In Japanese, the US is the ‘rice country’?",
+  "m": "America was written 亜米利加, and Japan shortened it to just 米 (rice). Korea and China picked 美 instead, giving 美國."
+ },
+ "fd-meat": {
+  "h": "Meat originally meant just ‘food’",
+  "m": "The “flesh” sense only arose around 1300. The old meaning survives in sweetmeat, a sweet treat."
+ },
+ "fd-eyren": {
+  "h": "Egg once baffled people in southern England",
+  "m": "Egg was the Vikings' Norse word. In the south people said eyren (eggs), and there's a record of egg not being understood there."
+ },
+ "fd-egg-on": {
+  "h": "The egg in egg on isn't an egg",
+  "m": "It's Norse eggja (to goad, incite), from egg (blade). It's spelled like the egg you eat purely by chance."
+ },
+ "fd-sugar": {
+  "h": "Sugar originally meant ‘gravel’",
+  "m": "Sanskrit śarkarā (gravel, grains) passed through Persian and Arabic on its way to Europe."
+ },
+ "fd-satang": {
+  "h": "Korean for candy is Japanese for ‘sugar’",
+  "m": "Both are written 砂糖, literally “sand sugar.” Korean satang also once meant sugar, a trace kept in satangsusu (sugarcane).",
+  "roman": {
+   "사탕": "satang"
+  }
+ },
+ "fd-norange": {
+  "h": "Orange originally started with an n",
+  "m": "The leading theory: in phrases like une narange, the n got mixed up with the article and fell off. Spanish naranja kept it."
+ },
+ "fd-apfelsine": {
+  "h": "In German, an orange is a ‘Chinese apple’",
+  "m": "Dutch sinaasappel, “Chinese apple,” spread to German and Russian. Turkish portakal, meanwhile, comes from “Portugal.”"
+ },
+ "fd-basho": {
+  "h": "The poet Bashō's name means ‘banana tree’",
+  "m": "A disciple planted a bashō (Japanese banana tree) by his hut, and he took the plant's name as his pen name.",
+  "roman": {
+   "파초": "pacho"
+  }
+ },
+ "fd-gamja": {
+  "h": "Potato and Korean gamja first meant ‘sweet potato’",
+  "m": "Gamja comes from gamjeo (甘藷), which first meant the sweet potato. Potato, too, comes from batata (sweet potato), a Caribbean word.",
+  "roman": {
+   "감자": "gamja",
+   "甘藷": "gamjeo"
+  }
+ },
+ "fd-kartoffel": {
+  "h": "German Kartoffel means ‘truffle’",
+  "m": "Italians called the potato, dug from the ground, tartufolo (little truffle), and the name passed into German."
+ },
+ "fd-tomatl": {
+  "h": "Tomato and avocado are Aztec words",
+  "m": "Nahuatl tomatl and ahuacatl spread through Spanish. Chili and chocolate are Nahuatl words too."
+ },
+ "fd-fanqie": {
+  "h": "In Chinese, a tomato is a ‘foreign eggplant’",
+  "m": "番 marks things brought in from abroad, and 茄 is eggplant. It's also called 西红柿, “red persimmon from the west.”"
+ },
+ "fd-cocoa": {
+  "h": "Cocoa and coconut aren't related",
+  "m": "Cocoa is cacao, from Nahuatl, altered under the influence of coco. Coco means “grimacing face,” which the holes in the shell resemble."
+ },
+ "fd-garlic": {
+  "h": "Garlic literally means ‘spear leek’",
+  "m": "Old English gār (spear) + lēac (leek): cloves were likened to spearheads. The Lauch in German Knoblauch also means “leek.”"
+ },
+ "fd-onion": {
+  "h": "Onion and union are the same word",
+  "m": "From Latin unio (oneness). It's thought to be because an onion is one layered bulb, unlike garlic, which splits into cloves."
+ },
+ "fd-yangpa": {
+  "h": "Korean yangpa (onion) means ‘Western scallion’",
+  "m": "洋 marks things from the West, across the sea. Yangmal (socks) are “Western beoseon” (Korean socks), and yangcho is a “Western candle.”",
+  "roman": {
+   "양파": "yangpa",
+   "양말": "yangmal",
+   "양초": "yangcho"
+  }
+ },
+ "fd-huchu": {
+  "skip": true,
+  "why": "Hinges on Korean sound changes: the 후 in 후추 and 호 in 호두 are both 胡 (호초 → 후추, 호도 → 호두)."
+ },
+ "fd-vinegar": {
+  "h": "Vinegar means ‘sour wine’",
+  "m": "French vin (wine) plus aigre (sour). When wine turns sour, it becomes vinegar."
+ },
+ "fd-biru": {
+  "h": "Japanese bīru (beer) is a Dutch word",
+  "m": "It's from bier, the word Dutch traders used in the Edo period. Chinese 啤酒 pairs 啤, for the sound, with 酒 (alcohol).",
+  "roman": {
+   "맥주": "maekju"
+  }
+ },
+ "fd-cheese": {
+  "h": "Why is fromage so different from cheese?",
+  "m": "Cheese, Käse and queso come from Latin caseus (cheese). Fromage comes from forma, the mold cheese was pressed into."
+ },
+ "fd-butter": {
+  "h": "Butter literally means ‘cow cheese’?",
+  "m": "It's usually read as Greek bous (cow) + tyros (cheese), but another theory says it's a Scythian word reinterpreted as Greek."
+ },
+ "fd-supper": {
+  "h": "Soup originally meant ‘bread soaked in broth’",
+  "m": "Late Latin suppa was bread soaked in broth. The leading theory is that supper comes from this word, too."
+ },
+ "fd-cookie": {
+  "h": "Cookie means ‘little cake’",
+  "m": "Dutch koekje, koek (cake) plus a “little” ending, came into American English. Cake, Kuchen and koek all share one root."
+ },
+ "fd-dambae": {
+  "h": "Korean dambae (tobacco) is Portuguese via Japan",
+  "m": "It came in via Japan in the early 1600s and was called dambago before shrinking to dambae.",
+  "roman": {
+   "담배": "dambae"
+  }
+ },
+ "fd-kopf": {
+  "h": "German Kopf (head) originally meant ‘cup’",
+  "m": "In older German, kopf meant “cup,” probably from Latin cuppa, like cup. French tête likewise comes from testa, an earthenware pot."
+ },
+ "fd-koppu": {
+  "h": "Korean goppu and keop (cup) are ‘cousins’",
+  "m": "Goppu is Dutch kop or Portuguese copo by way of Japan; keop is English cup. They share the same root.",
+  "roman": {
+   "고뿌": "goppu"
+  }
+ },
+ "fd-messer": {
+  "h": "German Messer (knife) has meat hidden inside",
+  "m": "Old High German mezzisahs combined “food” and “knife.” The first part shares a root with meat."
+ },
+ "fd-hocho": {
+  "h": "Japanese hōchō (kitchen knife) once meant ‘cook’",
+  "m": "庖丁 originally meant “cook.” People shortened 庖丁刀, “the cook's knife,” and the name stuck to the knife.",
+  "roman": {
+   "庖丁": "pojeong"
+  }
+ },
+ "fd-cuchara": {
+  "h": "Spanish cuchara (spoon) comes from ‘snail’",
+  "m": "Latin cochlear was reportedly a spoon for eating snails out of the shell. The cochlea in your inner ear is a “snail,” too."
+ },
+ "fd-sutgarak": {
+  "skip": true,
+  "why": "Korean spelling: why 숟가락 has ㄷ but 젓가락 has ㅅ (술+가락 vs 저+ㅅ+가락) only makes sense in Hangul."
+ },
+ "fd-plata": {
+  "h": "Spanish plata (silver) began as ‘a flat plate’",
+  "m": "A thin sheet of metal became silver in Spanish. The leading theory traces it to Greek platys (broad), and plato (dish) is a relative too."
+ },
+ "fd-tisch": {
+  "h": "German Tisch (table) is the same word as dish",
+  "m": "Tisch, dish and desk all come from Latin discus (disk, platter). A word for a tray became the word for table in German."
+ },
+ "fd-cathedral": {
+  "h": "A cathedral is literally ‘a church with a chair’",
+  "m": "From Greek kathedra (chair). A cathedral is the church where the bishop's chair stands."
+ },
+ "fd-mattress": {
+  "h": "Mattress is an Arabic word",
+  "m": "Arabic maṭraḥ (a mat thrown down on the floor) came into Europe by way of Sicily."
+ },
+ "fd-window": {
+  "h": "Window is literally ‘wind eye’",
+  "m": "Old Norse vindr (wind) + auga (eye). Spanish ventana also comes from a word for wind, Latin ventus."
+ },
+ "fd-conclave": {
+  "h": "Conclave means ‘a room locked with a key’",
+  "m": "Latin con (with) + clavis (key). Cardinals were locked in a room and couldn't come out until they had chosen a pope."
+ },
+ "fd-shirt": {
+  "h": "Shirt and skirt were once ‘the same word’",
+  "m": "The word split into sh- in English and sk- in Norse. One theory ties both to short: a garment cut short."
+ },
+ "fd-waishatsu": {
+  "h": "The wai in Korean waisyeocheu isn't Y but ‘white’",
+  "m": "Korean waisyeocheu (dress shirt) came via Japanese waishatsu, from English white shirt. The story that it's named for a Y shape is folk etymology.",
+  "roman": {
+   "와이셔츠": "waisyeocheu"
+  }
+ },
+ "fd-hojumeoni": {
+  "h": "Korean hojumeoni (pocket) is a ‘barbarian pouch’",
+  "m": "Hanbok originally had no attached pockets. These add-on pouches reportedly copied the clothes of northern peoples, hence 胡, the character for “barbarian.”",
+  "roman": {
+   "호주머니": "hojumeoni",
+   "胡": "ho",
+   "주머니": "jumeoni"
+  }
+ },
+ "fd-soap": {
+  "h": "Soap first shows up in writing as ‘hair dye’",
+  "m": "The sapo Pliny first recorded was something Germanic men used to dye their hair red. The word itself is Germanic, too."
+ },
+ "fd-candy": {
+  "h": "Candy and candle aren't related at all",
+  "m": "Candle comes from Latin candela (lamp), candy from Persian qand (cane sugar)."
+ },
+ "tm-journey": {
+  "h": "A journey was originally ‘a day's travel’",
+  "m": "Old French journée meant a day's work or a day's travel. Journal shares the same root, jour (day)."
+ },
+ "tm-dia": {
+  "h": "Day and Spanish día aren't related",
+  "m": "Day is a sibling of German Tag, while día comes from Latin dies. The resemblance is pure coincidence."
+ },
+ "tm-nedelya": {
+  "h": "The Russian word for week once meant ‘Sunday’",
+  "m": "Nedelya, “the day of no work,” named Sunday before it came to mean week. Sunday was then renamed voskresenye, “resurrection.”"
+ },
+ "tm-youil": {
+  "h": "Korean and Japanese weekdays match Europe's",
+  "m": "Both name the days after the sun, the moon and the five naked-eye planets, in the same order. Japanese 水曜日 and French mercredi are both Mercury's day."
+ },
+ "tm-hour-year": {
+  "h": "Hour and year come from the same root",
+  "m": "Greek hōra meant both season and hour. It branched off from the same year-and-season root that gave us year."
+ },
+ "tm-nyeon": {
+  "h": "年 (year) was once drawn as ‘a man carrying grain’",
+  "m": "It showed a person (人) carrying grain (禾) on their back and meant harvest. Since grain is harvested once a year, it came to mean year.",
+  "roman": {
+   "년": "nyeon",
+   "禾": "hwa"
+  }
+ },
+ "tm-aujourdhui": {
+  "h": "The French word for today says ‘day’ twice",
+  "m": "Hui already comes from Latin hodie (this day), so aujourd'hui is “on the day of this day.” Spanish hoy also comes from hodie."
+ },
+ "tm-manana": {
+  "h": "Spanish mañana is both morning and ‘tomorrow’",
+  "m": "“Tomorrow morning” got shortened to “tomorrow.” German Morgen also means both, and the morrow in tomorrow originally meant morning."
+ },
+ "tm-eve": {
+  "h": "The eve in Christmas Eve means ‘evening’",
+  "m": "Eve shares a root with evening and originally meant evening. German calls Christmas Eve Heiligabend, “holy evening.”"
+ },
+ "tm-noon": {
+  "h": "Noon was originally ‘3 in the afternoon’",
+  "m": "From Latin nona hora, the ninth hour after sunrise, which was 3 p.m. It moved to midday between the 12th and 14th centuries."
+ },
+ "tm-minute": {
+  "h": "Minute and menu come from the same root",
+  "m": "Latin minutus means made small. A minute is a small piece cut from an hour; a menu is a list written out in small detail."
+ },
+ "tm-second": {
+  "h": "A second of time is really ‘the second cut’",
+  "m": "Divide an hour by 60 and the first cut is a minute. Divide that by 60 again and the second cut is a second."
+ },
+ "tm-myo": {
+  "h": "秒 (second) first meant ‘a bristle of rice’",
+  "m": "The old Chinese dictionary Shuowen Jiezi defines it as a rice bristle. It came to mean anything tiny, then the second: a minute split again.",
+  "roman": {
+   "禾": "hwa"
+  }
+ },
+ "tm-calendar": {
+  "h": "A calendar was originally ‘a debt ledger’",
+  "m": "Romans paid debts on the first day of each month, the kalendae. The account book that recorded them, the calendarium, became the calendar."
+ },
+ "tm-mardi": {
+  "h": "French mardi and March share ‘the same god’",
+  "m": "Mars, the Roman war god, is also the planet Mars. His day is Tuesday (mardi, martes, 火曜日), and his month, March, opened the Roman calendar."
+ },
+ "tm-tuesday": {
+  "h": "Tuesday and Zeus come from the same root",
+  "m": "It's the day of the Germanic god Tīw. Tīw, Zeus and Latin deus (god) all come from a root meaning “bright sky.”"
+ },
+ "tm-wednesday": {
+  "h": "The silent d in Wednesday is a trace of Odin",
+  "m": "It comes from Old English Wōdnesdæg, Woden's day. Woden is the Odin of Norse mythology."
+ },
+ "tm-thursday": {
+  "h": "Thursday is literally ‘thunder day’",
+  "m": "The thunder god Thor's name simply means thunder. The Roman sky god Jupiter's day (jeudi) was renamed for Thor."
+ },
+ "tm-friday": {
+  "h": "Friday is the day of the goddess Frigg",
+  "m": "The Roman day of Venus (the planet) was handed to the Germanic goddess Frigg. French vendredi and Spanish viernes still belong to Venus."
+ },
+ "tm-pyatnitsa": {
+  "h": "Friday is day five in Russian, day six in Portuguese",
+  "m": "Russian counts from Monday and Portuguese from Sunday, so the same Friday is the fifth day (pyatnitsa) in one and the sixth (sexta-feira) in the other."
+ },
+ "tm-saturday": {
+  "h": "Saturday is the only English day with a Roman god",
+  "m": "Tuesday through Friday swapped in Germanic gods, but Saturn stayed. One theory says there was no matching Germanic god."
+ },
+ "tm-domingo": {
+  "h": "Spanish domingo (Sunday) means ‘the Lord's day’",
+  "m": "From Latin dies Dominica, the Lord's day. Dominus (master) is also the root of English dominate."
+ },
+ "tm-september": {
+  "h": "The sept in September means ‘seven’",
+  "m": "It was the seventh month of the Roman calendar, which began in March. When New Year moved up to January, October (8) also slid two places."
+ },
+ "tm-january": {
+  "h": "January and janitor share ‘the same door’",
+  "m": "January is the month of Janus, the two-faced god of doors and beginnings. Janitor, first a doorkeeper, comes from the same root."
+ },
+ "tm-august": {
+  "h": "August has 31 days because of an emperor's ego?",
+  "m": "The story that Augustus stole a day from February arose in the Middle Ages. August already had 31 days under Caesar."
+ },
+ "tm-lent": {
+  "h": "English once called spring ‘Lent’",
+  "m": "The leading theory is that it meant the time when days grow longer. Today it survives as Lent, the church season that falls in spring."
+ },
+ "tm-verano": {
+  "h": "Spanish verano (summer) once meant ‘spring’",
+  "m": "Verano comes from Latin ver (spring) and meant spring in Old Spanish. Today's word for spring is primavera, “first spring.”"
+ },
+ "tm-harvest": {
+  "h": "Harvest originally meant ‘autumn’",
+  "m": "Old English hærfest was the name of the season. German Herbst still means autumn, but English handed the season's name to autumn."
+ },
+ "tm-himalaya": {
+  "h": "Himalaya and hibernate share a ‘winter’ root",
+  "m": "Sanskrit hima (snow) and Latin hiems (winter) share a root. Himalaya is the “abode of snow,” and to hibernate is to spend the winter."
+ },
+ "tm-cipher": {
+  "h": "Zero and cipher (code) are the same word",
+  "m": "Both come from Arabic ṣifr (empty). Old codes swapped letters for numbers, so a word for number came to mean code."
+ },
+ "tm-alone": {
+  "h": "Alone is ‘all one’ squeezed together",
+  "m": "A contraction of Old English all ana (wholly by oneself). Only also comes from a word meaning “one-like.”"
+ },
+ "tm-doubt": {
+  "h": "Doubt has a hidden ‘two’ inside",
+  "m": "Doubt is being torn between two choices. German Zweifel (doubt) likewise comes from zwei (two)."
+ },
+ "tm-eleven": {
+  "h": "Eleven literally means ‘one left over’",
+  "m": "Count to ten and you have one left, then two left: eleven and twelve. From 13 on, it's three plus ten (teen)."
+ },
+ "tm-hundred": {
+  "h": "Hundred and cent were once the same word",
+  "m": "The ancestral k sound became h only in the Germanic languages. Latin centum gave us percent and cent."
+ },
+ "tm-on": {
+  "skip": true,
+  "why": "Native Korean word history: the old native numerals 온 (100) and 즈믄 (1000) lost out to Sino-Korean 백/천; nothing for a non-Korean reader to recognize."
+ },
+ "tm-mile": {
+  "h": "Mile originally just meant ‘a thousand’",
+  "m": "A Roman mile was a thousand paces, counting two steps as one pace. Latin mille (thousand) became the name of the unit."
+ },
+ "tm-million": {
+  "h": "Million literally means ‘a big thousand’",
+  "m": "Italian added -one, an ending meaning big, to mille (thousand). A million is the big number, a thousand times a thousand."
+ },
+ "tm-krasnaya": {
+  "h": "Red Square really means ‘beautiful square’",
+  "m": "In Old Russian, krasnyy meant beautiful; today pretty is krasivyy. The name is far older than communism."
+ },
+ "tm-crimson": {
+  "h": "Crimson goes back to a word for ‘bug’",
+  "m": "The red dye came from scale insects. An Indo-Iranian word for bug reached Europe by way of Arabic."
+ },
+ "tm-candidate": {
+  "h": "A candidate is literally ‘one dressed in white’",
+  "m": "Roman candidates for office wore dazzling white togas. The word comes from candidus (shining white), and candle is a relative."
+ },
+ "tm-melancholy": {
+  "h": "Melancholy literally means ‘black bile’",
+  "m": "People believed too much black bile made you gloomy. Melanin, which gives skin its color, also comes from melas (black)."
+ },
+ "tm-azul": {
+  "h": "Spanish azul (blue) began as the name of a gem",
+  "m": "The Persian name for the blue stone lapis lazuli passed through Arabic and became azul. One theory says that name came from the place where it was mined."
+ },
+ "tm-paranbul": {
+  "h": "Koreans call a green traffic light a ‘blue light’",
+  "m": "Korean pureuda describes both sky and grass. Japanese ao (青) once covered green too, so a green light is aoshingō, a “blue signal.”",
+  "roman": {
+   "파란불": "paranbul",
+   "푸르다": "pureuda"
+  }
+ },
+ "tm-yolk": {
+  "h": "Yolk and Korean noreunja both mean ‘the yellow one’",
+  "m": "Old English geolca (yolk) came from geolu (yellow). Korean noreunja (yolk) likewise comes from noreuda, “to be yellow.”",
+  "roman": {
+   "노른자": "noreunja"
+  }
+ },
+ "ct-bus": {
+  "h": "Bus is short for a Latin word meaning ‘for all’",
+  "m": "It's short for voiture omnibus (carriage for all), the shared horse-drawn coaches of 1820s France."
+ },
+ "ct-robot": {
+  "h": "Robot originally meant ‘forced labor’",
+  "m": "From Czech robota (forced labor). Čapek's 1920 play spread it, but his older brother Josef came up with it."
+ },
+ "ct-arbeit": {
+  "h": "Robot and German Arbeit are ‘distant cousins’",
+  "m": "Arbeit (work) traveled through Japanese arubaito to become Korean alba, a part-time job. It shares an Indo-European root with Slavic rabota (work)."
+ },
+ "ct-money": {
+  "h": "Money is named after a goddess",
+  "m": "Rome minted its coins near the temple of the goddess Juno Moneta. Mint, where money is made, split off from the same word."
+ },
+ "ct-fee": {
+  "h": "Fee goes back to a word for ‘livestock’",
+  "m": "Livestock used to be wealth. Latin pecu (livestock) gave pecunia (money), and in Germanic the p became an f."
+ },
+ "ct-won": {
+  "h": "The won, yen and yuan are ‘the same character’",
+  "m": "All three are 圓 (round), read differently in each country. It was the unit for counting round silver coins.",
+  "roman": {
+   "원": "won",
+   "圓": "won"
+  }
+ },
+ "ct-bank": {
+  "h": "A bank was originally ‘a table’",
+  "m": "From Italian banca, the table where money changers laid out their coins. It shares a root with bench, so German Bank also means bench."
+ },
+ "ct-eunhaeng": {
+  "h": "The 行 in 銀行 (bank) doesn't mean go but ‘shop’",
+  "m": "Here 行 is Chinese háng, meaning a shop or line of business. A bank is a shop that deals in silver, that is, money.",
+  "roman": {
+   "은행": "eunhaeng"
+  }
+ },
+ "ct-hotel": {
+  "h": "Hotel and hospital were once the same word",
+  "m": "Latin hospes (guest, host) gave hospitale (guesthouse), which split into hotel, hospital and hostel."
+ },
+ "ct-restaurant": {
+  "h": "A restaurant was originally ‘a restoring soup’",
+  "m": "From French restaurer (to restore). It started in 1760s Paris with places selling soups that restored your strength."
+ },
+ "ct-bistro": {
+  "h": "Bistro is Russian for ‘quick’? That story's shaky",
+  "m": "The tale is that Russian soldiers in 1815 Paris shouted “Quick!” (bystro), but the word isn't recorded until 1884. Its origin is still unknown."
+ },
+ "ct-telephone": {
+  "h": "The word telephone predates Bell's invention",
+  "m": "In 1830s France it named a signaling system that sent letters as musical notes. It's tele (far) + phone (sound)."
+ },
+ "ct-deokryulpung": {
+  "h": "Korea's old word for telephone was ‘deongnyulpung’",
+  "m": "德律風 was China's sound-for-sound spelling of telephone. The word used today, 電話, was coined in Japan.",
+  "roman": {
+   "德律風": "deongnyulpung",
+   "덕률풍": "deongnyulpung"
+  }
+ },
+ "ct-television": {
+  "h": "Television is half Greek and half Latin",
+  "m": "Tele (far) is Greek and vision (seeing) is Latin. German translated the idea as Fernseher, from fern (far) + sehen (to see)."
+ },
+ "ct-computer": {
+  "h": "Computer was once a job, not a machine",
+  "m": "In the 1640s it meant a person who calculates; the machine sense dates from the 1890s. In Chinese a computer is diànnǎo (电脑), an “electric brain.”"
+ },
+ "ct-bug": {
+  "h": "Bug doesn't come from that famous moth",
+  "m": "The moth found in a computer in 1947 was logged as the “first actual case of bug being found.” Edison was already using bug in 1878."
+ },
+ "ct-nausea": {
+  "h": "Nausea literally means ‘seasickness’",
+  "m": "From Greek naus (ship). Its relative, Latin navis (ship), gave us navy and navigate."
+ },
+ "ct-cockpit": {
+  "h": "A cockpit was originally ‘a cockfighting pit’",
+  "m": "It was a pit where roosters (cocks) fought. It passed to cramped quarters on warships, then became an airplane's cockpit in 1914."
+ },
+ "ct-train": {
+  "h": "Train was part of a dress before it ran on rails",
+  "m": "From Latin trahere (to drag). A gown's trailing part has been a train since the 14th century; a line of cars, since the early 19th."
+ },
+ "ct-kisha": {
+  "h": "In Chinese, 汽車 isn't a train but ‘a car’",
+  "m": "In Korean and Japanese it's a steam (汽) train, but in Chinese it's an automobile. A train in Chinese is huǒchē (火车), a “fire cart.”",
+  "roman": {
+   "기차": "gicha"
+  }
+ },
+ "ct-chauffeur": {
+  "h": "Chauffeur literally means ‘the fire stoker’",
+  "m": "Early cars ran on steam. The name for the fireman who stoked the boiler passed to the driver."
+ },
+ "ct-taxi": {
+  "h": "Taxi and tax come from the same root",
+  "m": "A taxi is a car fitted with a taximeter, a fare meter. Medieval Latin taxa (charge, fee) also gave us tax."
+ },
+ "ct-road": {
+  "h": "Road originally meant ‘riding on horseback’",
+  "m": "Old English rād was a journey on horseback, and also a raid, so it's a sibling of ride and raid. The sense of a way only arose in the 1590s."
+ },
+ "ct-metro": {
+  "h": "Metro goes back to ‘mother city’",
+  "m": "It's short for the Paris Métropolitain (metropolitan railway). In Greek, a colony's home city was its “mother city.”"
+ },
+ "ct-country": {
+  "h": "Country literally means ‘the land opposite’",
+  "m": "From Latin contra (opposite), it meant the land spread out before your eyes. It shifted to mean a region, then a nation."
+ },
+ "ct-dutch": {
+  "h": "Dutch originally meant ‘German’",
+  "m": "Dutch and Deutsch are one word meaning “of the people.” English narrowed Dutch to the Netherlands only in the 17th century; in Dutch, Duits means German."
+ },
+ "ct-gage": {
+  "h": "Korean gage (shop) was once ‘a makeshift house’",
+  "m": "It comes from gaga (假家), a temporary house. Places for storing goods or resting are thought to have become places of trade.",
+  "roman": {
+   "假家": "gaga",
+   "가가": "gaga",
+   "가게": "gage"
+  }
+ },
+ "ct-boutique": {
+  "h": "A boutique and a pharmacy come from one word",
+  "m": "Greek apothēkē (storehouse) split into French boutique, Spanish bodega and German Apotheke (pharmacy)."
+ },
+ "ct-bureau": {
+  "h": "A bureau was originally ‘a piece of cloth’",
+  "m": "Burel, the coarse wool cloth that covered desks, came to mean the desk, then the office where the desk stood."
+ },
+ "ct-freelance": {
+  "h": "Freelance literally means ‘a free spear’",
+  "m": "Walter Scott's novel Ivanhoe is the first known use, for medieval mercenaries who roamed without a lord."
+ },
+ "ct-pen": {
+  "h": "Pen originally meant ‘feather’",
+  "m": "Latin penna means feather, a trace of the quill era. For the same reason, Spanish pluma and German Feder mean both feather and pen."
+ },
+ "ct-pencil": {
+  "h": "Pen and pencil aren't related",
+  "m": "Pencil comes from Latin penicillus (paintbrush, originally “little tail”). It's unrelated to penna (feather) but related to penicillin."
+ },
+ "ct-yeonpil": {
+  "h": "鉛筆 (pencil) is named for lead but has none",
+  "m": "The core is graphite, but Europeans once took it for lead and called it black lead. German Bleistift is likewise a “lead stick.”"
+ },
+ "ct-tegami": {
+  "h": "Japan's 手紙 (letter) is ‘toilet paper’ in China",
+  "m": "Same characters, but in Japanese it's a letter and in Chinese it's toilet paper. A letter in Chinese is xìn (信).",
+  "roman": {
+   "편지": "pyeonji"
+  }
+ },
+ "ct-news": {
+  "h": "News isn't an acronym for the compass points",
+  "m": "It's a plural meaning “new things.” The compass-point acronym story is folk etymology from a 1640 joke book."
+ },
+ "ct-sinmun": {
+  "h": "In Chinese, 新聞 isn't a newspaper but ‘the news’",
+  "m": "Literally “newly heard,” it's a newspaper in Korean (sinmun) and Japanese but the news in Chinese. Chinese for newspaper is bàozhǐ (报纸).",
+  "roman": {
+   "신문": "sinmun"
+  }
+ },
+ "ct-ticket": {
+  "h": "Ticket and etiquette were once the same word",
+  "m": "From Old French estiquette, a note you stick up. French étiquette still means both label and etiquette."
+ },
+ "ct-map": {
+  "h": "Map originally meant ‘napkin’",
+  "m": "Latin mappa was a cloth like a napkin. A world drawn on cloth, mappa mundi, gave us map, and napkin is a relative."
+ },
+ "ct-gift": {
+  "h": "In German, Gift means ‘poison’",
+  "m": "It first meant something given; the leading theory is it became poison as a euphemism for a harmful gift. Mitgift (dowry) keeps the old sense."
+ },
+ "ct-chess": {
+  "h": "Chess and check both come from ‘king’",
+  "m": "Persian shāh (king) passed through Arabic to become eschec, the cry of “check!” Its plural became chess."
+ },
+ "ct-ballot": {
+  "h": "A ballot was originally ‘a little ball’",
+  "m": "Italian palla (ball) in its small form gave ballot; its big form, pallone, gave balloon. In Venice, people voted with small balls."
+ },
+ "ct-balldance": {
+  "h": "The ball you dance at isn't the ball you throw",
+  "m": "The round ball is Germanic, but the dance comes from Latin ballare (to dance). Ballet and Spanish bailar are on the dance side."
+ },
+ "ct-sajin": {
+  "h": "Korean sajin (photo) originally meant ‘a portrait’",
+  "m": "Meaning “copying the true likeness,” it referred to portraits until 19th-century Japan made it the translation of photograph.",
+  "roman": {
+   "사진": "sajin"
+  }
+ },
+ "ct-camera": {
+  "h": "Camera originally meant ‘room’",
+  "m": "Short for camera obscura (dark room), which projected the outside view. Italian camera still means room."
+ }
+}

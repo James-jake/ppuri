@@ -1,0 +1,29 @@
+# en_2 review log
+
+- pp-woman: hook ‘wife + man’ → ‘female + person’. The Korean reveal is the meanings (여자 + 사람). ‘wife + man’ read with today's meanings suggests "a man's wife", the opposite of the point. Reason now spells out mann and "male or female".
+- pp-sarang: un-skipped. The surprise is a meaning shift (to think → to love), and an English reader can follow it, especially since saranghae is widely known. Hook: "Korean saranghada (to love) once meant ‘to think’". "Mostly" hedge (주로) kept; roman added.
+- pp-airen: ‘secret lover’ → ‘lover on the side’. The Korean says 불륜 상대 (affair partner) and makes no claim about secrecy.
+- pp-cry: removed the awkward "The “weep” sense … the older word, weep" repetition.
+- pp-goodbye: put “God be with ye” in quotes and replaced the translated-sounding "under the pull of good day".
+- pp-thank: removed the double "both" ("Both split from … meaning both").
+- pp-arigato: ‘hard to exist’ → ‘hard to come by’ (natural English for 有り難い "rare"). Hook now says "originally meant" because thank you is the current meaning. The reason is unchanged.
+- nt-arctic: "Antarctic is the side opposite it" → "Antarctic means “opposite the Arctic.”" Clearer and matches the actual etymology (anti + arktikos). Also added "constellation" for 큰곰자리.
+- nt-kokkiri: un-skipped. "Elephant = long-nosed one" works for an English reader the same way hippo = river horse does. The "usual explanation" hedge (일반적 풀이) is kept; roman added.
+- nt-cattle: rewrote the clunky "Among property it came to mean livestock". Same claim.
+- nt-dwaeji: un-skipped. dot + baby-animal suffix -aji, with the songaji/mangaji parallels glossed, can be followed from the strip. The "it's thought" hedge (설/봐요) is kept, the hook says "may have"; roman added.
+- nt-hurricane: reordered the sentence for flow. "an Arawakan language of the West Indies" is kept: it is the accurate English for 서인도 제도의 아라와크어 (Taíno is Arawakan).
+- nt-amount: "led to “to go up,” then to …" → "came to mean … then …" (smoother).
+- nt-petroleum: "already appears in" → "appears as early as" (natural English, same claim). "Dream Pool Essays" is the standard English title of 몽계필담, so it is kept.
+- nt-savage: "came to mean “wild,” then “savage.”" was circular; changed to "barbaric" (야만의).
+- nt-foil: "was a ‘leaf’" → "originally meant ‘leaf’" (Korean 원래 '잎'; reads better).
+- nt-kusa: the reason now ties the strip's ㅋㅋ to the hook ("Japan's ㅋㅋ"). Without it the ㅋㅋ (kk) strip item is never explained to an English reader. Same claim as the Korean hook. Roman "kk" kept.
+- nt-insect: made the reason match the hook's ‘cut into’ (it previously said insectum = "cut"), and smoothed the entomon sentence.
+- nt-singapore: "Singh, the surname of Sikhs in India" → "The Sikh surname Singh". The old wording implied every Sikh has it and that it is only Indian.
+- fd-arroz: rewrote "with the article al attached, came in whole" so the article-and-all point reads clearly.
+- fd-eyren: replaced the clunky "a record tells of them not understanding egg" with "there's a record of egg not being understood there". Same claim, no source named.
+- fd-satang: the hook "Korean satang (candy) is 砂糖, Japanese ‘sugar’" was clunky; it is now "Korean for candy is Japanese for ‘sugar’". The reason now opens "Both are written 砂糖" to carry the same-Hanja claim.
+- fd-apfelsine: named sinaasappel (it is in the strip) as the Dutch "Chinese apple".
+- fd-biru: smoothed "It's the bier of Dutch traders".
+- fd-cookie: smoothed the koekje sentence and named what "all share one root" refers to (cake, Kuchen, koek).
+- fd-kopf: "Old German kopf" (it looked like the technical term Old High German) → "In older German" (Korean 옛 독일어).
+- fd-cocoa: "bent toward coco" → "altered under the influence of coco".
